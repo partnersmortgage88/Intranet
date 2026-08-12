@@ -228,6 +228,26 @@ body.rail-anim .stage{pointer-events:none;}
 .lead::after{content:'';flex:1;height:1px;background:var(--line);}
 
 /* ══ HOME BENTO ══ */
+/* ══ PERSONAL PULSE ══ */
+.me-strip{display:flex;align-items:center;gap:34px;background:linear-gradient(135deg,rgba(37,186,196,.06),transparent 55%),var(--bg1);
+  border:1px solid var(--line);border-radius:18px;padding:16px 24px;margin:18px 0 26px;cursor:pointer;
+  box-shadow:var(--card-sh);flex-wrap:wrap;transition:border-color .2s,transform .25s var(--ease);}
+.me-strip:hover{border-color:rgba(37,186,196,.45);transform:translateY(-1px);}
+.me-id{display:flex;align-items:center;gap:13px;padding-right:26px;border-right:1px solid var(--line);}
+.me-av{width:46px;height:46px;border-radius:13px;object-fit:cover;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(37,186,196,.35);}
+.me-av.ini{background:var(--bg2);color:var(--teal);font-family:var(--mono);font-size:14px;font-weight:700;}
+.me-n{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:3px;}
+.me-sn{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1;}
+.me-rank{font-family:var(--mono);font-size:10px;font-style:normal;color:var(--gold);background:rgba(255,172,39,.09);
+  border:1px solid rgba(255,172,39,.3);border-radius:20px;padding:2px 8px;margin-left:8px;vertical-align:2px;}
+.me-rank i{color:var(--gray);font-style:normal;}
+.me-stat .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:5px;}
+.me-stat .v{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:-.02em;}
+.me-stat .s{font-size:10.5px;color:var(--gray);margin-top:3px;}
+.me-split{width:110px;height:8px;border-radius:5px;background:linear-gradient(90deg,#d98f12,var(--gold));overflow:hidden;margin:5px 0 2px;}
+.me-split i{display:block;height:100%;background:linear-gradient(90deg,var(--teal-d),var(--teal));border-radius:5px 0 0 5px;}
+@media(max-width:900px){.me-strip{gap:20px;padding:14px 18px;}.me-id{border-right:0;padding-right:0;width:100%;}}
 .bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px;}
 .tile{background:var(--bg1);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;
   box-shadow:var(--card-sh);transition:transform .3s var(--ease),border-color .25s,box-shadow .3s;transform:translateZ(0);backface-visibility:hidden;}
@@ -241,9 +261,9 @@ body.rail-anim .stage{pointer-events:none;}
 .tp-eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:pulse 2.2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 .tp-when{font-family:var(--mono);font-size:10px;color:var(--gray);letter-spacing:.06em;}
-.tp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;flex:1;align-content:space-evenly;}
+.tp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;flex:1;align-content:space-evenly;min-width:0;}
 .tp-m .l{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;}
-.tp-m .v{font-family:var(--mono);font-size:clamp(48px,5.2vw,92px);font-weight:600;letter-spacing:-.03em;color:var(--ink);line-height:1;}
+.tp-m .v{font-family:var(--mono);font-size:clamp(44px,3.8vw,72px);font-weight:600;letter-spacing:-.03em;color:var(--ink);line-height:1;}
 .tp-m .v.gold{color:var(--gold);text-shadow:0 0 26px rgba(255,172,39,.35);}
 .tp-m .s{font-size:13px;color:var(--ink-soft);margin-top:9px;}
 .tp-cta{margin-top:20px;font-size:12.5px;font-weight:600;color:var(--teal);transition:letter-spacing .25s;}
@@ -607,7 +627,8 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .sd-empty-s{font-size:12.5px;color:var(--ink-soft);max-width:420px;margin:0 auto;line-height:1.6;}
 @media(max-width:900px){.sd-kpis{grid-template-columns:1fr 1fr;}.sd-lb-name{flex-basis:110px;}.sd-bars{height:80px;}}
 
-.sd-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px;}
+.sd-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px;}
+@media(max-width:1150px){.sd-tools{grid-template-columns:repeat(2,1fr);}}
 .sd-tool{display:flex;align-items:center;gap:13px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;
   padding:13px 16px;text-decoration:none;color:var(--ink);cursor:pointer;font-family:var(--sans);text-align:left;
   box-shadow:var(--card-sh);transition:transform .28s var(--ease),border-color .22s,box-shadow .28s;}
@@ -623,7 +644,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .sd-tool-arr{margin-left:auto;color:var(--gray);font-size:15px;transition:transform .2s,color .2s;}
 .sd-tool:hover .sd-tool-arr{transform:translate(2px,-2px);color:var(--teal);}
 .sd-tool.pending{opacity:.75;}
-@media(max-width:720px){.sd-tools{grid-template-columns:1fr;}}
+@media(max-width:640px){.sd-tools{grid-template-columns:1fr;}}
 
 /* ══ GOOD TIMES CREW: monthly challenge ══ */
 .gtc-drop{border:1.5px dashed var(--line2);border-radius:14px;padding:26px 18px;text-align:center;cursor:pointer;
@@ -965,6 +986,8 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
     <section id="section-home" class="view active">
       <div class="greet">Welcome to <em>Partners 360</em></div>
       <div class="greet-sub">Operations, sales, marketing, and culture — everything Partners Mortgage, in one place.</div>
+
+      <div id="meStrip"></div>
 
       <div class="bento">
         <div class="tile t-pulse" onclick="showSection('sales')">
@@ -1330,6 +1353,10 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
         <div class="sd-tool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/></svg></div>
         <div><div class="sd-tool-n">Realtor Radar</div><div class="sd-tool-d">Agent relationships &middot; Marketing Studio</div></div>
         <span class="sd-tool-arr">&#8599;</span>
+      </a><a class="sd-tool" style="--tacc:#5BE49B;" href="https://partners-mortgage.github.io/FHAStreamline_VAIRRL/" target="_blank" rel="noopener">
+        <div class="sd-tool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div><div class="sd-tool-n">Streamline Lens</div><div class="sd-tool-d">FHA Streamline &middot; VA IRRRL</div></div>
+        <span class="sd-tool-arr">&#8599;</span>
       </a>
     </div>
 
@@ -1644,6 +1671,7 @@ function whoStart(who){
   AUTH.who=who; AUTH.tags=[];
   hideLogin();
   authGreet();
+  if(typeof renderMe==='function') renderMe();
   if(who.id && DB){
     var ref=DB.collection('users').doc(who.id);
     ref.get().then(function(snap){
@@ -2186,6 +2214,45 @@ function gtcSize(){
     if(h>200) frame.style.height=(h+24)+'px';
   }catch(e){}
 }
+/* ---- personal pulse: the signed-in person's numbers, from the live feed ---- */
+function meMatch(lo){ return (lo||'').trim().toLowerCase() === ((AUTH.who&&AUTH.who.name)||'').trim().toLowerCase(); }
+function renderMe(){
+  var box=document.getElementById('meStrip'); if(!box) return;
+  var name=(AUTH.who&&AUTH.who.name)||'';
+  var e=HUB.eios||{};
+  if(!name || !((e.prod&&e.prod.length)||(e.pipe&&e.pipe.length)||(e.leads&&e.leads.length))){ box.innerHTML=''; return; }
+  var prod=(e.prod||[]).filter(function(r){ return meMatch(r.lo); });
+  var pipe=(e.pipe||[]).filter(function(r){ return meMatch(r.lo); });
+  var now=new Date(), mp=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-';
+  var leadsM=(e.leads||[]).filter(function(r){ return meMatch(r.lo) && r.d && r.d.indexOf(mp)===0; });
+  if(!prod.length && !pipe.length && !leadsM.length){ box.innerHTML=''; return; }
+  var i,mv=0,mu=0,yv=0,yu=0,pu=0,rf=0,pv=0;
+  for(i=0;i<prod.length;i++){
+    yv+=prod[i].amt; yu++;
+    if(prod[i].d.indexOf(mp)===0){ mv+=prod[i].amt; mu++; }
+    if((prod[i].purpose||'').toLowerCase().indexOf('refi')>=0) rf++; else pu++;
+  }
+  for(i=0;i<pipe.length;i++) pv+=pipe[i].amt;
+  /* YTD rank from the resolved leaderboard */
+  var rank='', field='';
+  if(PD.summary&&PD.summary.length){
+    for(i=0;i<PD.summary.length;i++){ if(meMatch(PD.summary[i].name)){ rank='#'+(i+1); field='of '+PD.summary.length+' YTD'; break; } }
+  }
+  var lo=(typeof loFind==='function')?loFind(name):null;
+  var av = (lo&&lo.photo) ? '<img class="me-av" src="'+escH(lo.photo)+'" alt="">'
+    : '<span class="me-av ini">'+escH(name.split(/\s+/).map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase())+'</span>';
+  var puPct=(pu+rf)?Math.round(pu/(pu+rf)*100):0;
+  function stat(l,v,s){ return '<div class="me-stat"><div class="l">'+l+'</div><div class="v">'+v+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+  box.innerHTML='<div class="me-strip" onclick="showSection(\'sales\')">'
+    +'<div class="me-id">'+av+'<div><div class="me-n">Your production</div><div class="me-sn">'+escH(name.split(/\s+/)[0])
+    +(rank?' <span class="me-rank">'+rank+' <i>'+field+'</i></span>':'')+'</div></div></div>'
+    +stat('MTD', mu+' \u00B7 '+fmtM(mv),'units \u00B7 volume')
+    +stat('YTD', yu+' \u00B7 '+fmtM(yv),'units \u00B7 volume')
+    +((pu+rf)?'<div class="me-stat"><div class="l">Purchase / Refi</div><div class="me-split"><i style="width:'+puPct+'%"></i></div><div class="s">'+pu+' purchase \u00B7 '+rf+' refi</div></div>':'')
+    +(pipe.length?stat('Pipeline', pipe.length+' \u00B7 '+fmtM(pv),'active loans'):'')
+    +(leadsM.length?stat('Leads MTD', leadsM.length,'new this month'):'')
+    +'</div>';
+}
 function renderHomeStats(){
   var e=HUB.eios||{};
   function put(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
@@ -2211,7 +2278,7 @@ function renderHomeStats(){
     if(m.length){ put('bpAvgN', fmtM(sumAmt(m)/m.length)); put('bpAvgS', m.length+' loans MTD'); }
   }
 }
-function renderAll(){ renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderPie(); renderHomeStats(); renderTrainings(); salesRender(); ccRender(); }
+function renderAll(){ renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderPie(); renderHomeStats(); renderMe(); renderTrainings(); salesRender(); ccRender(); }
 
 /* ============ TRID CLOSING CALENDAR (self-computing) ============
    Specific business day = every calendar day except Sundays and federal
@@ -2351,7 +2418,7 @@ function pdInit(){
       PD.whenLbl=when.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
       PD.summary=jp('loSummaryYTD');
       PD.counts=d.counts||null;
-      renderPulse(); renderHomeStats(); renderSpot(); salesRender(true);
+      renderPulse(); renderHomeStats(); renderMe(); renderSpot(); salesRender(true);
       eiosStatusList(); eiosPulseNote(); pdLiveNote();
     }, function(err){ console.warn('prod dashboard feed', err); });
   }catch(e){ console.warn('pd init failed', e); }
