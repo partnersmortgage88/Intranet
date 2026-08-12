@@ -541,6 +541,40 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .eu-actions{display:flex;gap:10px;align-items:center;}
 @media(max-width:700px){.eu-expected{grid-template-columns:1fr;}}
 
+
+/* ══ SALES CHART & BOARD (overhaul) ══ */
+.sdc{width:100%;height:250px;display:block;margin-top:10px;}
+.sdc-grid{stroke:rgba(255,255,255,.05);stroke-width:1;}
+.sdc-ytick{fill:var(--gray);font-family:var(--mono);font-size:11px;}
+.sdc-xtick{fill:var(--gray);font-family:var(--mono);font-size:10.5px;}
+.sdc-xtick.today{fill:var(--gold);font-weight:700;}
+.sdc-bar{fill:url(#sdcTeal);fill:var(--teal);opacity:.85;transition:opacity .15s;}
+.sdc-bar:hover{opacity:1;}
+.sdc-bar.today{fill:var(--gold);}
+.sdc-val{fill:var(--ink-soft);font-family:var(--mono);font-size:10px;}
+.sdc-legend{font-size:9.5px;color:var(--gray);letter-spacing:.08em;margin-left:10px;text-transform:none;}
+.sd-lb-av{width:26px;height:26px;border-radius:8px;object-fit:cover;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.sd-lb-av.ini{background:var(--bg2);border:1px solid var(--line);color:var(--ink-soft);font-family:var(--mono);font-size:9.5px;font-weight:700;}
+.sd-lb-share{font-family:var(--mono);font-size:11px;color:var(--gray);width:38px;text-align:right;flex-shrink:0;}
+.sd-lb-avg{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);width:56px;text-align:right;flex-shrink:0;}
+.sd-lb-cols{display:flex;gap:12px;padding:7px 0 2px;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gray);}
+.sd-lb-cols span:nth-child(1){width:20px;}.sd-lb-cols span:nth-child(2){width:26px;}
+.sd-lb-cols span:nth-child(3){flex:0 0 165px;}.sd-lb-cols span:nth-child(4){flex:1;}
+.sd-lb-cols span:nth-child(5){width:38px;text-align:right;}.sd-lb-cols span:nth-child(6){width:34px;text-align:right;}
+.sd-lb-cols span:nth-child(7){width:56px;text-align:right;}.sd-lb-cols span:nth-child(8){width:72px;text-align:right;}
+.sd-delta{font-family:var(--mono);font-size:10px;letter-spacing:.03em;border-radius:20px;padding:2px 7px;margin-left:6px;}
+.sd-delta.up{color:#5BE49B;background:rgba(91,228,155,.1);}
+.sd-delta.dn{color:#FF8A90;background:rgba(255,80,88,.1);}
+.sd-split{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--card-sh);margin-top:14px;}
+.sd-split-bar{display:flex;height:14px;border-radius:8px;overflow:hidden;background:var(--bg2);}
+.sd-split-bar i.pu{background:linear-gradient(90deg,var(--teal-d),var(--teal));}
+.sd-split-bar i.rf{background:linear-gradient(90deg,#d98f12,var(--gold));}
+.sd-split-leg{display:flex;gap:22px;margin-top:10px;font-size:12px;color:var(--ink-soft);flex-wrap:wrap;}
+.sd-split-leg b{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px;vertical-align:middle;}
+.pu-dot{background:var(--teal);}
+.rf-dot{background:var(--gold);}
+
 /* ══ SALES DATA (EiOS) ══ */
 .sd-pane{display:none;}
 .sd-pane.active{display:block;animation:viewin .4s var(--ease) both;}
@@ -573,15 +607,13 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .sd-empty-s{font-size:12.5px;color:var(--ink-soft);max-width:420px;margin:0 auto;line-height:1.6;}
 @media(max-width:900px){.sd-kpis{grid-template-columns:1fr 1fr;}.sd-lb-name{flex-basis:110px;}.sd-bars{height:80px;}}
 
-.sd-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.sd-tool{display:flex;align-items:center;gap:14px;background:var(--bg1);border:1px solid var(--line);border-radius:16px;
-  padding:16px 18px;text-decoration:none;color:var(--ink);cursor:pointer;font-family:var(--sans);text-align:left;
-  position:relative;overflow:hidden;
+.sd-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px;}
+.sd-tool{display:flex;align-items:center;gap:13px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;
+  padding:13px 16px;text-decoration:none;color:var(--ink);cursor:pointer;font-family:var(--sans);text-align:left;
   box-shadow:var(--card-sh);transition:transform .28s var(--ease),border-color .22s,box-shadow .28s;}
-.sd-tool::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
-  background:linear-gradient(90deg,var(--tacc,var(--teal)),transparent 70%);opacity:.9;}
-.sd-tool .sd-tool-ic{color:var(--tacc,var(--teal));border-color:color-mix(in srgb,var(--tacc,var(--teal)) 35%, transparent);}
-.sd-tool:hover{border-color:var(--tacc,var(--teal));}
+.sd-tool .sd-tool-ic{color:var(--tacc,var(--teal));border-color:color-mix(in srgb,var(--tacc,var(--teal)) 32%, transparent);
+  background:color-mix(in srgb,var(--tacc,var(--teal)) 9%, transparent);}
+.sd-tool:hover{border-color:color-mix(in srgb,var(--tacc,var(--teal)) 55%, transparent);}
 .sd-tool:hover{transform:translateY(-3px);border-color:rgba(37,186,196,.45);box-shadow:var(--glow);}
 .sd-tool-ic{width:42px;height:42px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--teal);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -1336,7 +1368,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
       <button class="subtab" id="stb-pipe" onclick="salesTab('pipe')">Pipeline</button>
     </div>
 
-    <div class="sd-ct" style="margin:2px 0 10px;">Sales tools</div>
+    <div class="sd-ct" style="margin:6px 0 10px;">Sales tools</div>
     <div class="sd-tools">
       <a class="sd-tool" style="--tacc:var(--teal);" href="https://arborfinancialgroup.digitallending.com/#/app/company/6705b306d497d200013d57d6/quick-pricer" target="_blank" rel="noopener">
         <div class="sd-tool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2M12 10h2M16 10h.01M8 14h2M12 14h2M16 14h.01M8 18h2M12 18h2M16 18h.01"/></svg></div>
@@ -3344,29 +3376,64 @@ function loBoard(rows,valFmt){
   var list=Object.keys(by).map(function(k){ return {lo:k,n:by[k].n,v:by[k].v}; });
   list.sort(function(a,b){ return b.v-a.v; });
   if(!list.length) return '';
-  var max=list[0].v||1, html='<div class="sd-lb">',rk;
+  var total=0; for(i=0;i<list.length;i++) total+=list[i].v;
+  var max=list[0].v||1, html='<div class="sd-lb">',rk,lo,av,share;
   for(i=0;i<Math.min(list.length,12);i++){
     rk=list[i];
+    lo=(typeof loFind==='function')?loFind(rk.lo):null;
+    av = (lo&&lo.photo) ? '<img class="sd-lb-av" src="'+escH(lo.photo)+'" alt="">'
+       : '<span class="sd-lb-av ini">'+escH((rk.lo||'?').split(/\s+/).map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase())+'</span>';
+    share = total ? Math.round(rk.v/total*100) : 0;
     html+='<div class="sd-lb-row"><span class="sd-lb-rank'+(i===0?' g':'')+'">'+(i+1)+'</span>'
+      +av
       +'<span class="sd-lb-name">'+escH(rk.lo)+'</span>'
       +'<span class="sd-lb-bar"><i style="width:'+Math.round(rk.v/max*100)+'%"></i></span>'
-      +'<span class="sd-lb-n">'+rk.n+'</span><span class="sd-lb-v">'+valFmt(rk.v)+'</span></div>';
+      +'<span class="sd-lb-share">'+share+'%</span>'
+      +'<span class="sd-lb-n">'+rk.n+'</span>'
+      +'<span class="sd-lb-avg">'+(rk.n?fmtK(rk.v/rk.n):'\u2014')+'</span>'
+      +'<span class="sd-lb-v">'+valFmt(rk.v)+'</span></div>';
   }
+  html+='<div class="sd-lb-cols"><span></span><span></span><span></span><span></span><span>share</span><span>units</span><span>avg</span><span>volume</span></div>';
   return html+'</div>';
 }
 function dayBars(rows,title){
-  var now=new Date(), dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  var now=new Date(), dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(), today=now.getDate();
   var pref=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-';
-  var per=[],i,max=0,r;
-  for(i=1;i<=dim;i++) per.push(0);
-  for(i=0;i<rows.length;i++){ r=rows[i]; if(r.d&&r.d.indexOf(pref)===0){ var day=parseInt(r.d.slice(-2),10); per[day-1]+=r.amt; } }
+  var per=[],cnt=[],i,max=0,r;
+  for(i=1;i<=dim;i++){ per.push(0); cnt.push(0); }
+  for(i=0;i<rows.length;i++){ r=rows[i]; if(r.d&&r.d.indexOf(pref)===0){ var day=parseInt(r.d.slice(-2),10); per[day-1]+=r.amt; cnt[day-1]++; } }
   for(i=0;i<per.length;i++) if(per[i]>max) max=per[i];
   if(!max) return '';
-  var html='<div class="sd-chart"><div class="sd-ct">'+title+'</div><div class="sd-bars">';
-  for(i=0;i<per.length;i++){
-    html+='<div class="sd-bar" title="'+(i+1)+': '+fmtM(per[i])+'"><i style="--h:'+(per[i]?Math.max(.04,per[i]/max).toFixed(3):0)+'"></i></div>';
+  /* scale to a tidy ceiling */
+  var ceil=Math.pow(10,Math.floor(Math.log(max)/Math.LN10));
+  ceil=Math.ceil(max/ceil)*ceil;
+  var W=1000,H=250,padL=52,padR=8,padT=26,padB=30;
+  var cw=(W-padL-padR)/dim, bw=Math.max(4,cw*0.62);
+  var svg='<svg class="sdc" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-label="'+escH(title)+'">';
+  /* gridlines + y ticks */
+  var g;
+  for(g=0;g<=4;g++){
+    var y=padT+(H-padT-padB)*g/4, val=ceil*(4-g)/4;
+    svg+='<line x1="'+padL+'" y1="'+y+'" x2="'+(W-padR)+'" y2="'+y+'" class="sdc-grid"/>';
+    svg+='<text x="'+(padL-8)+'" y="'+(y+3)+'" class="sdc-ytick" text-anchor="end">'+(val?fmtK(val):'0')+'</text>';
   }
-  return html+'</div></div>';
+  /* bars + labels */
+  for(i=0;i<dim;i++){
+    var x=padL+cw*i+(cw-bw)/2;
+    var h=(H-padT-padB)*(per[i]/ceil);
+    var yb=H-padB-h;
+    var cls=(i+1)===today?'sdc-bar today':'sdc-bar';
+    if(per[i]>0){
+      svg+='<rect x="'+x.toFixed(1)+'" y="'+yb.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,2).toFixed(1)+'" rx="2.5" class="'+cls+'"><title>'+(i+1)+': '+fmtM(per[i])+' \u00B7 '+cnt[i]+(cnt[i]===1?' loan':' loans')+'</title></rect>';
+      svg+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(yb-6).toFixed(1)+'" class="sdc-val" text-anchor="middle">'+fmtK(per[i])+'</text>';
+    }
+    /* x labels: every day if month fits, else every other */
+    if(dim<=16 || i%2===0 || (i+1)===today){
+      svg+='<text x="'+(padL+cw*i+cw/2).toFixed(1)+'" y="'+(H-10)+'" class="sdc-xtick'+((i+1)===today?' today':'')+'" text-anchor="middle">'+(i+1)+'</text>';
+    }
+  }
+  svg+='</svg>';
+  return '<div class="sd-chart"><div class="sd-ct">'+title+' <span class="sdc-legend">day of month \u00B7 gold = today</span></div>'+svg+'</div>';
 }
 function sdEmpty(what){
   return '<div class="sd-empty"><div class="sd-empty-e">\uD83D\uDCC1</div><div class="sd-empty-t">No '+what+' data yet</div>'
@@ -3402,13 +3469,37 @@ function salesRender(force){
     else{
       var m=mtdOf(prod), t=prod.filter(function(r){return r.d===todayISO();});
       var mv=sumAmt(m);
+      /* pace vs last month, same number of days in */
+      var now=new Date(), dayN=now.getDate();
+      var pm=new Date(now.getFullYear(),now.getMonth()-1,1);
+      var pmPref=pm.getFullYear()+'-'+('0'+(pm.getMonth()+1)).slice(-2)+'-';
+      var lmVol=0,lmN=0,ri,rr;
+      for(ri=0;ri<prod.length;ri++){ rr=prod[ri];
+        if(rr.d&&rr.d.indexOf(pmPref)===0 && parseInt(rr.d.slice(-2),10)<=dayN){ lmVol+=rr.amt; lmN++; } }
+      var pmName=pm.toLocaleString('en-US',{month:'short'});
+      function delta(cur,prev){
+        if(!prev) return '';
+        var pct=Math.round((cur-prev)/prev*100);
+        var up=pct>=0;
+        return ' <span class="sd-delta '+(up?'up':'dn')+'">'+(up?'\u25B2':'\u25BC')+' '+Math.abs(pct)+'% vs '+pmName+' pace</span>';
+      }
+      /* purchase vs refi split */
+      var pu=0,rf=0,puV=0,rfV=0;
+      for(ri=0;ri<m.length;ri++){ rr=m[ri];
+        if((rr.purpose||'').toLowerCase().indexOf('refi')>=0){ rf++; rfV+=rr.amt; } else { pu++; puV+=rr.amt; } }
+      var puPct=m.length?Math.round(pu/m.length*100):0;
+      var split = m.length ? '<div class="sd-split"><div class="sd-ct" style="margin-bottom:10px;">Purchase vs Refi \u2014 MTD</div>'
+        +'<div class="sd-split-bar"><i class="pu" style="width:'+puPct+'%"></i><i class="rf" style="width:'+(100-puPct)+'%"></i></div>'
+        +'<div class="sd-split-leg"><span><b class="pu-dot"></b>Purchase \u00B7 '+pu+' loans \u00B7 '+fmtM(puV)+'</span>'
+        +'<span><b class="rf-dot"></b>Refi \u00B7 '+rf+' loans \u00B7 '+fmtM(rfV)+'</span></div></div>' : '';
       p.innerHTML='<div class="sd-kpis">'
-        +kpi('MTD Funded Volume',fmtM(mv),m.length+' loans this month',1)
-        +kpi('MTD Units',m.length,'Funded this month')
+        +kpi('MTD Funded Volume',fmtM(mv),m.length+' loans this month'+delta(mv,lmVol),1)
+        +kpi('MTD Units',m.length,'Funded this month'+delta(m.length,lmN))
         +kpi('Avg Loan Size', m.length?fmtM(mv/m.length):'\u2014','Month to date')
         +kpi('Today',fmtM(sumAmt(t)),t.length+(t.length===1?' loan funded':' loans funded'))
         +'</div>'
         +dayBars(prod,'Daily funded volume \u2014 this month')
+        +split
         +'<div class="sd-ct" style="margin:20px 0 10px;">Producer leaderboard \u2014 MTD</div>'
         +(loBoard(m,fmtM)||'<div class="ed-empty">No funded loans this month yet.</div>')
         +pdYtdBoard();
