@@ -694,6 +694,28 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .pk-b{color:var(--gray);font-size:17px;}
 @keyframes pinshake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 .pin-box.shake{animation:pinshake .4s ease;}
+/* ══ PARTNER IN EXCELLENCE ══ */
+.pie-hero{position:relative;display:flex;align-items:center;gap:28px;background:var(--bg1);border:1px solid rgba(255,172,39,.35);
+  border-radius:22px;padding:34px 38px;box-shadow:var(--card-sh),0 0 60px rgba(255,172,39,.06);overflow:hidden;}
+.pie-glow{position:absolute;top:-70px;right:-70px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,172,39,.14),transparent 65%);pointer-events:none;}
+.pie-photo{width:148px;height:148px;border-radius:24px;object-fit:cover;flex-shrink:0;
+  border:2px solid rgba(255,172,39,.5);box-shadow:0 12px 34px rgba(0,0,0,.45);}
+.pie-photo.ini{display:flex;align-items:center;justify-content:center;background:var(--bg2);
+  color:var(--gold);font-family:var(--serif);font-size:44px;font-style:italic;}
+.pie-hero-main{min-width:0;position:relative;}
+.pie-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.pie-name{font-family:var(--serif);font-style:italic;font-size:clamp(30px,4vw,46px);line-height:1.05;margin-bottom:12px;}
+.pie-note{font-size:14px;color:var(--ink-soft);line-height:1.65;max-width:640px;}
+.pie-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.pie-card{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;box-shadow:var(--card-sh);}
+.pie-av{width:64px;height:64px;border-radius:16px;object-fit:cover;display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.pie-av.ini{background:var(--bg2);border:1px solid var(--line);color:var(--ink-soft);font-family:var(--serif);font-style:italic;font-size:20px;}
+.pie-card-n{font-size:13.5px;font-weight:600;}
+.pie-card-m{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-top:4px;}
+.pie-card-q{font-size:11.5px;color:var(--gray);line-height:1.5;margin-top:8px;font-style:italic;}
+@media(max-width:1100px){.pie-wall{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:700px){.pie-hero{flex-direction:column;text-align:center;padding:26px;}.pie-wall{grid-template-columns:1fr;}}
 /* ══ HUB EDITOR ══ */
 .ed-toggle{display:inline-flex;gap:4px;background:var(--bg0);border:1px solid var(--line2);border-radius:11px;padding:4px;margin-bottom:16px;}
 .ed-tog{padding:8px 16px;border-radius:8px;border:0;background:transparent;cursor:pointer;font-family:var(--sans);
@@ -945,7 +967,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
     <!-- HOME -->
     <section id="section-home" class="view active">
       <div class="greet">Welcome to <em>Partners 360</em></div>
-      <div class="greet-sub">One team, one source of truth — operations, sales, culture, and the Good Times Crew, all in one warm little corner of the internet.</div>
+      <div class="greet-sub">Operations, sales, marketing, and culture — everything Partners Mortgage, in one place.</div>
 
       <div class="bento">
         <div class="tile t-pulse" onclick="showSection('sales')">
@@ -1004,8 +1026,8 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#127881; Closing Corner</div>
     <h1 class="vhero-title">The funding <em style="font-style:italic;color:var(--gold);">floor</em>.</h1>
-    <p class="vhero-sub">JoAnn's daily board &mdash; fundings, docs out, wet fundings, and the tip of the week, live from the Funding Hype Desk.</p>
-    <a class="vhero-chip" href="https://leifaboyd-pm.github.io/FundingHypeDesk/" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;">Open the Hype Board &#8599;</a>
+    <p class="vhero-sub">Today's fundings, docs out, and the tip of the week &mdash; live from the Funding Hype Desk.</p>
+    <span class="vhero-chip">Live &middot; Funding Hype Desk</span>
   </div>
   <div class="vbody">
     <div class="cc-tip" id="ccTip" style="display:none;">
@@ -1074,7 +1096,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
       <div class="vhero">
         <div class="vhero-eyebrow">&#9881; Hub Editor</div>
         <h1 class="vhero-title">Edit the hub.</h1>
-        <p class="vhero-sub">Pick what you want to update. Every change publishes to the site the moment you save it &mdash; no code, no waiting.</p>
+        <p class="vhero-sub">Every change publishes to the site the moment you save it.</p>
         <span class="vhero-chip">Admin &middot; PIN protected</span>
       </div>
       <div class="vbody">
@@ -1082,10 +1104,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
           <button class="ed-card active" id="edm-pulse" onclick="edOpen('pulse')">
             <div class="ed-ic">&#128200;</div><div class="ed-n">Sales Pulse</div><div class="ed-d">EiOS uploads + manual override for the Home numbers</div>
           </button>
-                    <button class="ed-card" id="edm-closing" onclick="edOpen('closing')">
-            <div class="ed-ic">&#127881;</div><div class="ed-n">Closing Corner</div><div class="ed-d">JoAnn's fundings + tip of the week</div>
-          </button>
-          <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
+                              <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
             <div class="ed-ic">&#128240;</div><div class="ed-n">Announcements</div><div class="ed-d">Flash banner + the news feed on Home</div>
           </button>
           <button class="ed-card" id="edm-gtc" onclick="edOpen('gtc')">
@@ -1093,6 +1112,9 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
           </button>
                     <button class="ed-card" id="edm-train" onclick="edOpen('train')">
             <div class="ed-ic">&#127891;</div><div class="ed-n">Trainings</div><div class="ed-d">The training library on Onboarding &amp; Training</div>
+          </button>
+          <button class="ed-card" id="edm-pie" onclick="edOpen('pie')">
+            <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Set the monthly winner, past or present</div>
           </button>
           <button class="ed-card" id="edm-team" onclick="edOpen('team')">
             <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">Who's registered, and what they can see</div>
@@ -1104,50 +1126,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- SALES PULSE -->
         <div class="ed-panel active" id="ed-pulse">
-          <div class="uc-card">
-            <h3>Upload Excel Data</h3>
-            <div class="uc-sub">Sales Dashboard, Leads &amp; Boyd Division files &mdash; this powers the Sales Pulse and the whole Sales tab.</div>
-            <div class="pd-live" id="pdLiveNote" style="display:none;"><span class="pd-dot"></span> The Production Dashboard feed is live &mdash; upload there and the hub updates itself. Files dropped here are overridden by the next dashboard save.</div>
-
-            <div class="eu-zone" id="euZone">
-              <div class="eu-zone-icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-              <h4>Drag &amp; Drop Excel Files Here</h4>
-              <p>or click below to browse your computer</p>
-              <button class="eu-choose" onclick="event.stopPropagation();document.getElementById('euFileInput').click();">Choose Files</button>
-              <input type="file" id="euFileInput" multiple accept=".xlsx,.xls" style="display:none;" onchange="euPicked(event)">
-              <p class="eu-accepts">Accepts .xlsx and .xls files</p>
-            </div>
-
-            <div class="eu-expected">
-              <div class="eu-exp-card"><div class="eu-exp-ic" style="color:var(--teal);">$</div><div><h4>Sales Dashboard</h4><p>Funded loans &amp; production data</p></div></div>
-              <div class="eu-exp-card"><div class="eu-exp-ic" style="color:var(--gold);">L</div><div><h4>All Leads</h4><p>New leads &amp; created dates</p></div></div>
-              <div class="eu-exp-card"><div class="eu-exp-ic" style="color:#5BE49B;">P</div><div><h4>Boyd Division</h4><p>Pipeline &amp; active loan data</p></div></div>
-            </div>
-
-            <div id="euSelected" style="display:none;">
-              <div class="eu-files">
-                <div class="eu-files-head"><h4>Selected Files</h4><button class="eu-mini" onclick="euReset()">Clear All</button></div>
-                <div id="euFileList"></div>
-                <div class="eu-files-foot"><button class="uc-save" id="euProcessBtn" onclick="euProcess()">Process Files</button></div>
-              </div>
-            </div>
-
-            <div id="euProcessing" style="display:none;">
-              <div class="eu-proc">
-                <div class="eu-proc-head"><div class="eu-spinner"></div><h4 id="euProcTitle">Processing files...</h4></div>
-                <div id="euProcDetails"></div>
-              </div>
-            </div>
-
-            <div id="euResults" style="display:none;">
-              <div id="euResultsBox"></div>
-              <div class="eu-actions">
-                <button class="eu-mini" onclick="euReset()">Upload More Files</button>
-                <button class="uc-save" style="width:auto;flex:1;" onclick="euApply()">Apply Data &amp; Publish</button>
-              </div>
-            </div>
-          </div>
-          <div class="uc-card">
+                    <div class="uc-card">
             <h3>Import Pipeline Statuses <span class="ss-ai">AI</span></h3>
             <div class="uc-sub">Upload a CRM screenshot of "Count By Status Reason" and Claude reads the exact status distribution, then maps it onto the loans from your Boyd pipeline upload. Do the pipeline Excel first so there are loans to assign.</div>
             <div class="eu-zone ss-zone" id="ssZone">
@@ -1178,56 +1157,6 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
             </div>
             <button class="uc-save" onclick="edSavePulse()">Publish to dashboard</button>
             <div class="uc-status" id="st-pulse"></div>
-          </div>
-        </div>
-
-        <!-- CLOSING CORNER -->
-        <div class="ed-panel" id="ed-closing">
-          <div class="uc-card">
-            <h3>Closing Tip of the Week</h3>
-            <div class="uc-sub">Writes straight to the Funding Hype Desk &mdash; the tip shows here and on the live Hype Board. The old tip is archived automatically. Clear and publish to hide it.</div>
-            <div class="uc-f"><label>Tip</label><textarea id="edTip" rows="3" placeholder="Maine properties: the Tax Service Fee is not allowed to be charged to borrowers. Do not disclose or charge this fee on Maine files."></textarea></div>
-            <button class="uc-save" onclick="edSaveTip()">Publish tip</button>
-            <div class="uc-status" id="st-tip"></div>
-          </div>
-          <div class="uc-card">
-            <h3>Post to the Funding Floor</h3>
-            <div class="uc-sub">Same entry JoAnn posts on the Hype Desk &mdash; it lands on the board here and there instantly. Only the borrower is required.</div>
-            <div class="uc-grid">
-              <div class="uc-f"><label>Category</label><select id="fdCat"><option value="funded">Fundings</option><option value="docs">Docs Out / Docs Draw</option><option value="wet">Wet Fundings</option></select></div>
-              <div class="uc-f"><label>Loan Number</label><input type="text" id="fdLoan" placeholder="1234567"></div>
-              <div class="uc-f"><label>Borrower Last Name</label><input type="text" id="fdBorrower" placeholder="Nguyen"></div>
-              <div class="uc-f"><label>Loan Officer</label><input type="text" id="fdLO" placeholder="Jamie Sanchez" list="loList" oninput="loCheck()"><datalist id="loList"></datalist></div>
-            </div>
-            <div class="uc-f"><label>Note (optional)</label><input type="text" id="fdNote" placeholder="First-time buyers!"></div>
-            <div class="uc-f" style="display:flex;align-items:center;gap:9px;">
-              <input type="checkbox" id="fdRush" style="width:auto;accent-color:#FB5058;">
-              <label for="fdRush" style="margin:0;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--ink);cursor:pointer;">&#128680; RUSH DOCS &middot; sirens on the board</label>
-            </div>
-            <div class="lo-photo-row">
-              <div class="lo-thumb" id="loThumb">?</div>
-              <div class="lo-photo-meta">
-                <div class="lo-photo-status" id="loStatus">Type an LO name &mdash; if they're on the Hype Desk roster, their photo attaches automatically.</div>
-                <label class="lo-upload" for="fdPhoto">Upload / replace photo</label>
-                <input type="file" id="fdPhoto" accept="image/*" onchange="loPhotoPicked(this)" style="display:none;">
-              </div>
-            </div>
-            <button class="uc-save" onclick="edAddFunding()">Post to the board</button>
-            <div class="uc-status" id="st-fund"></div>
-          </div>
-          <div class="uc-card">
-            <h3>Today's Entries</h3>
-            <div class="uc-sub">Live from the Hype Desk. Remove anything posted by mistake.</div>
-            <div class="ed-list" id="fundList"></div>
-          </div>
-          <div class="uc-card">
-            <h3>Loan Officer Roster</h3>
-            <div class="uc-sub">This is the shared Hype Desk roster &mdash; photos here attach on both boards. Add or replace a photo by typing the LO's name above and uploading.</div>
-            <div class="ed-list" id="loRoster"></div>
-          </div>
-          <div class="uc-card">
-            <h3>Closing Calendar</h3>
-            <div class="uc-sub">Nothing to enter here &mdash; the TRID calendar computes itself. It's always current on the Closing Corner tab.</div>
           </div>
         </div>
 
@@ -1311,6 +1240,26 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
           </div>
         </div>
 
+        <!-- PARTNER IN EXCELLENCE -->
+        <div class="ed-panel" id="ed-pie">
+          <div class="uc-card">
+            <h3>Set a Partner in Excellence</h3>
+            <div class="uc-sub">Pick the month and the person &mdash; names and photos come from the shared Hype Desk roster, same as Closing Corner. Set the current month or backfill any past one; publishing the same month again replaces that month's winner.</div>
+            <div class="uc-grid">
+              <div class="uc-f"><label>Month</label><input type="month" id="pieMonth"></div>
+              <div class="uc-f"><label>Partner</label><input type="text" id="pieName" placeholder="Aidan Boyd" list="loList"><datalist id="loList"></datalist></div>
+            </div>
+            <div class="uc-f"><label>Why they earned it (optional)</label><textarea id="pieNote" rows="2" placeholder="Carried three rush closings in one week and still made the new hire feel at home."></textarea></div>
+            <button class="uc-save" onclick="edSavePie()">Publish winner</button>
+            <div class="uc-status" id="st-pie"></div>
+          </div>
+          <div class="uc-card">
+            <h3>Hall of Excellence</h3>
+            <div class="uc-sub">Every month on record, newest first.</div>
+            <div class="ed-list" id="pieList"></div>
+          </div>
+        </div>
+
         <!-- TEAM & ACCESS -->
         <div class="ed-panel" id="ed-team">
           <div class="uc-card">
@@ -1345,7 +1294,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#128218; Onboarding</div>
     <h1 class="vhero-title">Onboarding</h1>
-    <p class="vhero-sub">WOW onboarding from day one &mdash; the full onboarding portal, right here in the hub.</p>
+    <p class="vhero-sub">The full onboarding portal, right here in the hub.</p>
     <a class="vhero-chip" href="https://onboarding.partnersmortgage.com" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;">Open in a new tab &#8599;</a>
   </div>
   <div class="vbody">
@@ -1358,7 +1307,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#128200; Sales</div>
     <h1 class="vhero-title">Production, live.</h1>
-    <p class="vhero-sub">Funded loans, new leads, and the active pipeline &mdash; straight from the EiOS exports uploaded in the Hub Editor.</p>
+    <p class="vhero-sub">Funded loans, new leads, and the active pipeline &mdash; live from the Production Dashboard.</p>
     <span class="vhero-chip" id="salesChip">No data loaded</span>
   </div>
   <div class="vbody">
@@ -1398,7 +1347,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#128227; Marketing</div>
     <h1 class="vhero-title">The marketing studio.</h1>
-    <p class="vhero-sub">Plug-and-play marketing for every LO &mdash; AI-generated social content and custom flyers, built on the Partners brand.</p>
+    <p class="vhero-sub">Campaigns, social content, and flyers &mdash; built on the Partners brand.</p>
     <span class="vhero-chip">LO Tools &middot; Live</span>
   </div>
   <div class="vbody">
@@ -1432,18 +1381,30 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 <section id="section-celebrations" class="view">
   <div class="vhero">
     <div class="vhero-eyebrow">&#127881; Good Times Crew</div>
-    <h1 class="vhero-title">This Month's <em style="font-style:italic;color:var(--gold);">Challenge</em></h1>
-    <p class="vhero-sub">The Good Times Crew's monthly challenge &mdash; a fresh page every month, posted from the Hub Editor.</p>
+    <h1 class="vhero-title">The good <em style="font-style:italic;color:var(--gold);">times</em>.</h1>
+    <p class="vhero-sub">This month's challenge and the Partner in Excellence.</p>
     <span class="vhero-chip" id="gtcChip">Good Times Crew</span>
   </div>
   <div class="vbody">
-    <div class="gtc-empty" id="gtcEmpty">
-      <div class="gtc-empty-e">&#127881;</div>
-      <div class="gtc-empty-t">No challenge posted yet</div>
-      <div class="gtc-empty-s">The Good Times Crew posts a new challenge page each month. Admins: open Settings &rarr; Good Times Crew and paste this month's page.</div>
+    <div class="subtabs">
+      <button class="subtab active" id="gtb-challenge" onclick="gtcTab('challenge')">This Month's Challenge</button>
+      <button class="subtab" id="gtb-pie" onclick="gtcTab('pie')">Partner in Excellence</button>
     </div>
-    <div class="gtc-frame-wrap" id="gtcWrap" style="display:none;">
-      <iframe class="gtc-frame" id="gtcFrame" title="This Month's Challenge"></iframe>
+
+    <div class="sd-pane active" id="gt-challenge">
+      <div class="gtc-empty" id="gtcEmpty">
+        <div class="gtc-empty-e">&#127881;</div>
+        <div class="gtc-empty-t">No challenge posted yet</div>
+        <div class="gtc-empty-s">The Good Times Crew posts a new challenge page each month. Admins: open Settings &rarr; Good Times Crew and paste this month's page.</div>
+      </div>
+      <div class="gtc-frame-wrap" id="gtcWrap" style="display:none;">
+        <iframe class="gtc-frame" id="gtcFrame" title="This Month's Challenge"></iframe>
+      </div>
+    </div>
+
+    <div class="sd-pane" id="gt-pie">
+      <div id="pieHero"></div>
+      <div id="pieWall"></div>
     </div>
   </div>
 </section>
@@ -1493,7 +1454,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#128717; Merch Store</div>
     <h1 class="vhero-title">Partners Mortgage Gear</h1>
-    <p class="vhero-sub">The MerchLoop store, right here in the hub &mdash; browse, pick your size, and check out.</p>
+    <p class="vhero-sub">The Partners Mortgage merch store.</p>
     <a class="vhero-chip" href="https://merchloop.com/collections/partnersmortgage" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;">Open in a new tab &#8599;</a>
   </div>
   <div class="vbody">
@@ -1874,7 +1835,7 @@ function showSection(name){
     var def=document.querySelector('.subtab[data-tab="resources"]');
     showSub('resources', def);
   }
-  if(name==='celebrations' && typeof renderGtc==='function') renderGtc();
+  if(name==='celebrations'){ if(typeof renderGtc==='function') renderGtc(); if(typeof renderPie==='function') renderPie(); }
   if(name==='closing'){ if(typeof ccRender==='function') ccRender(); if(typeof renderFundings==='function') renderFundings(); }
   if(name==='sales' && typeof salesRender==='function') salesRender();
 }
@@ -1912,7 +1873,7 @@ function pinKey(d){
 }
 function pinBack(){ PIN_STATE=PIN_STATE.slice(0,-1); pinDots(); }
 function subPin(){
-  if(PIN_STATE==='3030'){
+  if(PIN_STATE==='1687'){
     closeAdmin();
     showSection('upload');
     edOpen('pulse');
@@ -1978,6 +1939,7 @@ var HUB_SHARDS={
   anns:    function(){ return {anns:HUB.anns}; },
   gtc:     function(){ return {gtc:HUB.gtc}; },
   trainings: function(){ return {items:HUB.trainings||[]}; },
+  pie:      function(){ return {items:HUB.pie||[]}; },
   eios_prod:  function(){ return {rows:(HUB.eios&&HUB.eios.prod)||[]}; },
   eios_leads: function(){ return {rows:(HUB.eios&&HUB.eios.leads)||[]}; },
   eios_pipe:  function(){ return {rows:(HUB.eios&&HUB.eios.pipe)||[], up:(HUB.eios&&HUB.eios.up)||{}, pendingStatuses:(HUB.eios&&HUB.eios.pendingStatuses)||null}; }
@@ -1990,6 +1952,7 @@ function hubApplyShard(id, d){
   else if(id==='anns'){ if(d.anns) HUB.anns=d.anns; }
   else if(id==='gtc'){ if(d.gtc) HUB.gtc=d.gtc; }
   else if(id==='trainings'){ HUB.trainings=d.items||[]; }
+  else if(id==='pie'){ HUB.pie=d.items||[]; }
   else if(id==='eios_prod'){ if(!HUB.eios)HUB.eios={}; HUB.eios.prod=d.rows||[]; }
   else if(id==='eios_leads'){ if(!HUB.eios)HUB.eios={}; HUB.eios.leads=d.rows||[]; }
   else if(id==='eios_pipe'){ if(!HUB.eios)HUB.eios={}; HUB.eios.pipe=d.rows||[]; HUB.eios.up=d.up||{}; if(d.pendingStatuses) HUB.eios.pendingStatuses=d.pendingStatuses; }
@@ -2331,7 +2294,7 @@ function renderHomeStats(){
     if(m.length){ put('bpAvgN', fmtM(sumAmt(m)/m.length)); put('bpAvgS', m.length+' loans MTD'); }
   }
 }
-function renderAll(){ renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderHomeStats(); renderTrainings(); salesRender(); ccRender(); }
+function renderAll(){ renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderPie(); renderHomeStats(); renderTrainings(); salesRender(); ccRender(); }
 
 /* ============ TRID CLOSING CALENDAR (self-computing) ============
    Specific business day = every calendar day except Sundays and federal
@@ -2385,15 +2348,16 @@ function ccRender(){
 
 /* ============ HUB EDITOR ============ */
 function edOpen(name){
-  if(name==='pulse'){ eiosStatusList(); euWire(); ssWire(); eiosPulseNote(); }
+  if(name==='pulse'){ eiosStatusList(); ssWire(); eiosPulseNote(); }
   if(name==='spot') spotRotList();
   if(name==='team') teamPanelOpen();
   if(name==='train') edListTrainings();
-  ['pulse','closing','anns','gtc','train','team','spot'].forEach(function(t){
+  if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
+  ['pulse','anns','gtc','pie','train','team','spot'].forEach(function(t){
     var p=document.getElementById('ed-'+t); if(p) p.classList.toggle('active', t===name);
     var m=document.getElementById('edm-'+t); if(m) m.classList.toggle('active', t===name);
   });
-  if(name==='closing'){ var tt=document.getElementById('edTip'); if(tt&&!tt.value&&HYPE.tip){ var tmp=document.createElement('div'); tmp.innerHTML=HYPE.tip; tt.value=(tmp.textContent||'').trim(); } edListFundings(); loDatalist(); loRosterList(); loCheck(); }
+  
   if(name==='anns'){ var a=document.getElementById('anDate'); if(a&&!a.value) a.value=new Date().toISOString().slice(0,10); edListAnns(); }
   if(name==='gtc'){ var g=document.getElementById('gtcCode'); if(g&&!g.value&&HUB.gtc&&HUB.gtc.html) g.value=HUB.gtc.html; var gu=document.getElementById('gtcUrl'); if(gu&&!gu.value&&HUB.gtc&&HUB.gtc.url) gu.value=HUB.gtc.url; var gl=document.getElementById('gtcLabel'); if(gl&&!gl.value&&HUB.gtc&&HUB.gtc.label) gl.value=HUB.gtc.label; gtcSetMode((HUB.gtc&&HUB.gtc.mode)||'html'); gtcWireDrop(); }
 }
@@ -2818,6 +2782,94 @@ function gtcWireDrop(){
   ['dragenter','dragover'].forEach(function(ev){ z.addEventListener(ev,function(e){ e.preventDefault(); e.stopPropagation(); z.classList.add('over'); }); });
   ['dragleave','drop'].forEach(function(ev){ z.addEventListener(ev,function(e){ e.preventDefault(); e.stopPropagation(); z.classList.remove('over'); }); });
   z.addEventListener('drop',function(e){ var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]; gtcLoadFile(f); });
+}
+/* ---- Partner in Excellence: winners in the hub store, faces from the Hype Desk roster ---- */
+function gtcTab(t){
+  ['challenge','pie'].forEach(function(x){
+    var p=document.getElementById('gt-'+x); if(p) p.classList.toggle('active',x===t);
+    var b=document.getElementById('gtb-'+x); if(b) b.classList.toggle('active',x===t);
+  });
+  if(t==='pie') renderPie();
+  if(t==='challenge') renderGtc();
+}
+function ymLabel(ym){
+  var p=(ym||'').split('-');
+  if(p.length<2) return ym||'';
+  var d=new Date(parseInt(p[0],10), parseInt(p[1],10)-1, 1);
+  return d.toLocaleString('en-US',{month:'long',year:'numeric'});
+}
+function pieAv(name, big){
+  var lo=(typeof loFind==='function')?loFind(name):null;
+  if(lo&&lo.photo) return '<img class="'+(big?'pie-photo':'pie-av')+'" src="'+escH(lo.photo)+'" alt="">';
+  var ini=(name||'?').split(/\s+/).map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase();
+  return '<span class="'+(big?'pie-photo':'pie-av')+' ini">'+escH(ini)+'</span>';
+}
+function renderPie(){
+  var hero=document.getElementById('pieHero'), wall=document.getElementById('pieWall');
+  if(!hero) return;
+  var items=(HUB.pie||[]).slice();
+  items.sort(function(a,b){ return (b.ym||'').localeCompare(a.ym||''); });
+  if(!items.length){
+    hero.innerHTML='<div class="sd-empty"><div class="sd-empty-e">\uD83C\uDFC6</div><div class="sd-empty-t">No Partner in Excellence yet</div>'
+      +'<div class="sd-empty-s">Admins: Settings \u2192 Partner in Excellence to crown the first one \u2014 current month or any month past.</div></div>';
+    if(wall) wall.innerHTML='';
+    return;
+  }
+  var cur=items[0];
+  var nowYm=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2);
+  var isCurrent = cur.ym===nowYm;
+  hero.innerHTML='<div class="pie-hero">'
+    +'<div class="pie-glow"></div>'
+    +pieAv(cur.name,true)
+    +'<div class="pie-hero-main">'
+    +'<div class="pie-eyebrow">\uD83C\uDFC6 Partner in Excellence \u00B7 '+escH(ymLabel(cur.ym))+(isCurrent?'':' \u00B7 most recent')+'</div>'
+    +'<div class="pie-name">'+escH(cur.name)+'</div>'
+    +(cur.note?'<div class="pie-note">\u201C'+escH(cur.note)+'\u201D</div>':'')
+    +'</div></div>';
+  var past=items.slice(1);
+  if(!wall) return;
+  if(!past.length){ wall.innerHTML=''; return; }
+  var html='<div class="sd-ct" style="margin:26px 0 12px;">Hall of Excellence</div><div class="pie-wall">',i,e;
+  for(i=0;i<past.length;i++){
+    e=past[i];
+    html+='<div class="pie-card">'+pieAv(e.name,false)
+      +'<div class="pie-card-n">'+escH(e.name)+'</div>'
+      +'<div class="pie-card-m">'+escH(ymLabel(e.ym))+'</div>'
+      +(e.note?'<div class="pie-card-q">\u201C'+escH(e.note)+'\u201D</div>':'')
+      +'</div>';
+  }
+  wall.innerHTML=html+'</div>';
+}
+function edSavePie(){
+  var ym=document.getElementById('pieMonth').value;
+  var name=document.getElementById('pieName').value.trim();
+  if(!ym||!name){ edStatus('st-pie','Pick a month and a partner.'); return; }
+  if(!HUB.pie) HUB.pie=[];
+  var note=document.getElementById('pieNote').value.trim(), i, found=false;
+  for(i=0;i<HUB.pie.length;i++){ if(HUB.pie[i].ym===ym){ HUB.pie[i]={ym:ym,name:name,note:note}; found=true; break; } }
+  if(!found) HUB.pie.push({ym:ym,name:name,note:note});
+  hubSave('pie'); edListPie();
+  document.getElementById('pieName').value=''; document.getElementById('pieNote').value='';
+  showSection('celebrations'); gtcTab('pie');
+  hubToast('\uD83C\uDFC6 '+name+' \u2014 Partner in Excellence, '+ymLabel(ym)+'.');
+}
+function edDelPie(ym){
+  HUB.pie=(HUB.pie||[]).filter(function(e){ return e.ym!==ym; });
+  hubSave('pie'); edListPie(); renderPie();
+}
+function edListPie(){
+  var box=document.getElementById('pieList'); if(!box) return;
+  var items=(HUB.pie||[]).slice();
+  items.sort(function(a,b){ return (b.ym||'').localeCompare(a.ym||''); });
+  if(!items.length){ box.innerHTML='<div class="ed-empty">No winners on record yet.</div>'; return; }
+  var html='',i,e;
+  for(i=0;i<items.length;i++){
+    e=items[i];
+    html+='<div class="ed-row">'+pieAv(e.name,false)+'<div class="ed-row-main"><div class="ed-row-t">'+escH(e.name)+'</div>'
+      +'<div class="ed-row-s">'+escH(ymLabel(e.ym))+(e.note?' \u00B7 '+escH(e.note):'')+'</div></div>'
+      +'<button class="ed-del" onclick="edDelPie(\''+e.ym+'\')">Remove</button></div>';
+  }
+  box.innerHTML=html;
 }
 function edSaveGtc(){
   if(!HUB.gtc) HUB.gtc={html:'',url:'',label:'',mode:'html'};
