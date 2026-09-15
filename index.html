@@ -847,6 +847,114 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .fs-host:fullscreen{background:#0b0f14;}
 .fs-host:fullscreen iframe{width:100%;height:100%;min-height:0;border-radius:0;}
 
+/* ══ BIRTHDAY CALENDAR ══ */
+.bd-cal{background:var(--bg1);border:1px solid var(--line);border-radius:20px;padding:22px 22px 18px;box-shadow:var(--card-sh);position:relative;overflow:hidden;}
+.bd-cal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--keyline);}
+.bd-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.bd-title{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1;flex:1;text-align:center;}
+.bd-title b{color:var(--gold);font-weight:400;}
+.bd-nav{width:36px;height:36px;border-radius:11px;background:var(--bg2);border:1px solid var(--line2);color:var(--ink);font-size:15px;cursor:pointer;transition:color .2s,border-color .2s;}
+.bd-nav:hover{color:var(--teal);border-color:var(--teal);}
+.bd-todaybtn{padding:8px 15px;border-radius:11px;background:transparent;border:1px solid var(--line2);color:var(--ink-soft);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;transition:color .2s,border-color .2s;}
+.bd-todaybtn:hover{color:var(--teal);border-color:var(--teal);}
+.bd-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:7px;}
+.bd-dow span{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);text-align:center;}
+.bd-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
+.bd-box{min-height:88px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:7px 8px;display:flex;flex-direction:column;gap:4px;transition:border-color .2s,box-shadow .25s,transform .25s var(--ease);}
+.bd-box:hover{border-color:var(--line2);transform:translateY(-1px);}
+.bd-box.blank{background:transparent;border-color:transparent;pointer-events:none;}
+.bd-box .dnum{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+.bd-box.today{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 0 24px rgba(37,186,196,.22);background:rgba(37,186,196,.07);}
+.bd-box.today .dnum{color:var(--teal);font-weight:700;}
+.bd-tag{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.bd-hol{font-size:9.5px;font-weight:700;color:var(--gold);line-height:1.25;}
+.bd-name{font-size:9.5px;font-weight:600;line-height:1.3;color:var(--ink);background:rgba(37,186,196,.1);border:1px solid rgba(37,186,196,.28);border-radius:7px;padding:2px 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bd-box.hol{border-color:rgba(255,172,39,.35);}
+@media(max-width:860px){
+  .bd-box{min-height:64px;padding:5px 6px;}
+  .bd-name{font-size:8px;padding:2px 4px;}
+  .bd-title{font-size:22px;}
+}
+.bd-today-card{margin-top:16px;background:linear-gradient(135deg,rgba(255,172,39,.1),rgba(37,186,196,.07));border:1px solid rgba(255,172,39,.4);border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:var(--card-sh);}
+.bd-today-card .e{font-size:26px;}
+.bd-today-card .t{font-family:var(--serif);font-style:italic;font-size:20px;}
+.bd-today-card .st{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.bd-month-list{margin-top:16px;}
+.bd-mrow{display:flex;align-items:center;gap:13px;background:var(--bg1);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:7px;box-shadow:var(--card-sh);transition:transform .22s var(--ease),border-color .2s;}
+.bd-mrow:hover{transform:translateX(3px);border-color:rgba(37,186,196,.35);}
+.bd-mrow.is-today{border-color:rgba(255,172,39,.45);background:rgba(255,172,39,.05);}
+.bd-date{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--gold);min-width:56px;}
+.bd-who{font-size:13px;font-weight:600;flex:1;}
+.bd-cake{font-size:14px;}
+/* ══ HOLIDAY MODAL ══ */
+.hol-ov{position:fixed;inset:0;z-index:1700;background:rgba(6,12,14,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.hol-ov.on{display:flex;animation:viewin .3s var(--ease) both;}
+.hol-card{width:100%;max-width:520px;max-height:86vh;overflow:auto;background:var(--bg1);border:1px solid var(--line2);border-radius:20px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.6);position:relative;}
+.hol-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--keyline);}
+.hol-h{display:flex;align-items:center;justify-content:space-between;font-family:var(--serif);font-style:italic;font-size:23px;}
+.hol-x{background:transparent;border:0;color:var(--ink-soft);font-size:26px;line-height:1;cursor:pointer;transition:color .2s;}
+.hol-x:hover{color:var(--ink);}
+.hol-sub{font-size:12px;color:var(--ink-soft);margin:4px 0 16px;}
+.hol-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;margin-bottom:7px;background:var(--bg2);}
+.hol-d{font-family:var(--mono);font-size:10.5px;color:var(--gold);min-width:112px;}
+.hol-n{font-size:13px;font-weight:600;flex:1;}
+.hol-note{font-size:10.5px;color:var(--ink-soft);}
+
+/* ══ EDITOR GUIDE + WHERE STRIPS ══ */
+.ed-guide{display:flex;gap:12px;align-items:flex-start;background:rgba(37,186,196,.06);border:1px solid rgba(37,186,196,.25);
+  border-radius:14px;padding:14px 17px;margin-bottom:18px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+.ed-guide .gi{font-size:17px;flex:none;line-height:1.3;}
+.ed-guide b{color:var(--ink);font-weight:600;}
+.ed-where{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;}
+.ed-where .wl{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);}
+.ed-where .wp{font-size:11.5px;font-weight:600;color:var(--teal);background:rgba(37,186,196,.08);
+  border:1px solid rgba(37,186,196,.3);border-radius:20px;padding:4px 12px;}
+.ed-where .wgo{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--ink-soft);background:transparent;
+  border:1px solid var(--line2);border-radius:20px;padding:4px 13px;cursor:pointer;font-family:var(--sans);
+  transition:color .2s,border-color .2s;}
+.ed-where .wgo:hover{color:var(--teal);border-color:var(--teal);}
+
+/* ══ LO LAUNCHPAD ══ */
+.lp-launch{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:26px;}
+.lp-tile{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:17px 16px 15px;text-decoration:none;color:var(--ink);
+  display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;box-shadow:var(--card-sh);
+  transition:transform .3s var(--ease),border-color .22s,box-shadow .3s;}
+.lp-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--lp-acc,var(--teal));opacity:.85;}
+.lp-tile:hover{transform:translateY(-4px);border-color:var(--lp-acc,var(--teal));box-shadow:0 0 0 1px var(--lp-acc),0 16px 40px rgba(0,0,0,.45);}
+.lp-tile .g{width:40px;height:40px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);color:var(--lp-acc);
+  display:flex;align-items:center;justify-content:center;}
+.lp-tile .g svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.lp-tile .n{font-size:14px;font-weight:700;line-height:1.25;}
+.lp-tile .s{font-size:11px;color:var(--ink-soft);line-height:1.4;flex:1;}
+.lp-tile .go{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--lp-acc);transition:letter-spacing .25s;}
+.lp-tile:hover .go{letter-spacing:.24em;}
+@media(max-width:1150px){.lp-launch{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.lp-launch{grid-template-columns:1fr;}}
+.lp-filter{display:flex;align-items:center;gap:10px;background:var(--bg1);border:1px solid var(--line2);border-radius:12px;
+  padding:11px 15px;margin:4px 0 24px;transition:border-color .2s,box-shadow .2s;}
+.lp-filter:focus-within{border-color:rgba(37,186,196,.5);box-shadow:0 0 0 3px rgba(37,186,196,.12);}
+.lp-filter svg{width:15px;height:15px;color:var(--gray);flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+.lp-filter input{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font-family:var(--sans);font-size:13.5px;}
+.lp-filter input::placeholder{color:var(--gray);}
+.lp-rows{display:flex;flex-direction:column;gap:8px;}
+.lp-row{display:flex;align-items:center;gap:14px;background:var(--bg1);border:1px solid var(--line);border-radius:12px;padding:12px 16px;
+  text-decoration:none;color:var(--ink);box-shadow:var(--card-sh);
+  transition:transform .25s var(--ease),border-color .2s,box-shadow .25s;}
+a.lp-row:hover{transform:translateX(4px);border-color:rgba(37,186,196,.4);box-shadow:var(--glow);}
+.lp-row .rn{font-size:13px;font-weight:600;line-height:1.3;min-width:230px;max-width:230px;}
+.lp-row .rd{flex:1;font-size:11.5px;color:var(--ink-soft);line-height:1.45;}
+.lp-row .ra{font-size:13px;color:var(--gray);transition:transform .2s,color .2s;}
+a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
+.lp-row.soon{border-style:dashed;opacity:.55;cursor:default;}
+.b-air{color:var(--gold);border-color:rgba(255,172,39,.4);background:rgba(255,172,39,.08);}
+.b-dyn{color:#7CC4FF;border-color:rgba(124,196,255,.35);background:rgba(124,196,255,.07);}
+.lp-empty{text-align:center;padding:34px 0;font-size:13px;color:var(--gray);display:none;}
+@media(max-width:760px){
+  .lp-row{flex-wrap:wrap;gap:8px;}
+  .lp-row .rn{min-width:0;max-width:none;width:100%;}
+  .lp-row .rd{flex:1 1 100%;}
+}
+
 .tr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:1100px){.tr-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:700px){.tr-grid{grid-template-columns:1fr;}}
@@ -965,6 +1073,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
     </div>
     <div class="rail-lbl">Workspace</div>
     <a class="nav active" data-sec="home" onclick="showSection('home')"><svg viewBox="0 0 24 24"><path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/></svg>Home</a>
+    <a class="nav" data-sec="launchpad" onclick="showSection('launchpad')"><svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>LO Launchpad</a>
     <div class="rail-lbl">Departments</div>
     <a class="nav" data-sec="sales" onclick="showSection('sales')"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Sales</a>
     <a class="nav" data-sec="closing" onclick="showSection('closing')"><svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M17 5.5c-1-1.3-2.9-2-5-2-2.8 0-5 1.5-5 3.8 0 4.7 10 2.7 10 7.4 0 2.3-2.2 3.8-5 3.8-2.1 0-4-.7-5-2"/></svg>Closing Corner</a>
@@ -1041,6 +1150,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
       <div class="lead">&#129517; Jump into a department</div>
       <div class="deps">
+        <a class="dep" onclick="showSection('launchpad')"><div class="dep-ic">&#128640;</div><div class="dep-n">LO Launchpad</div><div class="dep-d">Your everyday tools. One place. One click.</div></a>
         <a class="dep" onclick="openOpTraining('resources')"><div class="dep-ic">&#9881;</div><div class="dep-n">Operations &amp; Training</div><div class="dep-d">Lenders, HR &amp; operations resources</div></a>
         <a class="dep" onclick="showSection('onboarding')"><div class="dep-ic">&#128218;</div><div class="dep-n">Onboarding</div><div class="dep-d">Checklists, 30/60/90 &amp; training</div></a>
         <a class="dep" onclick="showSection('sales')"><div class="dep-ic">&#128200;</div><div class="dep-n">Sales</div><div class="dep-d">Dashboard, tools &amp; production</div></a>
@@ -1136,32 +1246,34 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
         <span class="vhero-chip">Admin &middot; PIN protected</span>
       </div>
       <div class="vbody">
+        <div class="ed-guide"><span class="gi">&#128161;</span><div><b>How this editor works:</b> pick the card for the thing you want to change, fill in the fields, and hit the publish button in that panel. Changes go live for the whole team instantly. Each panel starts with a <b>Shows on</b> line so you always know exactly where in the hub you're editing &mdash; hit <b>See it live</b> to jump straight there.</div></div>
         <div class="ed-menu">
           <button class="ed-card active" id="edm-pulse" onclick="edOpen('pulse')">
-            <div class="ed-ic">&#128200;</div><div class="ed-n">Sales Pulse</div><div class="ed-d">EiOS uploads + manual override for the Home numbers</div>
+            <div class="ed-ic">&#128200;</div><div class="ed-n">Sales Numbers</div><div class="ed-d">Update the production numbers on Home and the Sales tab</div>
           </button>
                               <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
-            <div class="ed-ic">&#128240;</div><div class="ed-n">Announcements</div><div class="ed-d">Flash banner + the news feed on Home</div>
+            <div class="ed-ic">&#128240;</div><div class="ed-n">Announcements</div><div class="ed-d">Post news and the gold flash banner on Home</div>
           </button>
           <button class="ed-card" id="edm-gtc" onclick="edOpen('gtc')">
-            <div class="ed-ic">&#127881;</div><div class="ed-n">Good Times Crew</div><div class="ed-d">Paste this month's challenge page</div>
+            <div class="ed-ic">&#127881;</div><div class="ed-n">Monthly Challenge</div><div class="ed-d">Publish this month's Good Times Crew challenge</div>
           </button>
                     <button class="ed-card" id="edm-train" onclick="edOpen('train')">
-            <div class="ed-ic">&#127891;</div><div class="ed-n">Trainings</div><div class="ed-d">The training library on Onboarding &amp; Training</div>
+            <div class="ed-ic">&#127891;</div><div class="ed-n">Trainings</div><div class="ed-d">Add or remove links in the training library</div>
           </button>
           <button class="ed-card" id="edm-pie" onclick="edOpen('pie')">
-            <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Set the monthly winner, past or present</div>
+            <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Crown the monthly winner or backfill a past month</div>
           </button>
           <button class="ed-card" id="edm-team" onclick="edOpen('team')">
-            <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">Who's registered, and what they can see</div>
+            <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">See who's registered and control who sees gated tabs</div>
           </button>
           <button class="ed-card" id="edm-spot" onclick="edOpen('spot')">
-            <div class="ed-ic">&#127942;</div><div class="ed-n">Producer Spotlight</div><div class="ed-d">Auto-picked daily from the EiOS uploads</div>
+            <div class="ed-ic">&#127942;</div><div class="ed-n">Producer Spotlight</div><div class="ed-d">Runs itself from EiOS uploads &mdash; nothing to edit daily</div>
           </button>
         </div>
 
         <!-- SALES PULSE -->
         <div class="ed-panel active" id="ed-pulse">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; Sales Pulse tile &middot; Sales tab</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
                     <div class="uc-card">
             <h3>Import Pipeline Statuses <span class="ss-ai">AI</span></h3>
             <div class="uc-sub">Upload a CRM screenshot of "Count By Status Reason" and Claude reads the exact status distribution, then maps it onto the loans from your Boyd pipeline upload. Do the pipeline Excel first so there are loans to assign.</div>
@@ -1198,6 +1310,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- ANNOUNCEMENTS -->
         <div class="ed-panel" id="ed-anns">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; What's happening</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Flash Banner</h3>
             <div class="uc-sub">The gold alert at the top of "What's happening" on Home. Clear it and save to hide.</div>
@@ -1227,6 +1340,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- GOOD TIMES CREW -->
         <div class="ed-panel" id="ed-gtc">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; This Month's Challenge</span><button class="wgo" onclick="showSection('celebrations');gtcTab('challenge')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>This Month's Challenge</h3>
             <div class="uc-sub">Post the challenge either way: drop in the HTML file itself, or link a page that's already live (e.g. GitHub Pages). Clear it and publish to take the page down.</div>
@@ -1257,6 +1371,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- TRAININGS -->
         <div class="ed-panel" id="ed-train">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Operations &amp; Training &rarr; Trainings</span><button class="wgo" onclick="showSection('optraining');showSub('trainings')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Add a Training</h3>
             <div class="uc-sub">Link anything &mdash; a video, a course, a PDF, a recorded Zoom. It shows as a card in the Trainings tab, newest first.</div>
@@ -1278,6 +1393,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- PARTNER IN EXCELLENCE -->
         <div class="ed-panel" id="ed-pie">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; Partner in Excellence</span><button class="wgo" onclick="showSection('celebrations');gtcTab('pie')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Set a Partner in Excellence</h3>
             <div class="uc-sub">Pick the month and the person &mdash; names and photos come from the shared Hype Desk roster, same as Closing Corner. Set the current month or backfill any past one; publishing the same month again replaces that month's winner.</div>
@@ -1298,6 +1414,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- TEAM & ACCESS -->
         <div class="ed-panel" id="ed-team">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
           <div class="uc-card">
             <h3>Registered Team</h3>
             <div class="uc-sub">Everyone who has signed in, live \u2014 identities come from the Hype Desk roster. Tags control what each person can see &mdash; right now, the <b>business-development</b> tag unlocks Recruiting Resources; everyone without it never sees that tab. Add more gate tags any time.</div>
@@ -1308,6 +1425,7 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 
         <!-- SPOTLIGHT -->
         <div class="ed-panel" id="ed-spot">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; Producer Spotlight tile</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Producer Spotlight</h3>
             <div class="uc-sub">With EiOS data loaded, the Home page rotates through up to five standouts from today's upload &mdash; biggest loan, top MTD producer, hottest week, lead leader, and deepest clear-to-close stack &mdash; one every 5 seconds with a progress bar. Publishing a name below overrides the rotation for <b>today only</b>; it resumes tomorrow. With no data loaded, whatever you publish stays up.</div>
@@ -1400,13 +1518,14 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   <div class="vhero">
     <div class="vhero-eyebrow">&#127881; Good Times Crew</div>
     <h1 class="vhero-title">The good <em style="font-style:italic;color:var(--gold);">times</em>.</h1>
-    <p class="vhero-sub">This month's challenge and the Partner in Excellence.</p>
+    <p class="vhero-sub">This month's challenge, the Partner in Excellence, and team birthdays.</p>
     <span class="vhero-chip" id="gtcChip">Good Times Crew</span>
   </div>
   <div class="vbody">
     <div class="subtabs">
       <button class="subtab active" id="gtb-challenge" onclick="gtcTab('challenge')">This Month's Challenge</button>
       <button class="subtab" id="gtb-pie" onclick="gtcTab('pie')">Partner in Excellence</button>
+      <button class="subtab" id="gtb-bday" onclick="gtcTab('bday')">Birthdays</button>
     </div>
 
     <div class="sd-pane active" id="gt-challenge">
@@ -1424,8 +1543,46 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
       <div id="pieHero"></div>
       <div id="pieWall"></div>
     </div>
+
+    <div class="sd-pane" id="gt-bday">
+      <div class="bd-cal">
+        <div class="bd-head">
+          <button class="bd-nav" onclick="bdShift(-1)" title="Previous month">&larr;</button>
+          <div class="bd-title" id="bdTitle">&nbsp;</div>
+          <button class="bd-nav" onclick="bdShift(1)" title="Next month">&rarr;</button>
+          <button class="bd-todaybtn" onclick="bdToday()">Today</button>
+        </div>
+        <div class="bd-dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+        <div class="bd-grid" id="bdGrid"></div>
+      </div>
+      <div id="bdBelow"></div>
+    </div>
   </div>
 </section>
+<div class="hol-ov" id="holOv" onclick="if(event.target===this)lpHolidays()">
+  <div class="hol-card">
+    <div class="hol-h"><span>&#127961;&#65039; 2026 Paid Holidays</span><button class="hol-x" onclick="lpHolidays()">&times;</button></div>
+    <div class="hol-sub">Partners Mortgage observes 11 paid holidays each year.</div>
+    <div id="holList"></div>
+  </div>
+</div>
+
+<section id="section-launchpad" class="view">
+  <div class="vhero">
+    <div class="vhero-eyebrow">&#128640; LO Launchpad</div>
+    <h1 class="vhero-title">Your everyday tools. One place. One click.</h1>
+    <p class="vhero-sub">The fastest way to get a loan moving &mdash; launch the systems you live in every day, then find any resource, form, or directory without digging through SharePoint.</p>
+    <span class="vhero-chip">Loan Officers &middot; Daily drivers</span>
+  </div>
+  <div class="vbody">
+    <div class="rgroup-h">Most used &middot; One-click launch</div>
+    <div class="lp-launch" id="lpLaunch"></div>
+    <div class="lp-filter"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="lpFilterIn" type="text" placeholder="Filter resources &mdash; try &quot;wire&quot;, &quot;handbook&quot;, or &quot;NMLS&quot;" oninput="lpFilter()" autocomplete="off"></div>
+    <div id="lpGroups"></div>
+    <div class="lp-empty" id="lpEmpty">No matches &mdash; try a different word.</div>
+  </div>
+</section>
+
 <section id="section-recruiting" class="view">
   <div class="vhero">
     <div class="vhero-eyebrow">&#129309; Recruiting Resources</div>
@@ -1529,6 +1686,18 @@ function hubSearchIndex(){
     ix.push({k:'guide', kl:'Guide', t:(t.textContent||'').trim(), s:(d?(d.textContent||'').trim():''),
       go:function(){ el.click(); }});
   });
+  /* LO Launchpad */
+  if(typeof LP_LAUNCH!=='undefined'){
+    LP_LAUNCH.forEach(function(l){
+      ix.push({k:'app', kl:'App', t:l.n, s:'LO Launchpad \u00B7 '+l.s, go:function(){ window.open(l.url,'_blank','noopener'); }});
+    });
+    LP_LINKS.forEach(function(l){
+      if(l.hidden||l.soon) return;
+      var kl=(l.type==='Document')?'Document':(l.type==='Form'?'Form':'App');
+      ix.push({k:(kl==='Document'?'doc':'app'), kl:kl, t:l.label, s:'LO Launchpad \u00B7 '+l.cat,
+        go:function(){ if(l.act){ window[l.act](); } else { window.open(l.url,'_blank','noopener'); } }});
+    });
+  }
   /* published trainings */
   (HUB.trainings||[]).forEach(function(tr){
     ix.push({k:'training', kl:'Training', t:tr.title, s:tr.cat||'Training', go:function(){ window.open(tr.url,'_blank','noopener'); }});
@@ -1762,7 +1931,7 @@ function showSection(name){
     var def=document.querySelector('.subtab[data-tab="resources"]');
     showSub('resources', def);
   }
-  if(name==='celebrations'){ if(typeof renderGtc==='function') renderGtc(); if(typeof renderPie==='function') renderPie(); }
+  if(name==='celebrations'){ if(typeof renderGtc==='function') renderGtc(); if(typeof renderPie==='function') renderPie(); if(typeof renderBday==='function') renderBday(); }
   if(name==='closing'){ if(typeof ccRender==='function') ccRender(); if(typeof renderFundings==='function') renderFundings(); }
   if(name==='sales' && typeof salesRender==='function') salesRender();
 }
@@ -2144,10 +2313,16 @@ function renderFlash(){
   document.getElementById('flashText').textContent=f;
 }
 function renderAnns(){
-  var items=HUB.anns.items; if(items===null||items===undefined) return; /* keep defaults until first edit */
   var box=document.getElementById('annItems'); if(!box) return;
-  if(!items.length){ box.innerHTML='<div class="ann-empty">Nothing posted yet \u2014 announcements from the Hub Editor land here.</div>'; return; }
-  var html='',i,a;
+  var bd=(typeof annBdayHtml==='function')?annBdayHtml():'';
+  var items=HUB.anns.items;
+  if(items===null||items===undefined){ /* keep defaults until first edit, but still surface birthdays */
+    box.querySelectorAll('.ann-bday').forEach(function(n){ n.parentNode.removeChild(n); });
+    if(bd) box.insertAdjacentHTML('afterbegin', bd);
+    return;
+  }
+  if(!items.length && !bd){ box.innerHTML='<div class="ann-empty">Nothing posted yet \u2014 announcements from the Hub Editor land here.</div>'; return; }
+  var html=bd,i,a;
   for(i=0;i<items.length;i++){
     a=items[i];
     html+='<div class="ann"><div class="dot '+(a.c||'t')+'"></div><div><h4>'+escH(a.t)+'</h4>'
@@ -2759,12 +2934,18 @@ function gtcWireDrop(){
 }
 /* ---- Partner in Excellence: winners in the hub store, faces from the Hype Desk roster ---- */
 function gtcTab(t){
-  ['challenge','pie'].forEach(function(x){
+  ['challenge','pie','bday'].forEach(function(x){
     var p=document.getElementById('gt-'+x); if(p) p.classList.toggle('active',x===t);
     var b=document.getElementById('gtb-'+x); if(b) b.classList.toggle('active',x===t);
   });
   if(t==='pie') renderPie();
   if(t==='challenge') renderGtc();
+  if(t==='bday') renderBday();
+}
+function ymNorm(ym){
+  var p=(ym||'').split('-');
+  if(p.length<2) return ym||'';
+  return p[0]+'-'+('0'+parseInt(p[1],10)).slice(-2);
 }
 function ymLabel(ym){
   var p=(ym||'').split('-');
@@ -2781,7 +2962,7 @@ function pieAv(name, big){
 function renderPie(){
   var hero=document.getElementById('pieHero'), wall=document.getElementById('pieWall');
   if(!hero) return;
-  var items=(HUB.pie||[]).slice();
+  var items=(HUB.pie||[]).map(function(e){ return {ym:ymNorm(e.ym), name:e.name, note:e.note}; });
   items.sort(function(a,b){ return (b.ym||'').localeCompare(a.ym||''); });
   if(!items.length){
     hero.innerHTML='<div class="sd-empty"><div class="sd-empty-e">\uD83C\uDFC6</div><div class="sd-empty-t">No Partner in Excellence yet</div>'
@@ -2815,12 +2996,12 @@ function renderPie(){
   wall.innerHTML=html+'</div>';
 }
 function edSavePie(){
-  var ym=document.getElementById('pieMonth').value;
+  var ym=ymNorm(document.getElementById('pieMonth').value);
   var name=document.getElementById('pieName').value.trim();
   if(!ym||!name){ edStatus('st-pie','Pick a month and a partner.'); return; }
   if(!HUB.pie) HUB.pie=[];
   var note=document.getElementById('pieNote').value.trim(), i, found=false;
-  for(i=0;i<HUB.pie.length;i++){ if(HUB.pie[i].ym===ym){ HUB.pie[i]={ym:ym,name:name,note:note}; found=true; break; } }
+  for(i=0;i<HUB.pie.length;i++){ if(ymNorm(HUB.pie[i].ym)===ym){ HUB.pie[i]={ym:ym,name:name,note:note}; found=true; break; } }
   if(!found) HUB.pie.push({ym:ym,name:name,note:note});
   hubSave('pie'); edListPie();
   document.getElementById('pieName').value=''; document.getElementById('pieNote').value='';
@@ -2828,12 +3009,12 @@ function edSavePie(){
   hubToast('\uD83C\uDFC6 '+name+' \u2014 Partner in Excellence, '+ymLabel(ym)+'.');
 }
 function edDelPie(ym){
-  HUB.pie=(HUB.pie||[]).filter(function(e){ return e.ym!==ym; });
+  HUB.pie=(HUB.pie||[]).filter(function(e){ return ymNorm(e.ym)!==ymNorm(ym); });
   hubSave('pie'); edListPie(); renderPie();
 }
 function edListPie(){
   var box=document.getElementById('pieList'); if(!box) return;
-  var items=(HUB.pie||[]).slice();
+  var items=(HUB.pie||[]).map(function(e){ return {ym:ymNorm(e.ym), name:e.name, note:e.note}; });
   items.sort(function(a,b){ return (b.ym||'').localeCompare(a.ym||''); });
   if(!items.length){ box.innerHTML='<div class="ed-empty">No winners on record yet.</div>'; return; }
   var html='',i,e;
@@ -3682,6 +3863,249 @@ function fsInit(){
     });
   });
 }
+/* ============ BIRTHDAYS + HOLIDAYS ============
+   Roster from the Partners roster sheet. m = month 1-12, d = day. Update here when the roster changes. */
+var BDAYS=[
+ {n:'Aaron Colvin',m:10,d:28},{n:'Aidan Boyd',m:10,d:1},{n:'Ali Arfa',m:12,d:17},{n:'Allen Quinney',m:9,d:29},
+ {n:'Andre Bishop',m:5,d:5},{n:'Andre Reikko',m:9,d:9},{n:'Angela Duncan',m:5,d:23},{n:'Anthony Marinelli',m:4,d:24},
+ {n:'Barry Willner',m:11,d:21},{n:'Bobby Afrasiabi',m:6,d:12},{n:'Chad Caplinger',m:8,d:25},{n:'Chris Palachuk',m:1,d:6},
+ {n:'Courtney Cunningham',m:2,d:15},{n:'Craig Warn',m:9,d:2},{n:'Daniel O\u2019Brien',m:9,d:21},{n:'Dave Miller',m:1,d:7},
+ {n:'Dereck Bowlen',m:2,d:15},{n:'Derek Sepulveda',m:10,d:12},{n:'Elvin Estela',m:3,d:14},{n:'Erik Papke',m:6,d:30},
+ {n:'Frank Helmand',m:4,d:20},{n:'Greg Choinski',m:5,d:27},{n:'Harry Gu',m:9,d:3},{n:'Herman Rivas',m:2,d:9},
+ {n:'Helen Woizeschke',m:8,d:16},{n:'Ilda Gomez',m:4,d:2},{n:'Ilias Arghandiwal',m:5,d:29},{n:'Jackie Jones',m:7,d:13},
+ {n:'Janine Thomas',m:3,d:11},{n:'Jason Malmstrom',m:7,d:10},{n:'Jay Johnson',m:3,d:28},{n:'Jay Kiel',m:1,d:17},
+ {n:'Jay Posey',m:11,d:13},{n:'Jeffrey Glass',m:5,d:4},{n:'Jeff Jones',m:12,d:14},{n:'Jenny Dinh Nguyen',m:9,d:20},
+ {n:'Jim Hagen',m:12,d:28},{n:'Joe Bundrick',m:8,d:14},{n:'Joel Morgan',m:6,d:1},{n:'John LeCave',m:3,d:25},
+ {n:'Jonathan Karabinus',m:4,d:15},{n:'Josh Sommerfield',m:7,d:17},{n:'Kathleen Martiniello',m:4,d:24},{n:'Katie Pastor Trinidad',m:10,d:6},
+ {n:'Ken Sawyer',m:5,d:21},{n:'Kendra Tetz',m:5,d:20},{n:'Lanny Setka',m:12,d:20},{n:'LaRelle Woodall',m:3,d:25},
+ {n:'Latasha Augustine',m:6,d:5},{n:'Laura Ford',m:5,d:5},{n:'Leif Potter',m:8,d:29},{n:'Lori Ann Oja',m:1,d:27},
+ {n:'Marilo Jackson',m:8,d:17},{n:'Martin Atencio',m:5,d:1},{n:'Marty Yeghishian',m:3,d:10},{n:'Matt Fielding',m:4,d:2},
+ {n:'Matthew Lewis',m:2,d:6},{n:'Matt Miles',m:11,d:6},{n:'Matt Perez',m:12,d:17},{n:'Matt Von Bergen',m:10,d:10},
+ {n:'Maureen Ramsay',m:5,d:31},{n:'Megan O\u2019Malley',m:5,d:16},{n:'Michelle Paxton',m:10,d:8},{n:'Mike Zamani',m:2,d:28},
+ {n:'Nancy Kinzer',m:10,d:22},{n:'Nina Merrill',m:1,d:10},{n:'Paul Spagnoli',m:3,d:26},{n:'Peter Frankel',m:4,d:8},
+ {n:'Peter Schwartz',m:4,d:28},{n:'Rachael Gaines',m:11,d:23},{n:'Rafi Westhoff',m:4,d:20},{n:'Rich Knell',m:10,d:28},
+ {n:'Ricky Sanaphanh',m:1,d:8},{n:'Rob Garcia',m:7,d:12},{n:'Robert (Bob) DeWeese',m:1,d:28},{n:'Robert Martiniello',m:4,d:16},
+ {n:'Russell Cunha',m:7,d:3},{n:'Rusty Mendoza',m:11,d:7},{n:'Ryan Ross',m:9,d:22},{n:'Sean McDonough',m:8,d:16},
+ {n:'Shazia Dar',m:8,d:12},{n:'Sierra Schutte',m:10,d:18},{n:'Stacey Batiste',m:6,d:9},{n:'Steven Lawrence',m:6,d:25},
+ {n:'Steven Lee',m:2,d:28},{n:'Tiffany Farr',m:12,d:10},{n:'Tim Mellema',m:2,d:14},{n:'Tony Keidel',m:7,d:30},
+ {n:'Venane Brune',m:2,d:5},{n:'Xavier (Walker) Tanks',m:6,d:12},{n:'Yogesh Lulla',m:2,d:8}
+];
+var HOL_2026={
+ '1-1':'New Year\u2019s Day','1-19':'MLK Jr. Day','2-16':'President\u2019s Day','5-25':'Memorial Day',
+ '6-19':'Juneteenth','7-3':'Independence Day (observed)','9-7':'Labor Day','11-11':'Veterans Day',
+ '11-26':'Thanksgiving','11-27':'Day After Thanksgiving','12-25':'Christmas Day'
+};
+var HOL_LIST=[
+ {d:'Thu, Jan 1',n:'New Year\u2019s Day'},{d:'Mon, Jan 19',n:'Martin Luther King Jr. Day'},
+ {d:'Mon, Feb 16',n:'President\u2019s Day'},{d:'Mon, May 25',n:'Memorial Day'},
+ {d:'Fri, Jun 19',n:'Juneteenth National Holiday'},{d:'Fri, Jul 3',n:'Independence Day',note:'July 4 falls on a Saturday \u2014 observed Friday'},
+ {d:'Mon, Sep 7',n:'Labor Day'},{d:'Wed, Nov 11',n:'Veterans Day'},
+ {d:'Thu, Nov 26',n:'Thanksgiving Day'},{d:'Fri, Nov 27',n:'Day After Thanksgiving'},
+ {d:'Fri, Dec 25',n:'Christmas Day'}
+];
+var BD_VIEW=null;
+var BD_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function bdInit(){ if(!BD_VIEW){ var n=new Date(); BD_VIEW={y:n.getFullYear(), m:n.getMonth()+1}; } }
+function bdShift(dir){
+  bdInit();
+  BD_VIEW.m+=dir;
+  if(BD_VIEW.m>12){ BD_VIEW.m=1; BD_VIEW.y++; }
+  if(BD_VIEW.m<1){ BD_VIEW.m=12; BD_VIEW.y--; }
+  renderBday();
+}
+function bdToday(){ BD_VIEW=null; renderBday(); }
+function bdOn(m,d){
+  var out=[],i;
+  for(i=0;i<BDAYS.length;i++){ if(BDAYS[i].m===m&&BDAYS[i].d===d) out.push(BDAYS[i].n); }
+  return out;
+}
+function renderBday(){
+  var grid=document.getElementById('bdGrid'), title=document.getElementById('bdTitle'), below=document.getElementById('bdBelow');
+  if(!grid) return;
+  bdInit();
+  var y=BD_VIEW.y, m=BD_VIEW.m;
+  var now=new Date(), ty=now.getFullYear(), tm=now.getMonth()+1, td=now.getDate();
+  title.innerHTML=BD_MONTHS[m-1]+' <b>'+y+'</b>';
+  var first=new Date(y,m-1,1).getDay();
+  var days=new Date(y,m,0).getDate();
+  var h='',i,d;
+  for(i=0;i<first;i++) h+='<div class="bd-box blank"></div>';
+  for(d=1;d<=days;d++){
+    var names=bdOn(m,d);
+    var hol=(y===2026)?HOL_2026[m+'-'+d]:null;
+    var isToday=(y===ty&&m===tm&&d===td);
+    var cls='bd-box'+(isToday?' today':'')+(hol?' hol':'');
+    h+='<div class="'+cls+'">'
+      +'<div class="dnum">'+d+(isToday?' <span class="bd-tag">Today</span>':'')+'</div>'
+      +(hol?'<div class="bd-hol">\uD83C\uDFD6\uFE0F '+hol+'</div>':'');
+    for(i=0;i<names.length;i++) h+='<div class="bd-name" title="'+escH(names[i])+'">\uD83C\uDF82 '+escH(names[i])+'</div>';
+    h+='</div>';
+  }
+  grid.innerHTML=h;
+  /* below the calendar: today first, then the month list */
+  var bh='';
+  if(y===ty&&m===tm){
+    var tn=bdOn(tm,td);
+    if(tn.length){
+      bh+='<div class="bd-today-card"><span class="e">\uD83C\uDF89</span><div>'
+        +'<div class="t">Happy birthday, '+escH(tn.join(' & '))+'!</div>'
+        +'<div class="st">'+BD_MONTHS[tm-1]+' '+td+' \u00B7 make some noise for them today.</div></div></div>';
+    }
+  }
+  var list=[],e;
+  for(i=0;i<BDAYS.length;i++){ if(BDAYS[i].m===m) list.push(BDAYS[i]); }
+  list.sort(function(a,b){ return a.d-b.d; });
+  bh+='<div class="bd-month-list"><div class="rgroup-h" style="margin:20px 0 12px;">Birthdays in '+BD_MONTHS[m-1]+'</div>';
+  if(!list.length){
+    bh+='<div class="lp-empty" style="display:block;">No birthdays on record this month.</div>';
+  } else {
+    for(i=0;i<list.length;i++){ e=list[i];
+      var rowToday=(y===ty&&m===tm&&e.d===td);
+      bh+='<div class="bd-mrow'+(rowToday?' is-today':'')+'"><span class="bd-date">'+BD_MONTHS[m-1].slice(0,3)+' '+e.d+'</span>'
+        +'<span class="bd-who">'+escH(e.n)+'</span><span class="bd-cake">\uD83C\uDF82</span></div>';
+    }
+  }
+  bh+='</div>';
+  below.innerHTML=bh;
+}
+/* today's birthdays, injected on top of the Home announcements feed */
+function annBdayHtml(){
+  var now=new Date(), m=now.getMonth()+1, d=now.getDate(), h='', i;
+  var names=bdOn(m,d);
+  for(i=0;i<names.length;i++){
+    h+='<div class="ann ann-bday"><div class="dot g"></div><div><h4>\uD83C\uDF82 Happy birthday, '+escH(names[i])+'!</h4>'
+      +'<p>Drop them a note or a Teams ping today.</p><div class="d">Today</div></div></div>';
+  }
+  return h;
+}
+/* 2026 paid holiday list modal (opened from LO Launchpad) */
+function lpHolidays(){
+  var ov=document.getElementById('holOv'); if(!ov) return;
+  var on=!ov.classList.contains('on');
+  if(on){
+    var box=document.getElementById('holList'),h='',i,e;
+    for(i=0;i<HOL_LIST.length;i++){ e=HOL_LIST[i];
+      h+='<div class="hol-row"><span class="hol-d">'+e.d+'</span><span class="hol-n">'+e.n+'</span>'+(e.note?'<span class="hol-note">'+e.note+'</span>':'')+'</div>';
+    }
+    box.innerHTML=h;
+  }
+  ov.classList.toggle('on',on);
+}
+
+/* ============ LO LAUNCHPAD ============
+   Data model mirrors the master link spreadsheet: cat / label / url / desc / type.
+   To add a link, add one object to LP_LINKS. flags: soon (grayed, no link yet), hidden (in file, not rendered). */
+var LP_LAUNCH=[
+ {n:'ARIVE', s:'Start or manage a loan', acc:'#25BAC4', url:'https://arborfg.myarive.com',
+  g:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h6"/>'},
+ {n:'Lender Price', s:'Price a scenario', acc:'#FFAC27', url:'https://arborfinancialgroup.digitallending.com/#/login',
+  g:'<path d="M12 2v20"/><path d="M17 5.5c-1-1.3-2.9-2-5-2-2.8 0-5 1.5-5 3.8 0 4.7 10 2.7 10 7.4 0 2.3-2.2 3.8-5 3.8-2.1 0-4-.7-5-2"/>'},
+ {n:'EIOS', s:'Dashboards and loan data', acc:'#5BE49B', url:'https://arborfg.crm.dynamics.com/main.aspx?appid=2bdaa7e7-d8a5-ea11-a812-000d3a4df23f&forceUCI=1&pagetype=dashboard&id=e38a3718-a20ceb11-a815-000d3a579b99&type=system&_canOverride=true',
+  g:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>'},
+ {n:'Workdesk CRM', s:'Partners contact hub', acc:'#7CC4FF', url:'https://crm.partnersmortgage.com/',
+  g:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'},
+ {n:'Correspondent Lenders', s:'Lender list in Dynamics', acc:'#C77DFF', url:'https://arborfg.crm.dynamics.com/main.aspx?appid=2bdaa7e7-d8a5-ea11-a812-000d3a4df23f&forceUCI=1&pagetype=entitylist&etn=cr0ff_lender&viewid=73b6b461-8d2b-ee11-bdf5-00224823f7a2&viewType=1039&lid=1767132177155',
+  g:'<path d="M3 21h18"/><path d="M4 10h16"/><path d="M5 6l7-3 7 3"/><path d="M5 10v11M19 10v11"/><path d="M9 14v4M12 14v4M15 14v4"/>'},
+ {n:'Credential Request', s:'System access form', acc:'#FF8A90', url:'https://forms.cloud.microsoft/pages/responsepage.aspx?id=6SnAb_9gAUqDoryYF027pUqgNMjejFCt35wxGURKHJUQVIJNONJMksxR1hKNFVCOUpFNJZaJjZGNiQIQQCN0PWcu&route=shorturl',
+  g:'<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>'},
+ {n:'Outlook', s:'Mail on the web', acc:'#25BAC4', url:'https://outlook.office365.com/mail/',
+  g:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/>'},
+ {n:'Teams', s:'Chat and meetings', acc:'#FFAC27', url:'https://teams.microsoft.com/v2/',
+  g:'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>'}
+];
+var LP_CATS=['ARIVE Resources','Operations','HR','Licensing'];
+var LP_LINKS=[
+ /* ── ARIVE Resources ── */
+ {cat:'ARIVE Resources', label:'My LOS Home', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyLOS', desc:'The LOS home base &mdash; announcements, guides, and ARIVE updates.'},
+ {cat:'ARIVE Resources', label:'ARIVE User Help Guide', type:'SharePoint', url:'https://arborfg.sharepoint.com/:f:/s/ARIVEconcierge/El81WXkSaNZDh14WxW-dSgYB7SD9oLh4lwHWaPr_KKomGw?e=afjK4r', desc:'Step-by-step help guides for every corner of ARIVE.'},
+ {cat:'ARIVE Resources', label:'ARBOR Training (Teachable)', type:'Training', url:'https://arbor.teachable.com/l/dashboard', desc:'Self-paced training courses on Teachable.'},
+ {cat:'ARIVE Resources', label:'ARIVE Support Home', type:'Link', url:'https://support.arive.com/support/home', desc:'ARIVE\u2019s own support center &mdash; articles and tickets.'},
+ {cat:'ARIVE Resources', label:'ARIVE Transition FAQs', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyLOS/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyLOS%2FShared%20Documents%2FARIVE%20Transition%20FAQs%2Epdf&parent=%2Fsites%2FMyLOS%2FShared%20Documents&p=true&ga=1', desc:'Answers to the most common questions from the ARIVE transition.'},
+ /* ── Operations ── */
+ {cat:'Operations', label:'My Operations Home', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyOperations', desc:'Operations home on SharePoint &mdash; policies, docs, and updates.'},
+ {cat:'Operations', label:'Funding Rush Request', type:'Form', url:'https://airtable.com/app25gfamnWjhSMea/paghJ75BTwRHPG03l/form', desc:'Need a same-day or rush funding? Submit it here.'},
+ {cat:'Operations', label:'Wire Instructions', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyOperations/My%20Operations%20%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyOperations%2FMy%20Operations%20%20Documents%2FWire%20Instructions%2FWire%20Instructions%2D%20Updated%2Epdf&parent=%2Fsites%2FMyOperations%2FMy%20Operations%20%20Documents%2FWire%20Instructions&p=true&ga=1', desc:'Current wire instructions PDF &mdash; always pull the latest from here.'},
+ {cat:'Operations', label:'Appraisal Management Companies', type:'Airtable', url:'https://airtable.com/applHSGxsw5lqYz5l/shrQUclMtI32D52xp/tblT6ZvMwNgfBkA23', desc:'AMC directory &mdash; who to order through, by state and product.'},
+ {cat:'Operations', label:'Mortgage Insurance Providers', type:'Airtable', url:'https://airtable.com/applHSGxsw5lqYz5l/shreyeahvdS1g1JUq/tblT6ZvMwNgfBkA23', desc:'Approved MI providers and contacts.'},
+ {cat:'Operations', label:'Credit Vendors Price List', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyOperations/SitePages/CreditVendorsPriceList.aspx', desc:'Credit report vendors and current pricing.'},
+ {cat:'Operations', label:'Agency IDs', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyOperations/SitePages/AgencyIDs.aspx?CID=a3315361-430f-4ec4-975a-414f4d3cefa9', desc:'FHA, VA, and agency ID numbers in one place.'},
+ {cat:'Operations', label:'Mortgagee Clause', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyOperations/SitePages/MortgageeClause.aspx?CID=02d5c0e3-e0cc-4c2f-af63-ff804fd62f95', desc:'The correct mortgagee clause for insurance and title.'},
+ /* ── HR ── */
+ {cat:'HR', label:'My HR Home', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyHR', desc:'HR home on SharePoint &mdash; benefits, payroll, and policies.'},
+ {cat:'HR', label:'W2 Resources', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyHR/SitePages/W2-Resources.aspx', desc:'Everything for W-2 employees.'},
+ {cat:'HR', label:'1099 Resources', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyHR/SitePages/1099-Resources.aspx', desc:'Everything for 1099 originators.'},
+ {cat:'HR', label:'Employee Handbook 2026', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyHR/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyHR%2FShared%20Documents%2FTurnkey%20Foundation%20Employee%20Handbook%202026%20Final%2Epdf&parent=%2Fsites%2FMyHR%2FShared%20Documents&p=true&ga=1', desc:'The 2026 Turnkey Foundation Employee Handbook (final).'},
+ {cat:'HR', label:'Holiday Schedule 2026', type:'Calendar', act:'lpHolidays', url:'', desc:'All 11 paid holidays for 2026 &mdash; opens right here in the hub.'},
+ {cat:'HR', label:'Compensation Change Request (W-2)', type:'Form', url:'https://arborfg.sharepoint.com/sites/MyHR/_layouts/15/listforms.aspx?cid=MTk5OGM4OTMtNDJjMi00ZWFkLTk2ZmUtM2YwNDk4YTE5NWVi&nav=OTIyN2E5MDMtZjU2Mi00NTU4LWFkZWEtYjRlZTdjNWI4NTMz', desc:'Request a comp change for W-2 employees.'},
+ {cat:'HR', label:'Compensation Change Request (Independent LO)', type:'Form', url:'https://arborfg.sharepoint.com/sites/MyHR/_layouts/15/listforms.aspx?cid=ZjhiODg2OTUtNDFkYy00ZjA1LTk4MzItODFlNmE3NWNjODAx&nav=NzZlMTQyNGEtNTQzYS00OTY1LWIwMGMtYjA2ZGRkMzYzODM4', desc:'Request a comp change for independent LOs.'},
+ {cat:'HR', label:'Contract Templates', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyHR/SitePages/ContractTemplates.aspx', desc:'Contract templates home page.'},
+ /* Contract samples: flip hidden to false once finalized */
+ {cat:'HR', hidden:true, label:'1099 LO Contract (Sample)', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyHR/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates%2F1099%20LO%20Contract%20%2D%20Sample%2Epdf&parent=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates&p=true&ga=1', desc:'Sample 1099 LO contract.'},
+ {cat:'HR', hidden:true, label:'1099 LOA Contract (Sample)', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyHR/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates%2F1099%20LOA%20Contract%20%2D%20Sample%2Epdf&parent=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates&p=true&ga=1', desc:'Sample 1099 LOA contract.'},
+ {cat:'HR', hidden:true, label:'Processor Contract (Sample)', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyHR/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates%2FProcessor%20Contract%20%2D%20Sample%2Epdf&parent=%2Fsites%2FMyHR%2FShared%20Documents%2FContract%20Templates&p=true&ga=1', desc:'Sample processor contract.'},
+ {cat:'HR', hidden:true, label:'Independent Contractor Agreement (Sample)', type:'Document', url:'https://arborfg.sharepoint.com/sites/MyHR/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FMyHR%2FShared%20Documents%2FIndependent%20Contractor%20Agreement%20%2D%20Sample%2Epdf&parent=%2Fsites%2FMyHR%2FShared%20Documents&p=true&ga=1', desc:'Sample independent contractor agreement.'},
+ /* ── Licensing ── */
+ {cat:'Licensing', label:'My Licensing Home', type:'SharePoint', url:'https://arborfg.sharepoint.com/sites/MyLicensing', desc:'Licensing home on SharePoint.'},
+ {cat:'Licensing', label:'Licensing Airtable', type:'Airtable', url:'https://airtable.com/appXCKvo1mU7Q6jDw/shrzUFoBzBDJRhDvd', desc:'Live licensing tracker &mdash; states, statuses, and renewals.'},
+ {cat:'Licensing', label:'NMLS License Requirements and Fees Chart', type:'Soon', soon:true, url:'', desc:'State-by-state requirements and fees &mdash; link coming soon.'},
+ {cat:'Licensing', label:'NMLS Knowledge Article', type:'Link', url:'https://nmlsportal.csbs.org/csm?id=kb_article_view&sysparm_article=KB0016766&sys_kb_id=f7a2a8428718de104048777acebb35fb', desc:'NMLS knowledge base article for common licensing questions.'},
+ {cat:'Licensing', label:'NMLS State Resource Center', type:'Link', url:'https://mortgage.nationwidelicensingsystem.org/knowledge/Products/nmls/stateresourcecenter/SitePages/Home.aspx', desc:'Official NMLS resource center, state by state.'},
+ {cat:'Licensing', label:'Licensing Guide (PDF)', type:'Document', url:'https://arborfgmy.sharepoint.com/:b:/p/plagiglia/EUCecNWdyUhOhZzMzQUpLPkBeQfsTNVFT4GBvFYxfHm2Ww?e=hbFepc', desc:'Licensing reference guide.'}
+];
+function lpChip(type){
+  var map={'SharePoint':'b-link','Document':'b-pdf','Airtable':'b-air','Form':'b-docx','App':'b-xlsx','Training':'b-xlsx','Link':'b-link','Dynamics':'b-dyn','Calendar':'b-air','Soon':'b-soon'};
+  var cls=map[type]||'b-link';
+  var txt=(type==='Soon')?'Coming soon':type;
+  return '<span class="rbadge '+cls+'">'+txt+'</span>';
+}
+function lpRender(){
+  var launch=document.getElementById('lpLaunch'), groups=document.getElementById('lpGroups');
+  if(!launch||!groups) return;
+  var h='', i, l;
+  for(i=0;i<LP_LAUNCH.length;i++){ l=LP_LAUNCH[i];
+    h+='<a class="lp-tile" style="--lp-acc:'+l.acc+'" href="'+l.url+'" target="_blank" rel="noopener">'
+      +'<div class="g"><svg viewBox="0 0 24 24">'+l.g+'</svg></div>'
+      +'<div class="n">'+l.n+'</div><div class="s">'+l.s+'</div>'
+      +'<div class="go">Launch &rarr;</div></a>';
+  }
+  launch.innerHTML=h;
+  h='';
+  for(var c=0;c<LP_CATS.length;c++){
+    var cat=LP_CATS[c], rows='';
+    for(i=0;i<LP_LINKS.length;i++){ l=LP_LINKS[i];
+      if(l.cat!==cat||l.hidden) continue;
+      if(l.soon){
+        rows+='<span class="lp-row soon" data-q="'+(l.label+' '+l.desc).toLowerCase().replace(/"/g,'')+'">'
+          +'<div class="rn">'+l.label+'</div><div class="rd">'+l.desc+'</div>'+lpChip(l.type)+'</span>';
+      } else if(l.act){
+        rows+='<a class="lp-row" style="cursor:pointer;" data-q="'+(l.label+' '+l.desc+' '+l.type).toLowerCase().replace(/"/g,'')+'" onclick="'+l.act+'()">'
+          +'<div class="rn">'+l.label+'</div><div class="rd">'+l.desc+'</div>'+lpChip(l.type)+'<span class="ra">&rarr;</span></a>';
+      } else {
+        rows+='<a class="lp-row" data-q="'+(l.label+' '+l.desc+' '+l.type).toLowerCase().replace(/"/g,'')+'" href="'+l.url+'" target="_blank" rel="noopener">'
+          +'<div class="rn">'+l.label+'</div><div class="rd">'+l.desc+'</div>'+lpChip(l.type)+'<span class="ra">&rarr;</span></a>';
+      }
+    }
+    if(rows) h+='<div class="rgroup lp-group"><div class="rgroup-h">'+cat+'</div><div class="lp-rows">'+rows+'</div></div>';
+  }
+  groups.innerHTML=h;
+}
+function lpFilter(){
+  var inp=document.getElementById('lpFilterIn'); if(!inp) return;
+  var q=inp.value.trim().toLowerCase(), any=false;
+  document.querySelectorAll('#lpGroups .lp-group').forEach(function(g){
+    var vis=0;
+    g.querySelectorAll('.lp-row').forEach(function(r){
+      var hit=!q || (r.getAttribute('data-q')||'').indexOf(q)>=0;
+      r.style.display=hit?'':'none';
+      if(hit) vis++;
+    });
+    g.style.display=vis?'':'none';
+    if(vis) any=true;
+  });
+  var e=document.getElementById('lpEmpty'); if(e) e.style.display=any?'none':'block';
+}
+lpRender();
+
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', fsInit); } else { fsInit(); }
 
 
