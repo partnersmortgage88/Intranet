@@ -844,8 +844,50 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   border-radius:30px;padding:8px 14px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;
   box-shadow:0 10px 30px rgba(0,0,0,.45);transition:border-color .2s,color .2s;}
 .fs-btn:hover{border-color:var(--teal);color:var(--teal);}
-.fs-host:fullscreen{background:#0b0f14;}
-.fs-host:fullscreen iframe{width:100%;height:100%;min-height:0;border-radius:0;}
+.fs-host:fullscreen{background:#0b0f14;overflow:hidden;display:flex;flex-direction:column;}
+.fs-host:fullscreen iframe{width:100%!important;height:100%!important;min-height:0!important;border-radius:0!important;flex:1;}
+
+/* ══ GTC CORK BOARD ══ */
+.cork-wrap{border:12px solid #6d4a2a;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.14), inset 0 -3px 8px rgba(0,0,0,.4);background:#6d4a2a;}
+.cork{position:relative;min-height:540px;border-radius:4px;padding:30px 26px 34px;
+  display:flex;flex-wrap:wrap;gap:30px 26px;align-items:flex-start;justify-content:center;
+  background:
+    radial-gradient(rgba(0,0,0,.16) 1px, transparent 1.6px),
+    radial-gradient(rgba(255,236,200,.1) 1px, transparent 1.4px),
+    radial-gradient(600px 320px at 25% 8%, rgba(255,220,160,.13), transparent 60%),
+    radial-gradient(700px 400px at 85% 95%, rgba(60,30,5,.3), transparent 65%),
+    linear-gradient(135deg,#c49a67,#b0834f 48%,#a67a46);
+  background-size:9px 9px, 13px 13px, auto, auto, auto;
+  box-shadow:inset 0 0 60px rgba(74,45,14,.45);}
+.pin{position:relative;transform:rotate(var(--tilt,0deg));transition:transform .35s var(--ease),box-shadow .35s,z-index 0s;cursor:default;}
+.pin:hover{transform:rotate(0deg) scale(1.03);z-index:5;}
+.pin-tack{position:absolute;top:-9px;left:var(--tx,50%);width:17px;height:17px;border-radius:50%;z-index:3;transform:translateX(-50%);
+  background:radial-gradient(circle at 34% 30%, #fff9 0 12%, var(--tc,#e2554d) 42%, color-mix(in srgb,var(--tc,#e2554d) 55%, #000) 100%);
+  box-shadow:0 4px 6px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.25) inset;}
+.pin-tack::after{content:'';position:absolute;left:50%;top:15px;width:2px;height:5px;background:rgba(40,20,5,.5);transform:translateX(-50%);border-radius:1px;}
+.pin-pol{background:#f8f6ef;padding:11px 11px 13px;width:230px;box-shadow:0 14px 26px rgba(30,15,0,.42), 0 3px 8px rgba(30,15,0,.3);border-radius:2px;}
+.pin-pol img{display:block;width:100%;height:190px;object-fit:cover;background:#ddd;border-radius:1px;}
+.pin-pol .cap{font-family:var(--serif);font-style:italic;font-size:14.5px;color:#33302a;line-height:1.35;margin:10px 2px 0;word-wrap:break-word;}
+.pin-pol .when{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#9a917f;margin:7px 2px 0;}
+.pin-note{width:210px;min-height:150px;padding:16px 15px 13px;border-radius:2px;display:flex;flex-direction:column;
+  background:linear-gradient(180deg, color-mix(in srgb,var(--sc,#ffe98a) 96%, #fff) 0%, var(--sc,#ffe98a) 100%);
+  box-shadow:0 12px 22px rgba(30,15,0,.38), 0 3px 7px rgba(30,15,0,.26);}
+.pin-note::after{content:'';align-self:flex-end;width:0;height:0;margin-top:auto;
+  border-left:16px solid transparent;border-bottom:16px solid rgba(0,0,0,.11);transform:translate(13px,11px) rotate(90deg);}
+.pin-note .cap{font-family:var(--serif);font-style:italic;font-size:15.5px;color:#3a3527;line-height:1.4;word-wrap:break-word;}
+.pin-note .when{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(58,50,30,.55);margin-top:8px;}
+.cork-empty{align-self:center;margin:110px auto;}
+.cork-empty .pin-note{width:250px;min-height:130px;}
+@media(max-width:640px){.cork{padding:22px 12px;gap:22px 14px;}.pin-pol{width:170px;}.pin-pol img{height:140px;}.pin-note{width:170px;min-height:120px;}}
+.bp-thumb{display:inline-flex;width:52px;height:52px;border-radius:10px;overflow:hidden;border:1px solid var(--line2);background:var(--bg2);align-items:center;justify-content:center;font-size:10px;color:var(--gray);}
+.bp-thumb img{width:100%;height:100%;object-fit:cover;}
+.bp-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);}
+.bp-row:last-child{border-bottom:0;}
+.bp-row .im{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;background:var(--bg2);}
+.bp-row .nt{flex:1;font-size:12.5px;color:var(--ink-soft);line-height:1.4;overflow:hidden;text-overflow:ellipsis;}
+.bp-row .dl{font-family:var(--mono);font-size:10px;color:var(--gray);white-space:nowrap;}
+.bp-row .rm{background:transparent;border:1px solid var(--line2);color:var(--ink-soft);border-radius:9px;padding:5px 11px;font-size:11px;font-family:var(--sans);cursor:pointer;transition:color .2s,border-color .2s;}
+.bp-row .rm:hover{color:#FF8A90;border-color:#FF8A90;}
 
 /* ══ BIRTHDAY CALENDAR ══ */
 .bd-cal{background:var(--bg1);border:1px solid var(--line);border-radius:20px;padding:22px 22px 18px;box-shadow:var(--card-sh);position:relative;overflow:hidden;}
@@ -1266,6 +1308,9 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
           <button class="ed-card" id="edm-team" onclick="edOpen('team')">
             <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">See who's registered and control who sees gated tabs</div>
           </button>
+          <button class="ed-card" id="edm-board" onclick="edOpen('board')">
+            <div class="ed-ic">&#128204;</div><div class="ed-n">Bulletin Board</div><div class="ed-d">Pin photos and notes to the Good Times board</div>
+          </button>
           <button class="ed-card" id="edm-spot" onclick="edOpen('spot')">
             <div class="ed-ic">&#127942;</div><div class="ed-n">Producer Spotlight</div><div class="ed-d">Runs itself from EiOS uploads &mdash; nothing to edit daily</div>
           </button>
@@ -1424,6 +1469,26 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
         </div>
 
         <!-- SPOTLIGHT -->
+        <div class="ed-panel" id="ed-board">
+          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; The Board</span><button class="wgo" onclick="showSection('celebrations');gtcTab('board')">See it live &rarr;</button></div>
+          <div class="uc-card">
+            <h3>&#128204; Pin something to the board</h3>
+            <div class="uc-sub">A photo, a note, or both. Pins hang for 30 days, then quietly come down on their own.</div>
+            <div class="uc-row" style="margin-top:12px;">
+              <label class="uc-file" for="bpPhoto">Choose a photo</label>
+              <input type="file" id="bpPhoto" accept="image/*" style="display:none;" onchange="bpPhotoPicked(this)">
+              <span id="bpThumb" class="bp-thumb"></span>
+              <button class="uc-mini" id="bpClear" style="display:none;" onclick="bpClearPhoto()">Remove photo</button>
+            </div>
+            <textarea class="uc-in" id="bpNote" rows="2" maxlength="240" placeholder="Optional note &mdash; e.g. Lender Fair 2026. Tiffany brought the good snacks." style="margin-top:10px;resize:vertical;"></textarea>
+            <div class="uc-actions"><button class="uc-save" onclick="edPinBoard()">Pin to the board</button><span class="uc-status" id="bpStatus"></span></div>
+          </div>
+          <div class="uc-card">
+            <h3>On the board now</h3>
+            <div class="uc-sub">Newest first. Remove takes a pin down immediately for everyone.</div>
+            <div id="bpList"></div>
+          </div>
+        </div>
         <div class="ed-panel" id="ed-spot">
           <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; Producer Spotlight tile</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
           <div class="uc-card">
@@ -1526,6 +1591,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
       <button class="subtab active" id="gtb-challenge" onclick="gtcTab('challenge')">This Month's Challenge</button>
       <button class="subtab" id="gtb-pie" onclick="gtcTab('pie')">Partner in Excellence</button>
       <button class="subtab" id="gtb-bday" onclick="gtcTab('bday')">Birthdays</button>
+      <button class="subtab" id="gtb-board" onclick="gtcTab('board')">The Board</button>
     </div>
 
     <div class="sd-pane active" id="gt-challenge">
@@ -1556,6 +1622,10 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
         <div class="bd-grid" id="bdGrid"></div>
       </div>
       <div id="bdBelow"></div>
+    </div>
+
+    <div class="sd-pane" id="gt-board">
+      <div class="cork-wrap"><div class="cork" id="corkBoard"></div></div>
     </div>
   </div>
 </section>
@@ -1931,7 +2001,7 @@ function showSection(name){
     var def=document.querySelector('.subtab[data-tab="resources"]');
     showSub('resources', def);
   }
-  if(name==='celebrations'){ if(typeof renderGtc==='function') renderGtc(); if(typeof renderPie==='function') renderPie(); if(typeof renderBday==='function') renderBday(); }
+  if(name==='celebrations'){ if(typeof renderGtc==='function') renderGtc(); if(typeof renderPie==='function') renderPie(); if(typeof renderBday==='function') renderBday(); if(typeof renderBoard==='function') renderBoard(); }
   if(name==='closing'){ if(typeof ccRender==='function') ccRender(); if(typeof renderFundings==='function') renderFundings(); }
   if(name==='sales' && typeof salesRender==='function') salesRender();
 }
@@ -2368,6 +2438,7 @@ function gtcSize(){
   try{
     var d=frame.contentDocument;
     var h=Math.max(d.documentElement.scrollHeight, d.body?d.body.scrollHeight:0);
+    if(document.fullscreenElement||document.webkitFullscreenElement) return;
     if(h>200) frame.style.height=(h+24)+'px';
   }catch(e){}
 }
@@ -2494,7 +2565,8 @@ function edOpen(name){
   if(name==='team') teamPanelOpen();
   if(name==='train') edListTrainings();
   if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
-  ['pulse','anns','gtc','pie','train','team','spot'].forEach(function(t){
+  if(name==='board') edListBoard();
+  ['pulse','anns','gtc','pie','train','team','spot','board'].forEach(function(t){
     var p=document.getElementById('ed-'+t); if(p) p.classList.toggle('active', t===name);
     var m=document.getElementById('edm-'+t); if(m) m.classList.toggle('active', t===name);
   });
@@ -2543,7 +2615,7 @@ var PD_FB={
   messagingSenderId:"651068294125",
   appId:"1:651068294125:web:a854e01c109e2132de9de4"
 };
-var PD={on:false, whenLbl:'', summary:[], counts:null};
+var PD={on:false, whenLbl:'', summary:[], counts:null, coe:[]};
 function pdInit(){
   if(typeof firebase==='undefined') return;
   try{
@@ -2574,6 +2646,7 @@ function pdInit(){
       PD.on=true;
       PD.whenLbl=when.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
       PD.summary=jp('loSummaryYTD');
+      PD.coe=pdParseCoe(d.coeLeaderboard);
       PD.counts=d.counts||null;
       renderPulse(); renderHomeStats(); renderMe(); renderSpot(); salesRender(true);
       eiosStatusList(); eiosPulseNote(); pdLiveNote();
@@ -2934,13 +3007,14 @@ function gtcWireDrop(){
 }
 /* ---- Partner in Excellence: winners in the hub store, faces from the Hype Desk roster ---- */
 function gtcTab(t){
-  ['challenge','pie','bday'].forEach(function(x){
+  ['challenge','pie','bday','board'].forEach(function(x){
     var p=document.getElementById('gt-'+x); if(p) p.classList.toggle('active',x===t);
     var b=document.getElementById('gtb-'+x); if(b) b.classList.toggle('active',x===t);
   });
   if(t==='pie') renderPie();
   if(t==='challenge') renderGtc();
   if(t==='bday') renderBday();
+  if(t==='board') renderBoard();
 }
 function ymNorm(ym){
   var p=String(ym||'').trim().split('-');
@@ -3087,7 +3161,7 @@ function greetTick(){
 }
 greetTick();
 setInterval(greetTick,1000);
-hubInitFirebase(function(){ renderAll(); authInit(); });
+hubInitFirebase(function(){ renderAll(); authInit(); boardInit(); });
 function __railwire(){}
 var RAIL_ANIM_T=null;
 function railToggle(){
@@ -3673,6 +3747,39 @@ function sdEmpty(what){
   return '<div class="sd-empty"><div class="sd-empty-e">\uD83D\uDCC1</div><div class="sd-empty-t">No '+what+' data yet</div>'
     +'<div class="sd-empty-s">Admins: Settings \u2192 EiOS Data, then drop the export. It shows here instantly.</div></div>';
 }
+function pdParseCoe(raw){
+  try{
+    var v=(typeof raw==='string')?JSON.parse(raw):raw;
+    if(!v) return [];
+    var list=[];
+    function num(x){ var f=parseFloat(x); return isNaN(f)?null:f; }
+    if(Array.isArray(v)){
+      v.forEach(function(e){
+        if(!e||typeof e!=='object') return;
+        var n=e.name||e.lo||e.loName||e.n||'';
+        var c=null,keys=['coeLeft','left','coe','count','remaining','units','value','c'],k;
+        for(k=0;k<keys.length;k++){ if(e[keys[k]]!==undefined){ c=num(e[keys[k]]); break; } }
+        if(n&&c!==null) list.push({name:String(n), n:c});
+      });
+    } else if(typeof v==='object'){
+      Object.keys(v).forEach(function(k){ var c=num(v[k]); if(c!==null) list.push({name:k, n:c}); });
+    }
+    list.sort(function(a,b){ return b.n-a.n; });
+    return list;
+  }catch(e){ return []; }
+}
+function pdCoeBoard(){
+  if(!PD.on||!PD.coe||!PD.coe.length) return '';
+  var max=PD.coe[0].n||1, html='<div class="sd-ct" style="margin:20px 0 10px;">COE left this month (matches the dashboard)</div><div class="sd-lb">',i,r;
+  for(i=0;i<Math.min(PD.coe.length,15);i++){
+    r=PD.coe[i];
+    html+='<div class="sd-lb-row"><span class="sd-lb-rank'+(i===0?' g':'')+'">'+(i+1)+'</span>'
+      +'<span class="sd-lb-name">'+escH(r.name)+'</span>'
+      +'<span class="sd-lb-bar"><i style="width:'+Math.round(r.n/max*100)+'%"></i></span>'
+      +'<span class="sd-lb-v">'+r.n+'</span></div>';
+  }
+  return html+'</div>';
+}
 function pdYtdBoard(){
   if(!PD.on||!PD.summary||!PD.summary.length) return '';
   var max=PD.summary[0].vol||1, html='<div class="sd-ct" style="margin:20px 0 10px;">Producer leaderboard \u2014 YTD (matches the dashboard)</div><div class="sd-lb">',i,r;
@@ -3736,7 +3843,8 @@ function salesRender(force){
         +split
         +'<div class="sd-ct" style="margin:20px 0 10px;">Producer leaderboard \u2014 MTD</div>'
         +(loBoard(m,fmtM)||'<div class="ed-empty">No funded loans this month yet.</div>')
-        +pdYtdBoard();
+        +pdYtdBoard()
+        +pdCoeBoard();
     }
   }
   /* leads */
@@ -3870,6 +3978,121 @@ function fsInit(){
     });
   });
 }
+/* ============ GTC CORK BOARD ============
+   Pins live in their own Firestore collection ('board'), one doc per pin:
+   { img: dataURL|null, note: string, at: ms epoch }. Pins older than 30 days
+   are hidden everywhere and cleaned up opportunistically. */
+var BOARD=[], BOARD_ON=false, BP_PENDING=null;
+var BOARD_TTL=30*24*60*60*1000;
+function boardInit(){
+  if(!DB||BOARD_ON) return;
+  BOARD_ON=true;
+  try{
+    DB.collection('board').onSnapshot(function(qs){
+      BOARD=[];
+      qs.forEach(function(doc){ var d=doc.data()||{}; BOARD.push({id:doc.id, img:d.img||null, note:d.note||'', at:d.at||0}); });
+      BOARD.sort(function(a,b){ return b.at-a.at; });
+      renderBoard(); edListBoard();
+    }, function(err){ console.warn('board feed', err); });
+  }catch(e){ console.warn('board init', e); }
+}
+function boardLive(){
+  var cut=Date.now()-BOARD_TTL;
+  return BOARD.filter(function(p){ return p.at>cut && (p.img||p.note); });
+}
+function bhash(str){ var h=0,i; for(i=0;i<str.length;i++){ h=(h*31+str.charCodeAt(i))>>>0; } return h; }
+function renderBoard(){
+  var el=document.getElementById('corkBoard'); if(!el) return;
+  var pins=boardLive(), h='', i, pn, hs, tilt, tack, tx, when;
+  var tacks=['#e2554d','#25BAC4','#FFAC27','#5B8DEF','#5BE49B','#C77DFF'];
+  var stickies=['#ffe98a','#c9f2d0','#ffd9e8','#cfe8ff','#ffe1c2'];
+  if(!pins.length){
+    el.innerHTML='<div class="pin cork-empty" style="--tilt:-2deg;">'
+      +'<span class="pin-tack" style="--tc:#e2554d;--tx:50%;"></span>'
+      +'<div class="pin-note" style="--sc:#ffe98a;"><div class="cap">Nothing tacked up yet &mdash; good times are coming. &#128512;<br><br>Pin the first photo or note from the Hub Editor.</div></div></div>';
+    return;
+  }
+  for(i=0;i<pins.length;i++){
+    pn=pins[i]; hs=bhash(pn.id);
+    tilt=((hs%9)-4); if(tilt===0) tilt=(hs>>3)%2?2:-2;
+    tack=tacks[hs%tacks.length];
+    tx=40+(hs>>4)%21; /* 40-60% */
+    when=new Date(pn.at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    h+='<div class="pin" style="--tilt:'+tilt+'deg;">'
+      +'<span class="pin-tack" style="--tc:'+tack+';--tx:'+tx+'%;"></span>';
+    if(pn.img){
+      h+='<div class="pin-pol"><img src="'+pn.img+'" alt="" loading="lazy">'
+        +(pn.note?'<div class="cap">'+escH(pn.note)+'</div>':'')
+        +'<div class="when">'+when+'</div></div>';
+    } else {
+      h+='<div class="pin-note" style="--sc:'+stickies[(hs>>2)%stickies.length]+';">'
+        +'<div class="cap">'+escH(pn.note)+'</div><div class="when">'+when+'</div></div>';
+    }
+    h+='</div>';
+  }
+  el.innerHTML=h;
+}
+/* ---- editor ---- */
+function bpPhotoPicked(inp){
+  var file=inp.files&&inp.files[0]; if(!file) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var MAX=900, w=img.width, hgt=img.height, sc=Math.min(1, MAX/Math.max(w,hgt));
+      var c=document.createElement('canvas'); c.width=Math.round(w*sc); c.height=Math.round(hgt*sc);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      BP_PENDING=c.toDataURL('image/jpeg',.78);
+      if(BP_PENDING.length>950000){ /* Firestore doc ceiling guard */
+        BP_PENDING=c.toDataURL('image/jpeg',.6);
+      }
+      var th=document.getElementById('bpThumb'); if(th) th.innerHTML='<img src="'+BP_PENDING+'" alt="">';
+      var cl=document.getElementById('bpClear'); if(cl) cl.style.display='';
+      edStatus('bpStatus','Photo ready \u2014 hit Pin to post it.');
+    };
+    img.src=rd.result;
+  };
+  rd.readAsDataURL(file);
+}
+function bpClearPhoto(){
+  BP_PENDING=null;
+  var th=document.getElementById('bpThumb'); if(th) th.innerHTML='';
+  var cl=document.getElementById('bpClear'); if(cl) cl.style.display='none';
+  var f=document.getElementById('bpPhoto'); if(f) f.value='';
+}
+function edPinBoard(){
+  var note=(document.getElementById('bpNote')||{value:''}).value.trim();
+  if(!BP_PENDING&&!note){ edStatus('bpStatus','Add a photo or a note first.'); return; }
+  if(!DB){ edStatus('bpStatus','Cloud is offline \u2014 the board needs Firestore.'); return; }
+  var pin={ img:BP_PENDING||null, note:note, at:Date.now() };
+  DB.collection('board').add(pin).then(function(){
+    bpClearPhoto();
+    var n=document.getElementById('bpNote'); if(n) n.value='';
+    hubToast('\uD83D\uDCCC Pinned \u2014 it\u2019s on the board for 30 days.');
+  }).catch(function(e){ edStatus('bpStatus','Could not pin: '+e.message); });
+}
+function edListBoard(){
+  var box=document.getElementById('bpList'); if(!box) return;
+  var pins=boardLive(), h='', i, pn, left;
+  if(!pins.length){ box.innerHTML='<div class="uc-sub" style="padding:10px 0;">Nothing on the board right now.</div>'; return; }
+  for(i=0;i<pins.length;i++){
+    pn=pins[i];
+    left=Math.max(0, Math.ceil((pn.at+BOARD_TTL-Date.now())/86400000));
+    h+='<div class="bp-row">'
+      +(pn.img?'<img class="im" src="'+pn.img+'" alt="">':'<span class="im" style="display:flex;align-items:center;justify-content:center;">\uD83D\uDCDD</span>')
+      +'<span class="nt">'+(pn.note?escH(pn.note):'<i>Photo only</i>')+'</span>'
+      +'<span class="dl">'+left+'d left</span>'
+      +'<button class="rm" onclick="edDelBoard(\''+pn.id+'\')">Remove</button></div>';
+  }
+  box.innerHTML=h;
+}
+function edDelBoard(id){
+  if(!DB) return;
+  DB.collection('board').doc(id).delete().then(function(){
+    hubToast('Pin removed.');
+  }).catch(function(e){ hubToast('Could not remove: '+e.message); });
+}
+
 /* ============ BIRTHDAYS + HOLIDAYS ============
    Roster from the Partners roster sheet. m = month 1-12, d = day. Update here when the roster changes. */
 var BDAYS=[
