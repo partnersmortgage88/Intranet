@@ -879,8 +879,26 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .cork-empty{align-self:center;margin:110px auto;}
 .cork-empty .pin-note{width:250px;min-height:130px;}
 @media(max-width:640px){.cork{padding:22px 12px;gap:22px 14px;}.pin-pol{width:170px;}.pin-pol img{height:140px;}.pin-note{width:170px;min-height:120px;}}
-.bp-thumb{display:inline-flex;width:52px;height:52px;border-radius:10px;overflow:hidden;border:1px solid var(--line2);background:var(--bg2);align-items:center;justify-content:center;font-size:10px;color:var(--gray);}
-.bp-thumb img{width:100%;height:100%;object-fit:cover;}
+.bp-drop{position:relative;margin-top:14px;min-height:150px;border:1.5px dashed var(--line2);border-radius:14px;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;
+  transition:border-color .2s,background .2s,box-shadow .2s;}
+.bp-drop:hover,.bp-drop.over{border-color:var(--teal);background:rgba(37,186,196,.05);box-shadow:0 0 0 3px rgba(37,186,196,.1);}
+.bp-drop.has{border-style:solid;border-color:var(--line2);cursor:pointer;}
+.bp-drop-empty{text-align:center;padding:22px 18px;pointer-events:none;}
+.bp-drop-empty .e{font-size:26px;margin-bottom:8px;filter:saturate(.9);}
+.bp-drop-empty .t{font-size:13.5px;font-weight:600;color:var(--ink);}
+.bp-drop-empty .s{font-size:11.5px;color:var(--ink-soft);margin-top:5px;max-width:340px;line-height:1.5;}
+.bp-drop img#bpPreview{display:block;width:100%;max-height:260px;object-fit:contain;background:#0a1214;}
+.bp-x{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);
+  background:rgba(8,14,16,.8);backdrop-filter:blur(4px);color:var(--ink);font-size:17px;line-height:1;cursor:pointer;
+  transition:color .2s,border-color .2s;}
+.bp-x:hover{color:#FF8A90;border-color:#FF8A90;}
+.bp-note-in{display:block;width:100%;box-sizing:border-box;margin-top:12px;background:var(--bg2);border:1px solid var(--line2);
+  border-radius:12px;padding:11px 13px;color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.5;resize:vertical;
+  outline:0;transition:border-color .2s,box-shadow .2s;}
+.bp-note-in:focus{border-color:rgba(37,186,196,.55);box-shadow:0 0 0 3px rgba(37,186,196,.12);}
+.bp-note-in::placeholder{color:var(--gray);}
+.bp-count{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--gray);text-align:right;margin-top:5px;}
 .bp-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);}
 .bp-row:last-child{border-bottom:0;}
 .bp-row .im{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;background:var(--bg2);}
@@ -943,6 +961,10 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .hol-note{font-size:10.5px;color:var(--ink-soft);}
 
 /* ══ EDITOR GUIDE + WHERE STRIPS ══ */
+.ed-grp{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin:20px 2px 10px;}
+.ed-step{display:inline-flex;align-items:center;gap:6px;margin:0 7px 0 1px;white-space:nowrap;color:var(--ink);}
+.ed-step i{font-style:normal;font-family:var(--mono);font-size:10px;width:18px;height:18px;border-radius:50%;background:rgba(37,186,196,.14);border:1px solid rgba(37,186,196,.4);color:var(--teal);display:inline-flex;align-items:center;justify-content:center;flex:none;}
+.ed-where .wgo.bk{margin-left:0;margin-right:4px;}
 .ed-guide{display:flex;gap:12px;align-items:flex-start;background:rgba(37,186,196,.06);border:1px solid rgba(37,186,196,.25);
   border-radius:14px;padding:14px 17px;margin-bottom:18px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
 .ed-guide .gi{font-size:17px;flex:none;line-height:1.3;}
@@ -1080,7 +1102,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
   <div class="modal-box pin-box" id="pinBox">
     <h3>Settings</h3>
     <p>Enter the admin PIN &mdash; tap or type.</p>
-    <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i></div>
+    <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="pinpad">
       <button class="pk" onclick="pinKey('1')">1</button><button class="pk" onclick="pinKey('2')">2</button><button class="pk" onclick="pinKey('3')">3</button>
       <button class="pk" onclick="pinKey('4')">4</button><button class="pk" onclick="pinKey('5')">5</button><button class="pk" onclick="pinKey('6')">6</button>
@@ -1288,37 +1310,49 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
         <span class="vhero-chip">Admin &middot; PIN protected</span>
       </div>
       <div class="vbody">
-        <div class="ed-guide"><span class="gi">&#128161;</span><div><b>How this editor works:</b> pick the card for the thing you want to change, fill in the fields, and hit the publish button in that panel. Changes go live for the whole team instantly. Each panel starts with a <b>Shows on</b> line so you always know exactly where in the hub you're editing &mdash; hit <b>See it live</b> to jump straight there.</div></div>
+        <div class="ed-guide"><span class="gi">&#128161;</span><div><b>Three steps, every time:</b>
+          <span class="ed-step"><i>1</i> Pick a card</span><span class="ed-step"><i>2</i> Fill in the fields</span><span class="ed-step"><i>3</i> Hit publish</span>
+          &mdash; it goes live for everyone instantly. Every panel's <b>Shows on</b> line names the exact spot in the hub it edits, and <b>See it live</b> jumps you there.</div></div>
+        <div class="ed-grp">Post something</div>
         <div class="ed-menu">
-          <button class="ed-card active" id="edm-pulse" onclick="edOpen('pulse')">
-            <div class="ed-ic">&#128200;</div><div class="ed-n">Sales Numbers</div><div class="ed-d">Update the production numbers on Home and the Sales tab</div>
-          </button>
-                              <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
+          <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
             <div class="ed-ic">&#128240;</div><div class="ed-n">Announcements</div><div class="ed-d">Post news and the gold flash banner on Home</div>
-          </button>
-          <button class="ed-card" id="edm-gtc" onclick="edOpen('gtc')">
-            <div class="ed-ic">&#127881;</div><div class="ed-n">Monthly Challenge</div><div class="ed-d">Publish this month's Good Times Crew challenge</div>
-          </button>
-                    <button class="ed-card" id="edm-train" onclick="edOpen('train')">
-            <div class="ed-ic">&#127891;</div><div class="ed-n">Trainings</div><div class="ed-d">Add or remove links in the training library</div>
-          </button>
-          <button class="ed-card" id="edm-pie" onclick="edOpen('pie')">
-            <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Crown the monthly winner or backfill a past month</div>
-          </button>
-          <button class="ed-card" id="edm-team" onclick="edOpen('team')">
-            <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">See who's registered and control who sees gated tabs</div>
           </button>
           <button class="ed-card" id="edm-board" onclick="edOpen('board')">
             <div class="ed-ic">&#128204;</div><div class="ed-n">Bulletin Board</div><div class="ed-d">Pin photos and notes to the Good Times board</div>
           </button>
+        </div>
+        <div class="ed-grp">Good Times Crew</div>
+        <div class="ed-menu">
+          <button class="ed-card" id="edm-gtc" onclick="edOpen('gtc')">
+            <div class="ed-ic">&#127881;</div><div class="ed-n">Monthly Challenge</div><div class="ed-d">Publish this month's Good Times Crew challenge</div>
+          </button>
+          <button class="ed-card" id="edm-pie" onclick="edOpen('pie')">
+            <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Crown the monthly winner or backfill a past month</div>
+          </button>
+        </div>
+        <div class="ed-grp">Numbers</div>
+        <div class="ed-menu">
+          <button class="ed-card" id="edm-pulse" onclick="edOpen('pulse')">
+            <div class="ed-ic">&#128200;</div><div class="ed-n">Sales Numbers</div><div class="ed-d">Update the production numbers on Home and the Sales tab</div>
+          </button>
           <button class="ed-card" id="edm-spot" onclick="edOpen('spot')">
-            <div class="ed-ic">&#127942;</div><div class="ed-n">Producer Spotlight</div><div class="ed-d">Runs itself from EiOS uploads &mdash; nothing to edit daily</div>
+            <div class="ed-ic">&#127775;</div><div class="ed-n">Producer Spotlight</div><div class="ed-d">Runs itself from EiOS uploads &mdash; nothing to edit daily</div>
+          </button>
+        </div>
+        <div class="ed-grp">Library &amp; access</div>
+        <div class="ed-menu">
+          <button class="ed-card" id="edm-train" onclick="edOpen('train')">
+            <div class="ed-ic">&#127891;</div><div class="ed-n">Trainings</div><div class="ed-d">Add or remove links in the training library</div>
+          </button>
+          <button class="ed-card" id="edm-team" onclick="edOpen('team')">
+            <div class="ed-ic">&#128101;</div><div class="ed-n">Team &amp; Access</div><div class="ed-d">See who's registered and control who sees gated tabs</div>
           </button>
         </div>
 
         <!-- SALES PULSE -->
         <div class="ed-panel active" id="ed-pulse">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; Sales Pulse tile &middot; Sales tab</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Home &rarr; Sales Pulse tile &middot; Sales tab</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
                     <div class="uc-card">
             <h3>Import Pipeline Statuses <span class="ss-ai">AI</span></h3>
             <div class="uc-sub">Upload a CRM screenshot of "Count By Status Reason" and Claude reads the exact status distribution, then maps it onto the loans from your Boyd pipeline upload. Do the pipeline Excel first so there are loans to assign.</div>
@@ -1355,7 +1389,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- ANNOUNCEMENTS -->
         <div class="ed-panel" id="ed-anns">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; What's happening</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Home &rarr; What's happening</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Flash Banner</h3>
             <div class="uc-sub">The gold alert at the top of "What's happening" on Home. Clear it and save to hide.</div>
@@ -1385,7 +1419,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- GOOD TIMES CREW -->
         <div class="ed-panel" id="ed-gtc">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; This Month's Challenge</span><button class="wgo" onclick="showSection('celebrations');gtcTab('challenge')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; This Month's Challenge</span><button class="wgo" onclick="showSection('celebrations');gtcTab('challenge')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>This Month's Challenge</h3>
             <div class="uc-sub">Post the challenge either way: drop in the HTML file itself, or link a page that's already live (e.g. GitHub Pages). Clear it and publish to take the page down.</div>
@@ -1416,7 +1450,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- TRAININGS -->
         <div class="ed-panel" id="ed-train">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Operations &amp; Training &rarr; Trainings</span><button class="wgo" onclick="showSection('optraining');showSub('trainings')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Operations &amp; Training &rarr; Trainings</span><button class="wgo" onclick="showSection('optraining');showSub('trainings')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Add a Training</h3>
             <div class="uc-sub">Link anything &mdash; a video, a course, a PDF, a recorded Zoom. It shows as a card in the Trainings tab, newest first.</div>
@@ -1438,7 +1472,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- PARTNER IN EXCELLENCE -->
         <div class="ed-panel" id="ed-pie">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; Partner in Excellence</span><button class="wgo" onclick="showSection('celebrations');gtcTab('pie')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; Partner in Excellence</span><button class="wgo" onclick="showSection('celebrations');gtcTab('pie')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Set a Partner in Excellence</h3>
             <div class="uc-sub">Pick the month and the person &mdash; names and photos come from the shared Hype Desk roster, same as Closing Corner. Set the current month or backfill any past one; publishing the same month again replaces that month's winner.</div>
@@ -1459,7 +1493,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- TEAM & ACCESS -->
         <div class="ed-panel" id="ed-team">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
           <div class="uc-card">
             <h3>Registered Team</h3>
             <div class="uc-sub">Everyone who has signed in, live \u2014 identities come from the Hype Desk roster. Tags control what each person can see &mdash; right now, the <b>business-development</b> tag unlocks Recruiting Resources; everyone without it never sees that tab. Add more gate tags any time.</div>
@@ -1470,18 +1504,24 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 
         <!-- SPOTLIGHT -->
         <div class="ed-panel" id="ed-board">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; The Board</span><button class="wgo" onclick="showSection('celebrations');gtcTab('board')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; The Board</span><button class="wgo" onclick="showSection('celebrations');gtcTab('board')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>&#128204; Pin something to the board</h3>
             <div class="uc-sub">A photo, a note, or both. Pins hang for 30 days, then quietly come down on their own.</div>
-            <div class="uc-row" style="margin-top:12px;">
-              <label class="uc-file" for="bpPhoto">Choose a photo</label>
+            <div class="bp-drop" id="bpDrop" onclick="document.getElementById('bpPhoto').click()"
+                 ondragover="bpDrag(event,true)" ondragleave="bpDrag(event,false)" ondrop="bpDropFile(event)">
               <input type="file" id="bpPhoto" accept="image/*" style="display:none;" onchange="bpPhotoPicked(this)">
-              <span id="bpThumb" class="bp-thumb"></span>
-              <button class="uc-mini" id="bpClear" style="display:none;" onclick="bpClearPhoto()">Remove photo</button>
+              <div class="bp-drop-empty" id="bpDropEmpty">
+                <div class="e">&#128247;</div>
+                <div class="t">Drop a photo here, or click to browse</div>
+                <div class="s">Optional &mdash; phone pics are fine, it resizes automatically. Skip it for a sticky-note post.</div>
+              </div>
+              <img id="bpPreview" alt="" style="display:none;">
+              <button class="bp-x" id="bpClear" style="display:none;" onclick="event.stopPropagation();bpClearPhoto()" title="Remove photo">&times;</button>
             </div>
-            <textarea class="uc-in" id="bpNote" rows="2" maxlength="240" placeholder="Optional note &mdash; e.g. Lender Fair 2026. Tiffany brought the good snacks." style="margin-top:10px;resize:vertical;"></textarea>
-            <div class="uc-actions"><button class="uc-save" onclick="edPinBoard()">Pin to the board</button><span class="uc-status" id="bpStatus"></span></div>
+            <textarea class="bp-note-in" id="bpNote" rows="2" maxlength="240" oninput="bpCount()" placeholder="Optional note &mdash; e.g. Lender Fair 2026. Tiffany brought the good snacks."></textarea>
+            <div class="bp-count" id="bpCountEl">0 / 240</div>
+            <div class="uc-actions"><button class="uc-save" onclick="edPinBoard()">&#128204; Pin to the board</button><span class="uc-status" id="bpStatus"></span></div>
           </div>
           <div class="uc-card">
             <h3>On the board now</h3>
@@ -1490,7 +1530,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
           </div>
         </div>
         <div class="ed-panel" id="ed-spot">
-          <div class="ed-where"><span class="wl">Shows on</span><span class="wp">Home &rarr; Producer Spotlight tile</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Home &rarr; Producer Spotlight tile</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
           <div class="uc-card">
             <h3>Producer Spotlight</h3>
             <div class="uc-sub">With EiOS data loaded, the Home page rotates through up to five standouts from today's upload &mdash; biggest loan, top MTD producer, hottest week, lead leader, and deepest clear-to-close stack &mdash; one every 5 seconds with a progress bar. Publishing a name below overrides the rotation for <b>today only</b>; it resumes tomorrow. With no data loaded, whatever you publish stays up.</div>
@@ -2031,15 +2071,15 @@ function pinDots(){
   for(i=0;i<dots.length;i++) dots[i].classList.toggle('f', i<PIN_STATE.length);
 }
 function pinKey(d){
-  if(PIN_STATE.length>=4) return;
+  if(PIN_STATE.length>=6) return;
   PIN_STATE+=d;
   document.getElementById('adminErr').style.display='none';
   pinDots();
-  if(PIN_STATE.length===4) setTimeout(subPin,120);
+  if(PIN_STATE.length===6) setTimeout(subPin,120);
 }
 function pinBack(){ PIN_STATE=PIN_STATE.slice(0,-1); pinDots(); }
 function subPin(){
-  if(PIN_STATE==='1687'){
+  if(PIN_STATE==='030303'){
     closeAdmin();
     showSection('upload');
     edOpen('pulse');
@@ -2559,6 +2599,10 @@ function ccRender(){
 }
 
 /* ============ HUB EDITOR ============ */
+function edMenuTop(){
+  var g=document.querySelector('.ed-guide');
+  if(g) g.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function edOpen(name){
   if(name==='pulse'){ eiosStatusList(); ssWire(); eiosPulseNote(); }
   if(name==='spot') spotRotList();
@@ -4033,8 +4077,8 @@ function renderBoard(){
   el.innerHTML=h;
 }
 /* ---- editor ---- */
-function bpPhotoPicked(inp){
-  var file=inp.files&&inp.files[0]; if(!file) return;
+function bpHandleFile(file){
+  if(!file||!/^image\//.test(file.type)){ edStatus('bpStatus','That is not an image file.'); return; }
   var rd=new FileReader();
   rd.onload=function(){
     var img=new Image();
@@ -4046,19 +4090,39 @@ function bpPhotoPicked(inp){
       if(BP_PENDING.length>950000){ /* Firestore doc ceiling guard */
         BP_PENDING=c.toDataURL('image/jpeg',.6);
       }
-      var th=document.getElementById('bpThumb'); if(th) th.innerHTML='<img src="'+BP_PENDING+'" alt="">';
-      var cl=document.getElementById('bpClear'); if(cl) cl.style.display='';
+      var pv=document.getElementById('bpPreview'), em=document.getElementById('bpDropEmpty'),
+          cl=document.getElementById('bpClear'), dz=document.getElementById('bpDrop');
+      if(pv){ pv.src=BP_PENDING; pv.style.display='block'; }
+      if(em) em.style.display='none';
+      if(cl) cl.style.display='';
+      if(dz) dz.classList.add('has');
       edStatus('bpStatus','Photo ready \u2014 hit Pin to post it.');
     };
     img.src=rd.result;
   };
   rd.readAsDataURL(file);
 }
+function bpPhotoPicked(inp){ bpHandleFile(inp.files&&inp.files[0]); }
+function bpDrag(e,on){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('bpDrop'); if(dz) dz.classList.toggle('over',!!on); }
+function bpDropFile(e){
+  e.preventDefault(); e.stopPropagation();
+  var dz=document.getElementById('bpDrop'); if(dz) dz.classList.remove('over');
+  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  bpHandleFile(f);
+}
+function bpCount(){
+  var n=document.getElementById('bpNote'), c=document.getElementById('bpCountEl');
+  if(n&&c) c.textContent=n.value.length+' / 240';
+}
 function bpClearPhoto(){
   BP_PENDING=null;
-  var th=document.getElementById('bpThumb'); if(th) th.innerHTML='';
-  var cl=document.getElementById('bpClear'); if(cl) cl.style.display='none';
-  var f=document.getElementById('bpPhoto'); if(f) f.value='';
+  var pv=document.getElementById('bpPreview'), em=document.getElementById('bpDropEmpty'),
+      cl=document.getElementById('bpClear'), dz=document.getElementById('bpDrop'), f=document.getElementById('bpPhoto');
+  if(pv){ pv.src=''; pv.style.display='none'; }
+  if(em) em.style.display='';
+  if(cl) cl.style.display='none';
+  if(dz) dz.classList.remove('has');
+  if(f) f.value='';
 }
 function edPinBoard(){
   var note=(document.getElementById('bpNote')||{value:''}).value.trim();
@@ -4068,6 +4132,7 @@ function edPinBoard(){
   DB.collection('board').add(pin).then(function(){
     bpClearPhoto();
     var n=document.getElementById('bpNote'); if(n) n.value='';
+    bpCount();
     hubToast('\uD83D\uDCCC Pinned \u2014 it\u2019s on the board for 30 days.');
   }).catch(function(e){ edStatus('bpStatus','Could not pin: '+e.message); });
 }
