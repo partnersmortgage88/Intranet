@@ -965,6 +965,8 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .ed-step{display:inline-flex;align-items:center;gap:6px;margin:0 7px 0 1px;white-space:nowrap;color:var(--ink);}
 .ed-step i{font-style:normal;font-family:var(--mono);font-size:10px;width:18px;height:18px;border-radius:50%;background:rgba(37,186,196,.14);border:1px solid rgba(37,186,196,.4);color:var(--teal);display:inline-flex;align-items:center;justify-content:center;flex:none;}
 .ed-where .wgo.bk{margin-left:0;margin-right:4px;}
+.lr-addrow{display:flex;gap:10px;align-items:stretch;margin-top:12px;}
+@media(max-width:640px){.lr-addrow{flex-direction:column;}}
 .ed-guide{display:flex;gap:12px;align-items:flex-start;background:rgba(37,186,196,.06);border:1px solid rgba(37,186,196,.25);
   border-radius:14px;padding:14px 17px;margin-bottom:18px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
 .ed-guide .gi{font-size:17px;flex:none;line-height:1.3;}
@@ -1494,6 +1496,19 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
         <!-- TEAM & ACCESS -->
         <div class="ed-panel" id="ed-team">
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
+          <div class="uc-card">
+            <h3>Login Roster</h3>
+            <div class="uc-sub">This is the name list everyone picks from at sign-in. It lives in Firebase &mdash; add a new hire here once and they can log in on every device immediately. Remove someone and they\u2019re out just as fast.</div>
+            <div class="lr-addrow">
+              <input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="lrName" placeholder="Full name exactly as they should pick it &mdash; e.g. Jordan Smith" onkeydown="if(event.key==='Enter')loAdd()">
+              <button class="uc-save" style="white-space:nowrap;" onclick="loAdd()">Add to roster</button>
+            </div>
+            <div class="uc-actions" style="margin-top:10px;">
+              <button class="wgo" style="margin-left:0;" onclick="loSyncSept()">One-time sync: add everyone from the Sept 2026 sheet</button>
+              <span class="uc-status" id="lrStatus"></span>
+            </div>
+            <div class="ed-list" id="loRoster" style="margin-top:14px;"></div>
+          </div>
           <div class="uc-card">
             <h3>Registered Team</h3>
             <div class="uc-sub">Everyone who has signed in, live \u2014 identities come from the Hype Desk roster. Tags control what each person can see &mdash; right now, the <b>business-development</b> tag unlocks Recruiting Resources; everyone without it never sees that tab. Add more gate tags any time.</div>
@@ -2606,7 +2621,7 @@ function edMenuTop(){
 function edOpen(name){
   if(name==='pulse'){ eiosStatusList(); ssWire(); eiosPulseNote(); }
   if(name==='spot') spotRotList();
-  if(name==='team') teamPanelOpen();
+  if(name==='team'){ teamPanelOpen(); loRosterList(); }
   if(name==='train') edListTrainings();
   if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
   if(name==='board') edListBoard();
@@ -2717,6 +2732,21 @@ var LOCAL_ROSTER={
   x_dan:{ name:'Dan Trinidad', photo:null },
   x_maureen:{ name:'Maureen Ramsay', photo:null }
 };
+/* every employee on the Sept 2026 roster can always find their name at login,
+   even when the live roster node is stale; DB entries win so photos are kept. */
+function rosterEnsureAll(r){
+  r=r||{};
+  var have={}, k, i, nm, key;
+  for(k in r){ if(r.hasOwnProperty(k)&&r[k]&&r[k].name) have[String(r[k].name).trim().toLowerCase()]=1; }
+  var names=[];
+  if(typeof BDAYS!=='undefined'){ for(i=0;i<BDAYS.length;i++) names.push(BDAYS[i].n); }
+  names.push('Al Crisanty','Deena Sisson','Frank Brown');
+  for(i=0;i<names.length;i++){
+    nm=names[i]; key=nm.trim().toLowerCase();
+    if(!have[key]){ r['x_r'+i]={name:nm, photo:null}; have[key]=1; }
+  }
+  return r;
+}
 var HYPE={db:null, roster:Object.assign({},LOCAL_ROSTER), entries:{}, tip:'', tipArchive:[], ready:false};
 var HYPE_CATS={ funded:{label:'Fundings'}, docs:{label:'Docs Out'}, wet:{label:'Wet Fundings'} };
 function hypeTodayKey(){
@@ -2860,6 +2890,31 @@ function loRosterList(){
       +'<button class="ed-del" onclick="loRemove(\''+ids[i]+'\')">Remove</button></div>';
   }
   box.innerHTML=html;
+}
+function loAdd(){
+  var inp=document.getElementById('lrName'); if(!inp) return;
+  var name=inp.value.trim();
+  if(!name){ edStatus('lrStatus','Type a name first.'); return; }
+  if(!HYPE.db){ edStatus('lrStatus','Hype Desk connection is down \u2014 try again in a minute.'); return; }
+  if(hypeLoByName(name)){ edStatus('lrStatus',name+' is already on the roster.'); return; }
+  var id='lo_'+Date.now();
+  HYPE.db.ref('roster/'+id).set({name:name, photo:null}).then(function(){
+    hubToast('\u2705 '+name+' can now sign in.');
+  });
+  inp.value='';
+}
+function loSyncSept(){
+  if(!HYPE.db){ edStatus('lrStatus','Hype Desk connection is down \u2014 try again in a minute.'); return; }
+  var names=[], i, added=0;
+  if(typeof BDAYS!=='undefined'){ for(i=0;i<BDAYS.length;i++) names.push(BDAYS[i].n); }
+  names.push('Al Crisanty','Deena Sisson','Frank Brown');
+  for(i=0;i<names.length;i++){
+    if(!hypeLoByName(names[i])){
+      HYPE.db.ref('roster/sept26_'+i).set({name:names[i], photo:null});
+      added++;
+    }
+  }
+  hubToast(added?('\u2705 Added '+added+' people to the Firebase roster.'):'Everyone from the sheet is already on the roster.');
 }
 function loRemove(id){ if(HYPE.db) HYPE.db.ref('roster/'+id).remove(); }
 function edAddFunding(){
@@ -4286,6 +4341,10 @@ function lpHolidays(){
   }
   ov.classList.toggle('on',on);
 }
+
+HYPE.roster=rosterEnsureAll(HYPE.roster);
+if(typeof loDatalist==='function') loDatalist();
+if(typeof loRosterList==='function') loRosterList();
 
 /* ============ LO LAUNCHPAD ============
    Data model mirrors the master link spreadsheet: cat / label / url / desc / type.
