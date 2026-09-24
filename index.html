@@ -847,6 +847,52 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .fs-host:fullscreen{background:#0b0f14;overflow:hidden;display:flex;flex-direction:column;}
 .fs-host:fullscreen iframe{width:100%!important;height:100%!important;min-height:0!important;border-radius:0!important;flex:1;}
 
+/* ══ COE LEADERBOARD ══ */
+.coe-wrap{margin-top:22px;background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;box-shadow:var(--card-sh);}
+.coe-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+.coe-sub{font-size:11.5px;color:var(--ink-soft);margin-top:5px;}
+.coe-stats{display:flex;gap:22px;flex-wrap:wrap;}
+.coe-stat{text-align:right;}
+.coe-stat b{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1;color:var(--ink);}
+.coe-stat span{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);}
+.tp-proj{font-size:11px;color:var(--ink-soft);padding-top:8px;border-top:1px dashed var(--line);margin-top:2px;}
+.tp-proj b{color:var(--gold);font-weight:700;}
+.sd-kpi.fc{background:linear-gradient(135deg,rgba(37,186,196,.1),rgba(255,172,39,.08));border-color:rgba(255,172,39,.35);grid-column:1 / -1;}
+.sd-kpi.fc .fc-why{font-size:10.5px;line-height:1.55;color:var(--ink-soft);margin-top:6px;}
+@media(max-width:900px){.sd-kpi.fc{grid-column:1 / -1;}}
+.sd-kpi.fc .sd-kv{color:var(--gold);}
+.sd-kpi.fc .sd-kv small{font-size:12px;color:var(--ink-soft);font-weight:400;}
+.coe-pred{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;padding:13px 15px;border-radius:13px;
+  background:linear-gradient(135deg,rgba(37,186,196,.09),rgba(255,172,39,.07));border:1px solid rgba(37,186,196,.3);}
+.coe-pred .e{font-size:19px;line-height:1.2;flex:none;}
+.coe-pred b{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:18px;color:var(--ink);}
+.coe-pred span{display:block;font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.5;}
+.coe-scroll{overflow-x:auto;}
+.coe-cols,.coe-row{display:grid;grid-template-columns:26px minmax(150px,1.4fr) 66px 76px 72px 84px minmax(80px,1fr) 44px;gap:10px;align-items:center;min-width:660px;}
+.coe-cols{padding:6px 8px;border-bottom:1px solid var(--line);}
+.coe-cols span{font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);}
+.coe-row{padding:9px 8px;border-bottom:1px solid var(--line);transition:background .15s;}
+.coe-row:last-child{border-bottom:0;}
+.coe-row:hover{background:var(--bg2);}
+.tr{text-align:right;}
+.coe-rank{font-family:var(--mono);font-size:10px;color:var(--gray);width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);display:inline-flex;align-items:center;justify-content:center;}
+.coe-rank.g{color:#0b0f14;background:var(--gold);border-color:var(--gold);font-weight:700;}
+.coe-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.coe-n{font-family:var(--mono);font-size:12px;color:var(--ink);}
+.coe-d{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+.coe-days{font-size:11px;color:var(--ink-soft);}
+.coe-days.hot{color:#FF8A90;font-weight:700;}
+.coe-days.warm{color:var(--gold);font-weight:700;}
+.coe-bar{height:5px;border-radius:3px;background:var(--bg3);overflow:hidden;display:block;}
+.coe-bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--teal-d),var(--teal));}
+.coe-bar i.g{background:linear-gradient(90deg,#c77f12,var(--gold));}
+.coe-pct{font-family:var(--mono);font-size:10px;color:var(--gray);text-align:right;}
+.coe-up-h{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin:16px 2px 9px;}
+.coe-up{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px;}
+.coe-chip{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;}
+.coe-chip .t{font-size:12.5px;font-weight:700;}
+.coe-chip .s{font-size:10.5px;color:var(--ink-soft);}
+
 /* ══ GTC CORK BOARD ══ */
 .cork-wrap{border:12px solid #6d4a2a;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.14), inset 0 -3px 8px rgba(0,0,0,.4);background:#6d4a2a;}
 .cork{position:relative;min-height:540px;border-radius:4px;padding:30px 26px 34px;
@@ -1187,6 +1233,7 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
             <div class="tp-m"><div class="l">Pipeline</div><div class="v" id="puPipe">&mdash;</div><div class="s">locked vol.</div></div>
             <div class="tp-m"><div class="l">Daily</div><div class="v" id="puDaily">&mdash;</div><div class="s">today</div></div>
           </div>
+          <div class="tp-proj" id="tpProj" style="display:none;"></div>
           <div class="tp-cta">Open full dashboard &rarr;</div>
         </div>
         <div class="tile t-spot">
@@ -2249,6 +2296,8 @@ function renderPulse(){
   if(vol!=null) document.getElementById('puVol').textContent=fmtM(vol);
   if(pipe!=null) document.getElementById('puPipe').textContent=fmtM(pipe);
   if(daily!=null) document.getElementById('puDaily').textContent=daily;
+  if(typeof predLearn==='function') predLearn();
+  if(typeof tpProjLine==='function') tpProjLine();
 }
 function spotCandidates(){
   /* Build a varied pool of accomplishments, then seat ONE per person
@@ -2706,6 +2755,7 @@ function pdInit(){
       PD.whenLbl=when.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
       PD.summary=jp('loSummaryYTD');
       PD.coe=pdParseCoe(d.coeLeaderboard);
+      tpProjLine();
       PD.counts=d.counts||null;
       renderPulse(); renderHomeStats(); renderMe(); renderSpot(); salesRender(true);
       eiosStatusList(); eiosPulseNote(); pdLiveNote();
@@ -2747,7 +2797,7 @@ function rosterEnsureAll(r){
   }
   return r;
 }
-var HYPE={db:null, roster:Object.assign({},LOCAL_ROSTER), entries:{}, tip:'', tipArchive:[], ready:false};
+var HYPE={db:null, roster:Object.assign({},LOCAL_ROSTER), entries:{}, tip:'', tipArchive:[], ready:false, seedChecked:false};
 var HYPE_CATS={ funded:{label:'Fundings'}, docs:{label:'Docs Out'}, wet:{label:'Wet Fundings'} };
 function hypeTodayKey(){
   var d=new Date();
@@ -2760,6 +2810,13 @@ function hypeInit(){
     HYPE.db=app.database();
     HYPE.db.ref('roster').on('value',function(snap){
       HYPE.roster=Object.assign({}, snap.val()||{}, LOCAL_ROSTER); HYPE.ready=true;
+      if(!HYPE.seedChecked){
+        HYPE.seedChecked=true;
+        HYPE.db.ref('meta/rosterSeeded').once('value',function(sv){
+          if(!sv.val()){ loSeedMissing(); HYPE.db.ref('meta/rosterSeeded').set(Date.now()); }
+        });
+      }
+      if(typeof whoRender==='function') whoRender();
       loDatalist(); loRosterList(); loCheck(); renderFundings(); renderSpot();
       if(typeof authTryRosterName==='function'){ authTryRosterName(); if(AUTH.on&&AUTH.user&&!AUTH.name&&!AUTH.nameAsked){ AUTH.nameAsked=true; nameAsk(); } }
     });
@@ -2903,8 +2960,8 @@ function loAdd(){
   });
   inp.value='';
 }
-function loSyncSept(){
-  if(!HYPE.db){ edStatus('lrStatus','Hype Desk connection is down \u2014 try again in a minute.'); return; }
+function loSeedMissing(){
+  if(!HYPE.db) return 0;
   var names=[], i, added=0;
   if(typeof BDAYS!=='undefined'){ for(i=0;i<BDAYS.length;i++) names.push(BDAYS[i].n); }
   names.push('Al Crisanty','Deena Sisson','Frank Brown');
@@ -2914,6 +2971,11 @@ function loSyncSept(){
       added++;
     }
   }
+  return added;
+}
+function loSyncSept(){
+  if(!HYPE.db){ edStatus('lrStatus','Hype Desk connection is down \u2014 try again in a minute.'); return; }
+  var added=loSeedMissing();
   hubToast(added?('\u2705 Added '+added+' people to the Firebase roster.'):'Everyone from the sheet is already on the roster.');
 }
 function loRemove(id){ if(HYPE.db) HYPE.db.ref('roster/'+id).remove(); }
@@ -3260,7 +3322,7 @@ function greetTick(){
 }
 greetTick();
 setInterval(greetTick,1000);
-hubInitFirebase(function(){ renderAll(); authInit(); boardInit(); });
+hubInitFirebase(function(){ renderAll(); authInit(); boardInit(); predInit(); });
 function __railwire(){}
 var RAIL_ANIM_T=null;
 function railToggle(){
@@ -3846,38 +3908,303 @@ function sdEmpty(what){
   return '<div class="sd-empty"><div class="sd-empty-e">\uD83D\uDCC1</div><div class="sd-empty-t">No '+what+' data yet</div>'
     +'<div class="sd-empty-s">Admins: Settings \u2192 EiOS Data, then drop the export. It shows here instantly.</div></div>';
 }
+function coeGet(o,keys){ var i; for(i=0;i<keys.length;i++){ if(o[keys[i]]!==undefined&&o[keys[i]]!==null) return o[keys[i]]; } return undefined; }
+function coeMoney(n){ n=parseFloat(n)||0; if(n>=1e6){ var m=(n/1e6).toFixed(1); return '$'+m.replace(/\.0$/,'')+'M'; } if(n>=1e3) return '$'+Math.round(n/1e3)+'K'; return '$'+Math.round(n); }
+function coeDate(v){
+  if(v===undefined||v===null||v==='') return '';
+  var d=(typeof v==='number')?new Date(v):new Date(String(v));
+  if(isNaN(d.getTime())) return String(v);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function coeDays(v,dateV){
+  if(v!==undefined&&v!==null&&v!=='') return parseInt(v,10);
+  if(dateV===undefined||dateV===null||dateV==='') return null;
+  var d=(typeof dateV==='number')?new Date(dateV):new Date(String(dateV));
+  if(isNaN(d.getTime())) return null;
+  var now=new Date(); now.setHours(0,0,0,0); d.setHours(0,0,0,0);
+  return Math.round((d-now)/86400000);
+}
 function pdParseCoe(raw){
   try{
     var v=(typeof raw==='string')?JSON.parse(raw):raw;
-    if(!v) return [];
-    var list=[];
-    function num(x){ var f=parseFloat(x); return isNaN(f)?null:f; }
-    if(Array.isArray(v)){
-      v.forEach(function(e){
-        if(!e||typeof e!=='object') return;
-        var n=e.name||e.lo||e.loName||e.n||'';
-        var c=null,keys=['coeLeft','left','coe','count','remaining','units','value','c'],k;
-        for(k=0;k<keys.length;k++){ if(e[keys[k]]!==undefined){ c=num(e[keys[k]]); break; } }
-        if(n&&c!==null) list.push({name:String(n), n:c});
-      });
-    } else if(typeof v==='object'){
-      Object.keys(v).forEach(function(k){ var c=num(v[k]); if(c!==null) list.push({name:k, n:c}); });
+    if(!v) return null;
+    if(Array.isArray(v)) v={rows:v};
+    var out={rows:[], up:[], stats:null, asOf:coeGet(v,['asOf','month','label'])||''};
+    var k,val,i,e,rowsArr=null,upArr=null;
+    for(k in v){ if(!v.hasOwnProperty(k)) continue; val=v[k];
+      if(Array.isArray(val)&&val.length&&typeof val[0]==='object'&&val[0]){
+        if(!rowsArr&&coeGet(val[0],['coesLeft','coes','left','leftUnits','count','units','c'])!==undefined){ rowsArr=val; continue; }
+        if(!upArr) upArr=val;
+      }
     }
-    list.sort(function(a,b){ return b.n-a.n; });
-    return list;
-  }catch(e){ return []; }
+    if(rowsArr){
+      for(i=0;i<rowsArr.length;i++){ e=rowsArr[i]||{};
+        var nm=coeGet(e,['name','lo','loName','officer','n']);
+        var lf=parseFloat(coeGet(e,['coesLeft','coes','left','leftUnits','count','units','c']));
+        if(!nm||isNaN(lf)) continue;
+        var nx=coeGet(e,['nextCoe','nextCOE','nextCoeDate','next','nextDate','date']);
+        out.rows.push({
+          name:String(nm), left:lf,
+          vol:coeGet(e,['volume','vol','volumeLeft','leftVol','v','amt']),
+          next:nx, days:coeDays(coeGet(e,['daysOut','days','dout']),nx),
+          share:coeGet(e,['share','pct','percent'])
+        });
+      }
+      out.rows.sort(function(a,b){ return b.left-a.left; });
+    }
+    if(upArr){
+      for(i=0;i<upArr.length;i++){ e=upArr[i]||{};
+        var bt=coeGet(e,['borrower','client','file','name','n']);
+        if(!bt) continue;
+        var dt=coeGet(e,['nextCoe','coe','date','when','closeDate']);
+        out.up.push({
+          t:String(bt),
+          lo:coeGet(e,['lo','loName','officer','name2'])||'',
+          vol:coeGet(e,['volume','vol','v','amt']),
+          days:coeDays(coeGet(e,['daysOut','days']),dt)
+        });
+      }
+    }
+    var lu=parseFloat(coeGet(v,['leftUnits','coesLeft','left'])), lv=parseFloat(coeGet(v,['leftVol','volumeLeft'])),
+        tu=parseFloat(coeGet(v,['monthTotalUnits','totalUnits','monthUnits'])), tv=parseFloat(coeGet(v,['monthTotalVol','totalVol','monthVol'])),
+        cd=parseFloat(coeGet(v,['closedToDate','closed','closedUnits']));
+    if(!isNaN(lu)||!isNaN(tu)||!isNaN(lv)){
+      if(isNaN(cd)&&!isNaN(tu)&&!isNaN(lu)) cd=tu-lu;
+      out.stats={leftU:isNaN(lu)?null:lu, leftV:isNaN(lv)?null:lv, totU:isNaN(tu)?null:tu, totV:isNaN(tv)?null:tv, closed:isNaN(cd)?null:cd};
+    }
+    return (out.rows.length||out.stats)?out:null;
+  }catch(e){ return null; }
+}
+function coeMonthLabel(asOf){
+  var M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var m=/^(\d{4})-(\d{1,2})/.exec(String(asOf||''));
+  if(m) return M[parseInt(m[2],10)-1]+' '+m[1];
+  if(asOf) return String(asOf);
+  var n=new Date(); return M[n.getMonth()]+' '+n.getFullYear();
+}
+function coeDaysCell(d){
+  if(d===null||d===undefined||isNaN(d)) return '<span class="coe-days"></span>';
+  if(d<=0) return '<span class="coe-days hot">Today</span>';
+  if(d===1) return '<span class="coe-days warm">Tomorrow</span>';
+  return '<span class="coe-days">'+d+' days</span>';
+}
+function bizDays(){
+  var now=new Date(), y=now.getFullYear(), m=now.getMonth();
+  var total=0, done=0, dim=new Date(y,m+1,0).getDate(), i, dow;
+  for(i=1;i<=dim;i++){ dow=new Date(y,m,i).getDay(); if(dow!==0&&dow!==6){ total++; if(i<=now.getDate()) done++; } }
+  return {done:done, total:total, left:Math.max(0,total-done)};
+}
+function bizIdxOf(dstr){
+  var y=+dstr.slice(0,4), m=+dstr.slice(5,7)-1, day=+dstr.slice(8,10);
+  var total=0, k=0, i, dw, dim=new Date(y,m+1,0).getDate();
+  for(i=1;i<=dim;i++){ dw=new Date(y,m,i).getDay(); if(dw!==0&&dw!==6){ total++; if(i<=day) k=total; } }
+  return {k:k, total:total};
+}
+function pulseMtdTotals(){
+  var e=HUB.eios||{}, p=HUB.pulse||{};
+  if(e.prod&&e.prod.length){ var m=mtdOf(e.prod); return {u:m.length, v:sumAmt(m)}; }
+  if(p.units!=null) return {u:parseFloat(p.units)||0, v:(p.vol!=null?parseFloat(p.vol):null)};
+  return null;
+}
+/* ============ LEARNING FUNDING FORECASTER ============
+   Predicts TOTAL fundings for the whole month, start to finish. It learns:
+   1. The month shape: for every completed month in the EiOS history it samples the
+      cumulative funding curve by business day (mortgage months backload hard) and
+      stores it in Firestore (hub/predictor). New uploads add new months automatically.
+   2. Its own error: every day's prediction is logged; when a month closes, the final
+      actuals grade that month's last prediction and a rolling bias factor corrects
+      future forecasts (clamped to +/-15%).
+   The forecast is max(curve estimate, hard floor), where the floor is what is already
+   funded + scheduled COEs at 92% on-time + off-schedule fundings at their MTD pace.
+   Everything is month-scoped, so it resets on the 1st. */
+var PRED={doc:null, on:false};
+function predInit(){
+  if(!DB||PRED.on) return;
+  PRED.on=true;
+  try{
+    DB.collection('hub').doc('predictor').onSnapshot(function(d){
+      PRED.doc=d.exists?(d.data()||{}):{};
+      tpProjLine();
+    }, function(err){ console.warn('predictor feed', err); });
+  }catch(e){ console.warn('predictor init', e); }
+}
+function fcSample(rows){
+  var u=rows.length, v=0, i, t, idx=[], bi;
+  for(i=0;i<rows.length;i++){ v+=rows[i].amt||0; bi=bizIdxOf(rows[i].d); idx.push({x:bi.total?bi.k/bi.total:0, a:rows[i].amt||0}); }
+  var F=[], FV=[], x, cu, cv;
+  for(t=0;t<=10;t++){ x=t/10; cu=0; cv=0;
+    for(i=0;i<idx.length;i++){ if(idx[i].x<=x+1e-9){ cu++; cv+=idx[i].a; } }
+    F.push(u?Math.round(cu/u*1000)/1000:0);
+    FV.push(v?Math.round(cv/v*1000)/1000:0);
+  }
+  return {finalU:u, finalV:Math.round(v), F:F, FV:FV};
+}
+function fcF(x, key){
+  var doc=PRED.doc||{}, months=doc.months||{}, ks=Object.keys(months).sort().slice(-6);
+  var t=x*10, lo=Math.floor(t), hi=Math.min(10,lo+1), fr=t-lo;
+  if(!ks.length) return Math.max(0.08, Math.pow(x,1.55)); /* default back-loaded shape until history builds */
+  var sum=0, i, arr, val;
+  for(i=0;i<ks.length;i++){
+    arr=months[ks[i]][key]||[];
+    val=(arr[lo]!==undefined)?(arr[lo]+((arr[hi]!==undefined?arr[hi]:arr[lo])-arr[lo])*fr):Math.pow(x,1.55);
+    sum+=val;
+  }
+  return Math.max(0.08, sum/ks.length);
+}
+function fcBias(which){
+  var b=(PRED.doc&&PRED.doc.bias)||null;
+  if(!b||!b.n) return 1;
+  var r=(which==='u')?b.u:b.v;
+  if(!(r>0)) return 1;
+  return Math.min(1.15, Math.max(0.85, r));
+}
+function fcCompute(){
+  var mtd=pulseMtdTotals();
+  var bd=bizDays(), x=bd.total?bd.done/bd.total:0.5;
+  var st=(PD.coe&&PD.coe.stats)||{};
+  if(!mtd||mtd.u==null) return null;
+  var SLIP=0.92;
+  var left=(st.leftU!==null&&st.leftU!==undefined)?st.leftU:0;
+  var leftV=(st.leftV!==null&&st.leftV!==undefined)?st.leftV:null;
+  var trkClosed=(st.closed!==null&&st.closed!==undefined)?st.closed:null;
+  var trkClosedV=(st.totV!==null&&st.totV!==undefined&&leftV!==null)?(st.totV-leftV):null;
+  /* hard floor: actuals + scheduled at on-time rate + off-schedule pace over remaining days */
+  var offU=Math.max(0, mtd.u-(trkClosed!==null?trkClosed:0));
+  var rateU=bd.done>0?offU/bd.done:0;
+  var floorU=mtd.u + left*SLIP + rateU*bd.left;
+  /* learned curve estimate, bias-corrected */
+  var curveU=(bd.done>2)?(mtd.u/fcF(x,'F'))*fcBias('u'):floorU;
+  var u=Math.round(Math.max(curveU, floorU, mtd.u));
+  var v=null, floorV=null, curveV=null;
+  if(mtd.v!=null){
+    var offV=Math.max(0, mtd.v-(trkClosedV!==null?trkClosedV:0));
+    var rateV=bd.done>0?offV/bd.done:0;
+    floorV=mtd.v + (leftV!==null?leftV*SLIP:0) + rateV*bd.left;
+    curveV=(bd.done>2)?(mtd.v/fcF(x,'FV'))*fcBias('v'):floorV;
+    v=Math.max(curveV, floorV, mtd.v);
+  }
+  var nm=Object.keys((PRED.doc&&PRED.doc.months)||{}).length;
+  return {u:u, v:v, x:x, baseU:mtd.u, baseV:mtd.v, sched:left, months:nm, biased:fcBias('u')!==1, daysLeft:bd.left,
+          done:bd.done, total:bd.total, floorU:Math.round(floorU), curveU:Math.round(curveU), pctNow:Math.round(fcF(x,'F')*100)};
+}
+function predLearn(){
+  var e=HUB.eios||{}, prod=e.prod||[];
+  var doc=PRED.doc||{}; doc.months=doc.months||{}; doc.log=doc.log||{}; doc.biasDone=doc.biasDone||{};
+  var now=new Date(), curYm=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2);
+  var changed=false, i, r, ym, k, byM={};
+  for(i=0;i<prod.length;i++){ r=prod[i]; if(!r.d) continue; ym=String(r.d).slice(0,7); if(!byM[ym]) byM[ym]=[]; byM[ym].push(r); }
+  /* learn every completed month once; first write wins so later feed truncation can't corrupt it */
+  for(k in byM){ if(!byM.hasOwnProperty(k)) continue;
+    if(k>=curYm||doc.months[k]) continue;
+    if(byM[k].length<5) continue;
+    doc.months[k]=fcSample(byM[k]); changed=true;
+  }
+  /* log today's forecast so the month can grade it later */
+  var fc=fcCompute();
+  if(fc){
+    var day=todayISO();
+    if(!doc.log[curYm]) doc.log[curYm]={};
+    var prev=doc.log[curYm][day];
+    var entry={x:Math.round(fc.x*100)/100, u:fc.u, v:Math.round(fc.v||0)};
+    if(!prev||prev.u!==entry.u||prev.v!==entry.v){ doc.log[curYm][day]=entry; changed=true; }
+  }
+  /* grade closed months: final actuals vs the month's last logged forecast -> rolling bias */
+  if(!doc.bias) doc.bias={u:1, v:1, n:0};
+  for(k in doc.log){ if(!doc.log.hasOwnProperty(k)) continue;
+    if(k>=curYm||doc.biasDone[k]||!doc.months[k]) continue;
+    var days=Object.keys(doc.log[k]).sort();
+    if(days.length){
+      var last=doc.log[k][days[days.length-1]], fin=doc.months[k];
+      if(last.u>0&&fin.finalU>0){
+        var w=Math.min(doc.bias.n,4);
+        doc.bias.u=(doc.bias.u*w + fin.finalU/last.u)/(w+1);
+        if(last.v>0&&fin.finalV>0) doc.bias.v=(doc.bias.v*w + fin.finalV/last.v)/(w+1);
+        doc.bias.n++;
+      }
+    }
+    doc.biasDone[k]=1; changed=true;
+  }
+  PRED.doc=doc;
+  if(changed&&DB){ try{ DB.collection('hub').doc('predictor').set(doc); }catch(err){ console.warn('predictor save', err); } }
+}
+function fcWhy(fc){
+  var w=fc.baseU+' funded through '+fc.done+' of '+fc.total+' business days. ';
+  if(fc.curveU>fc.floorU){
+    w+='The month curve'+(fc.months?' (learned from '+fc.months+' month'+(fc.months>1?'s':'')+')':'')+' says only ~'+fc.pctNow+'% of a month\u2019s fundings are usually in by now, pointing to ~'+fc.curveU+'; the '+fc.sched+' scheduled COEs plus current pace point to ~'+fc.floorU+'. The curve is the stronger read.';
+  } else {
+    w+='The typical curve (~'+fc.pctNow+'% of fundings in by now) points to ~'+fc.curveU+', but the '+fc.sched+' scheduled COEs plus off-schedule pace over the last '+fc.daysLeft+' business day'+(fc.daysLeft===1?'':'s')+' point higher, to ~'+fc.floorU+'. Going with the stronger signal.';
+  }
+  if(fc.biased) w+=' Self-corrected against past forecast misses.';
+  w+=' Rewrites with every upload.';
+  return w;
+}
+function fcKpi(){
+  var fc=fcCompute(); if(!fc) return '';
+  return '<div class="sd-kpi fc"><div class="sd-kl">&#128302; Projected Month End</div>'
+    +'<div class="sd-kv">~'+fc.u+' <small>units</small>'+(fc.v!==null?' \u00B7 '+coeMoney(fc.v):'')+'</div>'
+    +'<div class="sd-ks fc-why">'+fcWhy(fc)+'</div></div>';
+}
+function pdPredCard(){
+  if(!PD.on) return '';
+  var fc=fcCompute(); if(!fc) return '';
+  var note='Anchored on the '+fc.baseU+' funded so far this month. '
+    +(fc.months?('Month shape learned from '+fc.months+' past month'+(fc.months>1?'s':'')+' of funding history'):'Using a month-end-weighted curve until funding history builds')
+    +(fc.biased?', self-corrected against past forecast misses':'')
+    +'. The '+fc.sched+' scheduled COEs and current pace set the floor. Relearns with every upload; resets on the 1st.';
+  return '<div class="sd-ct" style="margin:20px 0 10px;">Month-end funding projection</div>'
+    +'<div class="coe-pred" style="margin:0;"><span class="e">&#128302;</span><div>'
+    +'<b>~'+fc.u+' units'+(fc.v!==null?' \u00B7 ~'+coeMoney(fc.v):'')+' projected for '+coeMonthLabel('')+'</b>'
+    +'<span>'+note+'</span></div></div>';
+}
+function tpProjLine(){
+  var el=document.getElementById('tpProj'); if(!el) return;
+  var pr=fcCompute();
+  if(!pr){ el.style.display='none'; return; }
+  el.innerHTML='&#128302; Projected month end: <b>~'+pr.u+' units'+(pr.v!==null?' \u00B7 ~'+coeMoney(pr.v):'')+'</b>';
+  el.style.display='';
 }
 function pdCoeBoard(){
-  if(!PD.on||!PD.coe||!PD.coe.length) return '';
-  var max=PD.coe[0].n||1, html='<div class="sd-ct" style="margin:20px 0 10px;">COE left this month (matches the dashboard)</div><div class="sd-lb">',i,r;
-  for(i=0;i<Math.min(PD.coe.length,15);i++){
-    r=PD.coe[i];
-    html+='<div class="sd-lb-row"><span class="sd-lb-rank'+(i===0?' g':'')+'">'+(i+1)+'</span>'
-      +'<span class="sd-lb-name">'+escH(r.name)+'</span>'
-      +'<span class="sd-lb-bar"><i style="width:'+Math.round(r.n/max*100)+'%"></i></span>'
-      +'<span class="sd-lb-v">'+r.n+'</span></div>';
+  if(!PD.on||!PD.coe||!PD.coe.rows||!PD.coe.rows.length) return '';
+  var c=PD.coe, st=c.stats||{}, i, r, html='';
+  var totLeft=0; for(i=0;i<c.rows.length;i++) totLeft+=c.rows[i].left;
+  var maxShare=0, shares=[];
+  for(i=0;i<c.rows.length;i++){ r=c.rows[i];
+    var sh=(r.share!==undefined&&r.share!==null)?parseFloat(r.share):(totLeft?r.left/totLeft:0);
+    if(sh>1.0001) sh=sh/100;
+    shares.push(sh); if(sh>maxShare) maxShare=sh;
   }
-  return html+'</div>';
+  html+='<div class="coe-wrap"><div class="coe-head"><div>'
+    +'<div class="sd-ct" style="margin:0;">COE left this month</div>'
+    +'<div class="coe-sub">'+coeMonthLabel(c.asOf)
+    +((st.leftU!==null&&st.leftU!==undefined&&st.totU!==null&&st.totU!==undefined)?(' \u00B7 '+st.leftU+' of '+st.totU+' scheduled closings still ahead'):'')
+    +' \u00B7 live from the dashboard</div></div><div class="coe-stats">';
+  function stat(v,l){ if(v===null||v===undefined) return ''; return '<div class="coe-stat"><b>'+v+'</b><span>'+l+'</span></div>'; }
+  html+=stat(st.leftU,'COEs left')+stat(st.leftV!==null&&st.leftV!==undefined?coeMoney(st.leftV):null,'Volume left')+stat(st.totU,'Month total')+stat(st.closed,'Closed to date');
+  html+='</div></div><div class="coe-scroll">';
+  html+='<div class="coe-cols"><span></span><span>Loan officer</span><span class="tr">COEs left</span><span class="tr">Volume</span><span>Next COE</span><span>Days out</span><span>Share</span><span></span></div>';
+  for(i=0;i<c.rows.length&&i<20;i++){ r=c.rows[i];
+    var pct=Math.round(shares[i]*100);
+    html+='<div class="coe-row"><span class="coe-rank'+(i===0?' g':'')+'">'+(i+1)+'</span>'
+      +'<span class="coe-name">'+escH(r.name)+'</span>'
+      +'<span class="coe-n tr">'+r.left+'</span>'
+      +'<span class="coe-n tr">'+(r.vol!==undefined&&r.vol!==null?coeMoney(r.vol):'')+'</span>'
+      +'<span class="coe-d">'+coeDate(r.next)+'</span>'
+      +coeDaysCell(r.days)
+      +'<span class="coe-bar"><i style="width:'+(maxShare?Math.round(shares[i]/maxShare*100):0)+'%"'+(i===0?' class="g"':'')+'></i></span>'
+      +'<span class="coe-pct">'+pct+'%</span></div>';
+  }
+  html+='</div>';
+  if(c.up&&c.up.length){
+    html+='<div class="coe-up-h">Closing next 7 days</div><div class="coe-up">';
+    for(i=0;i<c.up.length&&i<12;i++){ r=c.up[i];
+      html+='<div class="coe-chip"><div class="t">'+escH(r.t)+'</div>'
+        +'<div class="s">'+escH(r.lo)+(r.vol!==undefined&&r.vol!==null?' \u00B7 '+coeMoney(r.vol):'')+'</div>'
+        +coeDaysCell(r.days)+'</div>';
+    }
+    html+='</div>';
+  }
+  html+='</div>';
+  return html;
 }
 function pdYtdBoard(){
   if(!PD.on||!PD.summary||!PD.summary.length) return '';
@@ -3937,6 +4264,7 @@ function salesRender(force){
         +kpi('MTD Units',m.length,'Funded this month'+delta(m.length,lmN))
         +kpi('Avg Loan Size', m.length?fmtM(mv/m.length):'\u2014','Month to date')
         +kpi('Today',fmtM(sumAmt(t)),t.length+(t.length===1?' loan funded':' loans funded'))
+        +fcKpi()
         +'</div>'
         +dayBars(prod,'Daily funded volume \u2014 this month')
         +split
