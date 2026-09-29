@@ -1159,6 +1159,10 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
   .deps{grid-template-columns:1fr 1fr;}
 }
 .uc-hint{font-size:10.5px;color:var(--gray);margin-top:5px;line-height:1.45;}
+.an-drop{min-height:96px;margin-top:6px;}
+.an-drop img#anPreview{display:block;width:100%;max-height:180px;object-fit:contain;background:#0a1214;}
+.ann-img{display:block;width:100%;max-width:420px;max-height:220px;object-fit:cover;border-radius:11px;border:1px solid var(--line);margin-top:9px;}
+.ann-img:not([src]){display:none;}
 a.ann-link{text-decoration:none;color:inherit;cursor:pointer;transition:transform .2s var(--ease),background .2s;border-radius:12px;}
 a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
 .ann-lk{font-size:12px;color:var(--teal);}
@@ -1559,6 +1563,14 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
             </div>
             <div class="uc-f"><label>Details</label><textarea id="anBody" rows="2" placeholder="One or two sentences with the what and the when."></textarea></div>
             <div class="uc-f"><label>Link (optional)</label><input type="text" id="anLink" placeholder="https://... &mdash; makes the announcement clickable"></div>
+            <div class="uc-f"><label>Image (optional)</label>
+              <div class="bp-drop an-drop" id="anDrop" onclick="document.getElementById('anPhoto').click()" ondragover="anDrag(event,true)" ondragleave="anDrag(event,false)" ondrop="anDropFile(event)">
+                <input type="file" id="anPhoto" accept="image/*" style="display:none;" onchange="anPhotoPicked(this)">
+                <div class="bp-drop-empty" id="anDropEmpty"><div class="e">&#128444;&#65039;</div><div class="t">Drop an image or click to browse</div></div>
+                <img id="anPreview" alt="" style="display:none;">
+                <button class="bp-x" id="anClear" style="display:none;" onclick="event.stopPropagation();anClearPhoto()" title="Remove image">&times;</button>
+              </div>
+            </div>
             <div class="uc-f"><label>Runs until (optional)</label><input type="date" id="anUntil"><div class="uc-hint">Leave blank for permanent. With a date set, the announcement shows through that day and comes down on its own the next morning.</div></div>
             <div class="uc-f"><label>Color dot</label>
               <select id="anColor"><option value="t">Teal (general)</option><option value="y">Gold (events)</option><option value="g">Green (deadlines)</option></select>
@@ -2610,12 +2622,14 @@ function renderAnns(){
     if(a.until&&tod>a.until) continue; /* expired — comes down on its own */
     var inner='<div class="dot '+(a.c||'t')+'"></div><div><h4>'+escH(a.t)+(a.u?' <span class="ann-lk">&#8599;</span>':'')+'</h4>'
       +(a.b?'<p>'+escH(a.b)+'</p>':'')
+      +(a.im?'<img class="ann-img" data-imdoc="'+escH(a.im)+'" alt="">':'')
       +(a.d?'<div class="d">'+escH(niceDate(a.d))+'</div>':'')
       +'</div>';
     if(a.u){ html+='<a class="ann ann-link" href="'+escH(a.u)+'" target="_blank" rel="noopener">'+inner+'</a>'; }
     else { html+='<div class="ann">'+inner+'</div>'; }
   }
   box.innerHTML=html;
+  if(typeof annImgHydrate==='function') annImgHydrate(box);
 }
 
 
@@ -3216,6 +3230,61 @@ function edSaveFlash(){
   showSection('home');
   hubToast(HUB.anns.flash?'\u2705 Flash banner is live \u2014 here it is.':'\u2705 Flash banner hidden.');
 }
+var AN_PENDING=null, ANN_IMGS={};
+function anHandleFile(file){
+  if(!file||!/^image\//.test(file.type)){ edStatus('st-ann','That is not an image file.'); return; }
+  var rd=new FileReader();
+  rd.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var MAX=900, w=img.width, hgt=img.height, sc=Math.min(1, MAX/Math.max(w,hgt));
+      var c=document.createElement('canvas'); c.width=Math.round(w*sc); c.height=Math.round(hgt*sc);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      AN_PENDING=c.toDataURL('image/jpeg',.78);
+      if(AN_PENDING.length>950000) AN_PENDING=c.toDataURL('image/jpeg',.6);
+      var pv=document.getElementById('anPreview'), em=document.getElementById('anDropEmpty'),
+          cl=document.getElementById('anClear'), dz=document.getElementById('anDrop');
+      if(pv){ pv.src=AN_PENDING; pv.style.display='block'; }
+      if(em) em.style.display='none';
+      if(cl) cl.style.display='';
+      if(dz) dz.classList.add('has');
+    };
+    img.src=rd.result;
+  };
+  rd.readAsDataURL(file);
+}
+function anPhotoPicked(inp){ anHandleFile(inp.files&&inp.files[0]); }
+function anDrag(e,on){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDrop'); if(dz) dz.classList.toggle('over',!!on); }
+function anDropFile(e){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDrop'); if(dz) dz.classList.remove('over'); anHandleFile(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]); }
+function anClearPhoto(){
+  AN_PENDING=null;
+  var pv=document.getElementById('anPreview'), em=document.getElementById('anDropEmpty'),
+      cl=document.getElementById('anClear'), dz=document.getElementById('anDrop'), f=document.getElementById('anPhoto');
+  if(pv){ pv.src=''; pv.style.display='none'; }
+  if(em) em.style.display='';
+  if(cl) cl.style.display='none';
+  if(dz) dz.classList.remove('has');
+  if(f) f.value='';
+}
+function annImgHydrate(scope){
+  if(!scope) return;
+  var imgs=scope.querySelectorAll('img[data-imdoc]'), i;
+  for(i=0;i<imgs.length;i++){
+    (function(el){
+      var id=el.getAttribute('data-imdoc');
+      if(ANN_IMGS[id]&&ANN_IMGS[id]!=='pending'){ el.src=ANN_IMGS[id]; return; }
+      if(ANN_IMGS[id]==='pending'||!DB) return;
+      ANN_IMGS[id]='pending';
+      DB.collection('hub').doc(id).get().then(function(snap){
+        var d=snap.exists?snap.data():null;
+        if(d&&d.img){
+          ANN_IMGS[id]=d.img;
+          document.querySelectorAll('img[data-imdoc="'+id+'"]').forEach(function(n){ n.src=d.img; });
+        } else delete ANN_IMGS[id];
+      }).catch(function(){ delete ANN_IMGS[id]; });
+    })(imgs[i]);
+  }
+}
 function edAddAnn(){
   var t=document.getElementById('anTitle').value.trim();
   if(!t){ edStatus('st-ann','Add a title first.'); return; }
@@ -3223,8 +3292,18 @@ function edAddAnn(){
   var lk=(document.getElementById('anLink')||{value:''}).value.trim();
   if(lk&&!/^https?:\/\//i.test(lk)) lk='https://'+lk;
   var un=(document.getElementById('anUntil')||{value:''}).value||null;
-  HUB.anns.items.unshift({ t:t, b:document.getElementById('anBody').value.trim(),
-    d:document.getElementById('anDate').value, c:document.getElementById('anColor').value, u:lk||null, until:un });
+  var item={ t:t, b:document.getElementById('anBody').value.trim(),
+    d:document.getElementById('anDate').value, c:document.getElementById('anColor').value, u:lk||null, until:un };
+  if(AN_PENDING){
+    if(DB){
+      var imId='annimg_'+Date.now();
+      ANN_IMGS[imId]=AN_PENDING;
+      DB.collection('hub').doc(imId).set({img:AN_PENDING}).catch(function(e){ console.warn('ann img', e); });
+      item.im=imId;
+    } else edStatus('st-ann','Cloud offline \u2014 posted without the image.');
+    anClearPhoto();
+  }
+  HUB.anns.items.unshift(item);
   hubSave('anns'); renderAnns(); edListAnns();
   document.getElementById('anTitle').value=''; document.getElementById('anBody').value='';
   var lkEl=document.getElementById('anLink'); if(lkEl) lkEl.value='';
@@ -3232,7 +3311,11 @@ function edAddAnn(){
   showSection('home');
   hubToast('\u2705 Announcement posted \u2014 live in the feed.');
 }
-function edDelAnn(i){ HUB.anns.items.splice(i,1); hubSave('anns'); renderAnns(); edListAnns(); }
+function edDelAnn(i){
+  var a=HUB.anns.items[i];
+  if(a&&a.im&&DB){ DB.collection('hub').doc(a.im).delete().catch(function(){}); delete ANN_IMGS[a.im]; }
+  HUB.anns.items.splice(i,1); hubSave('anns'); renderAnns(); edListAnns();
+}
 function edListAnns(){
   var box=document.getElementById('annEdList'); if(!box) return;
   var l=HUB.anns.items;
@@ -3246,7 +3329,7 @@ function edListAnns(){
       tl=(msLeft<0)?'Expired \u2014 hidden from the feed':('Until '+niceDate(a.until)+' \u00B7 '+Math.max(1,Math.ceil(msLeft/86400000))+'d left');
     }
     html+='<div class="ed-row"><div class="ed-row-main"><div class="ed-row-t">'+escH(a.t)+'</div>'
-      +'<div class="ed-row-s">'+escH(a.d?niceDate(a.d)+' \u00B7 ':'')+tl+'</div></div>'
+      +'<div class="ed-row-s">'+(a.im?'\uD83D\uDCF7 ':'')+escH(a.d?niceDate(a.d)+' \u00B7 ':'')+tl+'</div></div>'
       +'<button class="ed-del" onclick="edDelAnn('+i+')">Remove</button></div>';
   }
   box.innerHTML=html;
