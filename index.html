@@ -945,6 +945,27 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .pm-in{margin-top:0;}
 .pm-wide{grid-column:1 / -1;}
 .pm-addbtn{grid-column:1 / -1;justify-self:start;}
+.pp-stats{display:flex;gap:9px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:8px;}
+.pp-stats em{font-style:normal;color:var(--line2);}
+.pp-row{display:grid;grid-template-columns:44px 1.1fr 1.5fr auto;gap:14px;align-items:center;padding:12px 4px;border-bottom:1px solid var(--line);}
+.pp-row:last-child{border-bottom:0;}
+.pp-av{width:42px;height:42px;border-radius:12px;object-fit:cover;background:var(--bg2);border:1px solid var(--line);}
+.pp-av.ini{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--ink-soft);}
+.pp-n{font-size:13.5px;font-weight:700;}
+.pp-s{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.pp-s.wait{color:var(--gold);}
+.pp-s.bad{color:#FF8A90;}
+.pp-tags{min-width:0;}
+.pp-tags .tag-addrow{margin-top:6px;}
+.pp-tags .tag-addrow input{max-width:170px;}
+.pp-act{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;}
+@media(max-width:860px){
+  .pp-row{grid-template-columns:44px 1fr;grid-template-areas:"av main" "tags tags" "act act";}
+  .pp-row>.pp-av{grid-area:av;}
+  .pp-row>.pp-main{grid-area:main;}
+  .pp-row>.pp-tags{grid-area:tags;}
+  .pp-row>.pp-act{grid-area:act;justify-content:flex-start;}
+}
 .pm-open{font-size:11.5px;font-weight:600;color:var(--teal);text-decoration:none;border:1px solid rgba(37,186,196,.35);border-radius:9px;padding:5px 11px;white-space:nowrap;transition:background .2s;}
 .pm-open:hover{background:rgba(37,186,196,.1);}
 .pm-rm{background:transparent;border:1px solid var(--line2);color:var(--ink-soft);border-radius:9px;padding:5px 11px;font-size:11px;font-family:var(--sans);cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s;}
@@ -1171,6 +1192,15 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 .uc-hint{font-size:10.5px;color:var(--gray);margin-top:5px;line-height:1.45;}
 .an-drop{min-height:96px;margin-top:6px;}
 .an-drop img#anPreview{display:block;width:100%;max-height:180px;object-fit:contain;background:#0a1214;}
+.an-docrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.an-filechip{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--bg2);border:1px solid var(--line2);border-radius:9px;padding:6px 11px;}
+.ann-doc{display:inline-flex;align-items:center;gap:9px;margin-top:9px;background:var(--bg2);border:1px solid var(--line2);border-radius:11px;padding:8px 12px;cursor:pointer;max-width:100%;transition:border-color .2s,background .2s;}
+.ann-doc:hover{border-color:rgba(37,186,196,.45);background:rgba(37,186,196,.06);}
+.ann-doc i{font-style:normal;font-size:15px;}
+.ann-doc .fn{font-size:12px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px;}
+.ann-doc em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--gray);}
+.ann-doc b{font-weight:400;font-size:14px;color:var(--teal);border-left:1px solid var(--line);padding-left:9px;cursor:pointer;}
+.ann-doc b:hover{color:var(--gold);}
 .ann-img{display:block;width:auto;max-width:min(420px,100%);max-height:260px;object-fit:contain;border-radius:11px;border:1px solid var(--line);margin-top:9px;background:#0a1214;}
 .ann-img:not([src]){display:none;}
 a.ann-link{text-decoration:none;color:inherit;cursor:pointer;transition:transform .2s var(--ease),background .2s;border-radius:12px;}
@@ -1582,6 +1612,15 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
                 <button class="bp-x" id="anClear" style="display:none;" onclick="event.stopPropagation();anClearPhoto()" title="Remove image">&times;</button>
               </div>
             </div>
+            <div class="uc-f"><label>Document (optional)</label>
+              <div class="an-docrow">
+                <input type="file" id="anFile" style="display:none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt" onchange="anFilePicked(this)">
+                <button class="wgo" style="margin-left:0;" onclick="document.getElementById('anFile').click()">Attach a document</button>
+                <span class="an-filechip" id="anFileChip" style="display:none;"></span>
+                <button class="pm-rm" id="anFileClear" style="display:none;" onclick="anFileClear()">Remove</button>
+              </div>
+              <div class="uc-hint">PDF, Word, Excel, PowerPoint, CSV, or text &mdash; up to 700KB. Bigger files: host on SharePoint and use the Link field instead.</div>
+            </div>
             <div class="uc-f"><label>Runs until (optional)</label><input type="date" id="anUntil"><div class="uc-hint">Leave blank for permanent. With a date set, the announcement shows through that day and comes down on its own the next morning.</div></div>
             <div class="uc-f"><label>Color dot</label>
               <select id="anColor"><option value="t">Teal (general)</option><option value="y">Gold (events)</option><option value="g">Green (deadlines)</option></select>
@@ -1673,23 +1712,17 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         <div class="ed-panel" id="ed-team">
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
           <div class="uc-card">
-            <h3>Login Roster</h3>
-            <div class="uc-sub">This is the name list everyone picks from at sign-in. It lives in Firebase &mdash; add a new hire here once and they can log in on every device immediately. Remove someone and they\u2019re out just as fast.</div>
+            <h3>People &amp; Access</h3>
+            <div class="uc-sub">One list for everyone. Being on it is what lets a person sign in; tags control what they see once they do &mdash; <b>business-development</b> unlocks Recruiting Resources, <b>admin</b> unlocks the PM Database. Every change lands instantly on every device.</div>
+            <div class="pp-stats" id="pplStats"></div>
             <div class="lr-addrow">
-              <input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="lrName" placeholder="Full name exactly as they should pick it &mdash; e.g. Jordan Smith" onkeydown="if(event.key==='Enter')loAdd()">
-              <button class="uc-save" style="white-space:nowrap;" onclick="loAdd()">Add to roster</button>
+              <input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="lrName" placeholder="Add a new hire by full name &mdash; they can sign in the moment you hit Add" onkeydown="if(event.key==='Enter')loAdd()">
+              <button class="uc-save" style="white-space:nowrap;" onclick="loAdd()">Add person</button>
             </div>
-            <div class="uc-actions" style="margin-top:10px;">
-              <button class="wgo" style="margin-left:0;" onclick="loSyncSept()">One-time sync: add everyone from the Sept 2026 sheet</button>
-              <span class="uc-status" id="lrStatus"></span>
-            </div>
-            <div class="ed-list" id="loRoster" style="margin-top:14px;"></div>
-          </div>
-          <div class="uc-card">
-            <h3>Registered Team</h3>
-            <div class="uc-sub">Everyone who has signed in, live \u2014 identities come from the Hype Desk roster. Tags control what each person can see &mdash; right now, the <b>business-development</b> tag unlocks Recruiting Resources; everyone without it never sees that tab. Add more gate tags any time. The <b>admin</b> tag unlocks the PM Database tab.</div>
+            <div class="lp-filter" style="margin:12px 0 14px;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="pplFilter" type="text" placeholder="Find a person or a tag" oninput="peopleRender()" autocomplete="off"></div>
             <datalist id="tagSuggest"><option value="business-development"></option><option value="admin"></option></datalist>
-            <div class="ed-list" id="teamList"></div>
+            <div id="peopleList"></div>
+            <div class="uc-actions" style="margin-top:12px;"><button class="wgo" style="margin-left:0;" onclick="loSyncSept()">Re-check the Sept 2026 sheet</button><span class="uc-status" id="lrStatus"></span></div>
           </div>
         </div>
 
@@ -2222,6 +2255,81 @@ function teamPanelOpen(){
     box.innerHTML=html;
   },function(err){ box.innerHTML='<div class="ed-empty">Could not load users: '+escH(err.message)+'</div>'; });
 }
+function nrmName(n){ return String(n||'').replace(/\u2019/g,"'").trim().toLowerCase().replace(/\s+/g,' '); }
+function teamUnified(){
+  peopleRender();
+  if(!DB) return;
+  if(AUTH.usersUnsub) AUTH.usersUnsub();
+  AUTH.usersUnsub=DB.collection('users').onSnapshot(function(qs){
+    var rows=[];
+    qs.forEach(function(doc){ var d=doc.data()||{}; d._id=doc.id; if(d.name) rows.push(d); });
+    AUTH.usersCache=rows;
+    peopleRender();
+  }, function(err){ AUTH.usersCache=AUTH.usersCache||[]; console.warn('users feed', err); peopleRender(); });
+}
+function peopleRender(){
+  var box=document.getElementById('peopleList'); if(!box) return;
+  var q=((document.getElementById('pplFilter')||{}).value||'').trim().toLowerCase();
+  var users=AUTH.usersCache||[], byName={}, i, u;
+  for(i=0;i<users.length;i++){ byName[nrmName(users[i].name)]=users[i]; }
+  var ids=Object.keys(HYPE.roster);
+  ids.sort(function(a,b){ return ((HYPE.roster[a]||{}).name||'').localeCompare((HYPE.roster[b]||{}).name||''); });
+  var html='', shown=0, admins=0, reg=0, used={};
+  function row(name, photo, rid, u){
+    var tags=(u&&u.tags)||[], chips='', j;
+    for(j=0;j<tags.length;j++){
+      chips+='<span class="tag-chip">'+escH(tags[j])+(u?'<button class="tag-x" onclick="teamTagRemove(\''+u._id+'\',\''+escH(tags[j])+'\')" title="Remove tag">&times;</button>':'')+'</span>';
+    }
+    var st, stc='';
+    if(u&&rid){ st='Signed in \u00B7 last seen '+(u.lastSeen?new Date(u.lastSeen).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'\u2014'); }
+    else if(u&&!rid){ st='Signed in \u00B7 not on the roster'; stc=' bad'; }
+    else { st='Has not signed in yet'; stc=' wait'; }
+    var qkey=(name+' '+tags.join(' ')).toLowerCase();
+    if(q&&qkey.indexOf(q)<0) return '';
+    shown++;
+    var av=photo?'<img class="pp-av" src="'+escH(photo)+'" alt="">':'<span class="pp-av ini">'+escH(loInitials(name))+'</span>';
+    var tagsHtml;
+    if(u){
+      tagsHtml='<div class="tag-wrap">'+(chips||'<span class="tag-none">No tags</span>')+'</div>'
+        +'<div class="tag-addrow"><input type="text" id="tagIn_'+u._id+'" list="tagSuggest" placeholder="Add tag" onkeydown="if(event.key===\'Enter\')teamTagAdd(\''+u._id+'\')">'
+        +'<button class="eu-mini" onclick="teamTagAdd(\''+u._id+'\')">Add</button></div>';
+    } else {
+      tagsHtml='<div class="tag-wrap"><span class="tag-none">Tags unlock after their first sign-in</span></div>';
+    }
+    return '<div class="pp-row">'+av
+      +'<div class="pp-main"><div class="pp-n">'+escH(name)+'</div><div class="pp-s'+stc+'">'+st+'</div></div>'
+      +'<div class="pp-tags">'+tagsHtml+'</div>'
+      +'<div class="pp-act">'+(!rid?'<button class="eu-mini" onclick="loAddNamed(\''+escH(name)+'\')">Add to roster</button>':'')
+      +'<button class="ed-del" onclick="personRemove(\''+(rid||'')+'\',\''+(u?u._id:'')+'\',\''+escH(name)+'\')">Remove</button></div></div>';
+  }
+  for(i=0;i<ids.length;i++){
+    var lo=HYPE.roster[ids[i]]; if(!lo||!lo.name) continue;
+    var u2=byName[nrmName(lo.name)]||null;
+    if(u2){ used[u2._id]=1; reg++; if((u2.tags||[]).indexOf('admin')>=0) admins++; }
+    html+=row(lo.name, lo.photo, ids[i], u2);
+  }
+  var extra='';
+  for(i=0;i<users.length;i++){ u=users[i];
+    if(used[u._id]) continue;
+    reg++; if((u.tags||[]).indexOf('admin')>=0) admins++;
+    extra+=row(u.name, u.photo||null, null, u);
+  }
+  if(extra) html+='<div class="mm-lbl" style="margin:16px 2px 8px;">Signed in but not on the roster</div>'+extra;
+  if(!html) html='<div class="ed-empty">'+(q?'No one matches that.':'Roster is empty \u2014 add the first person above.')+'</div>';
+  box.innerHTML=html;
+  var st=document.getElementById('pplStats');
+  if(st) st.innerHTML='<span>'+ids.length+' on the roster</span><em>&middot;</em><span>'+reg+' signed in</span><em>&middot;</em><span>'+admins+' admin'+(admins===1?'':'s')+'</span>';
+}
+function loAddNamed(name){
+  if(!HYPE.db||!name) return;
+  if(hypeLoByName(name)){ hubToast(name+' is already on the roster.'); return; }
+  HYPE.db.ref('roster/lo_'+Date.now()).set({name:name, photo:null}).then(function(){ hubToast('\u2705 '+name+' added to the roster.'); });
+}
+function personRemove(rid, uid, name){
+  if(rid&&HYPE.db) HYPE.db.ref('roster/'+rid).remove();
+  if(uid&&DB) DB.collection('users').doc(uid).delete().catch(function(){});
+  hubToast('Removed '+name+' \u2014 they can no longer sign in.');
+}
 function teamRemove(uid){
   if(!DB) return;
   DB.collection('users').doc(uid).delete().then(function(){
@@ -2664,6 +2772,7 @@ function renderAnns(){
     var inner='<div class="dot '+(a.c||'t')+'"></div><div><h4>'+escH(a.t)+(a.u?' <span class="ann-lk">&#8599;</span>':'')+'</h4>'
       +(a.b?'<p>'+escH(a.b)+'</p>':'')
       +(a.im?'<img class="ann-img" data-imdoc="'+escH(a.im)+'" alt="">':'')
+      +(a.doc?'<span class="ann-doc" data-doc="'+escH(a.doc.id)+'" onclick="event.preventDefault();event.stopPropagation();annDocGo(this)" title="Open or download"><i>&#128196;</i><span class="fn">'+escH(a.doc.fn||'Document')+'</span><em>'+anFmtKB(a.doc.size||0)+'</em><b data-doc="'+escH(a.doc.id)+'" onclick="event.preventDefault();event.stopPropagation();annDocDl(this)" title="Download">&#8595;</b></span>':'')
       +(a.d?'<div class="d">'+escH(niceDate(a.d))+'</div>':'')
       +'</div>';
     if(a.u){ html+='<a class="ann ann-link" href="'+escH(a.u)+'" target="_blank" rel="noopener">'+inner+'</a>'; }
@@ -2836,7 +2945,7 @@ function edMenuTop(){
 function edOpen(name){
   if(name==='pulse'){ eiosStatusList(); ssWire(); eiosPulseNote(); }
   if(name==='spot') spotRotList();
-  if(name==='team'){ teamPanelOpen(); loRosterList(); }
+  if(name==='team'){ teamUnified(); }
   if(name==='train') edListTrainings();
   if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
   if(name==='board') edListBoard();
@@ -2983,7 +3092,7 @@ function hypeInit(){
         });
       }
       if(typeof whoRender==='function') whoRender();
-      loDatalist(); loRosterList(); loCheck(); renderFundings(); renderSpot();
+      loDatalist(); if(typeof peopleRender==='function') peopleRender(); loCheck(); renderFundings(); renderSpot();
       if(typeof authTryRosterName==='function'){ authTryRosterName(); if(AUTH.on&&AUTH.user&&!AUTH.name&&!AUTH.nameAsked){ AUTH.nameAsked=true; nameAsk(); } }
     });
     HYPE.db.ref('floor/'+hypeTodayKey()+'/entries').on('value',function(snap){
@@ -3307,6 +3416,65 @@ function anClearPhoto(){
   if(dz) dz.classList.remove('has');
   if(f) f.value='';
 }
+var AN_DOC=null, ANN_DOCS={};
+function anFmtKB(n){ return n>=1048576?( (n/1048576).toFixed(1)+'MB' ):(Math.max(1,Math.round(n/1024))+'KB'); }
+function anFilePicked(inp){
+  var f=inp.files&&inp.files[0]; if(!f) return;
+  if(f.size>700*1024){ edStatus('st-ann','That file is '+anFmtKB(f.size)+' \u2014 keep documents under 700KB, or host it on SharePoint and use the Link field.'); inp.value=''; return; }
+  var rd=new FileReader();
+  rd.onload=function(){
+    AN_DOC={data:rd.result, fn:f.name, mime:f.type||'application/octet-stream', size:f.size};
+    var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear');
+    if(ch){ ch.textContent='\uD83D\uDCCE '+f.name+' \u00B7 '+anFmtKB(f.size); ch.style.display=''; }
+    if(cl) cl.style.display='';
+  };
+  rd.readAsDataURL(f);
+}
+function anFileClear(){
+  AN_DOC=null;
+  var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear'), f=document.getElementById('anFile');
+  if(ch){ ch.textContent=''; ch.style.display='none'; }
+  if(cl) cl.style.display='none';
+  if(f) f.value='';
+}
+function dataUrlBlob(du){
+  var p=du.split(','), mime=(p[0].match(/data:([^;]+)/)||[])[1]||'application/octet-stream';
+  var bin=atob(p[1]), i, arr=new Uint8Array(bin.length);
+  for(i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return new Blob([arr],{type:mime});
+}
+function annDocFetch(id, cb){
+  if(ANN_DOCS[id]&&ANN_DOCS[id]!=='pending'){ cb(ANN_DOCS[id]); return; }
+  if(!DB||ANN_DOCS[id]==='pending') return;
+  ANN_DOCS[id]='pending';
+  DB.collection('hub').doc(id).get().then(function(snap){
+    var d=snap.exists?snap.data():null;
+    if(d&&d.data){ ANN_DOCS[id]=d; cb(d); }
+    else { delete ANN_DOCS[id]; hubToast('That document is no longer available.'); }
+  }).catch(function(){ delete ANN_DOCS[id]; hubToast('Could not fetch the document \u2014 try again.'); });
+}
+function annDocGo(el){
+  var id=el.getAttribute('data-doc'); if(!id) return;
+  annDocFetch(id, function(d){
+    var mime=d.mime||'';
+    if(mime.indexOf('pdf')>=0||mime.indexOf('image/')===0){
+      var url=URL.createObjectURL(dataUrlBlob(d.data));
+      window.open(url,'_blank','noopener');
+      setTimeout(function(){ URL.revokeObjectURL(url); },60000);
+    } else annDocSave(d);
+  });
+}
+function annDocDl(el){
+  var id=el.getAttribute('data-doc'); if(!id) return;
+  annDocFetch(id, function(d){ annDocSave(d); });
+}
+function annDocSave(d){
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(dataUrlBlob(d.data));
+  a.download=d.fn||'document';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
 function annImgHydrate(scope){
   if(!scope) return;
   var imgs=scope.querySelectorAll('img[data-imdoc]'), i;
@@ -3344,6 +3512,15 @@ function edAddAnn(){
     } else edStatus('st-ann','Cloud offline \u2014 posted without the image.');
     anClearPhoto();
   }
+  if(AN_DOC){
+    if(DB){
+      var dcId='anndoc_'+Date.now();
+      ANN_DOCS[dcId]={data:AN_DOC.data, fn:AN_DOC.fn, mime:AN_DOC.mime, size:AN_DOC.size};
+      DB.collection('hub').doc(dcId).set(ANN_DOCS[dcId]).catch(function(e){ console.warn('ann doc', e); });
+      item.doc={id:dcId, fn:AN_DOC.fn, size:AN_DOC.size};
+    } else edStatus('st-ann','Cloud offline \u2014 posted without the document.');
+    anFileClear();
+  }
   HUB.anns.items.unshift(item);
   hubSave('anns'); renderAnns(); edListAnns();
   document.getElementById('anTitle').value=''; document.getElementById('anBody').value='';
@@ -3355,6 +3532,7 @@ function edAddAnn(){
 function edDelAnn(i){
   var a=HUB.anns.items[i];
   if(a&&a.im&&DB){ DB.collection('hub').doc(a.im).delete().catch(function(){}); delete ANN_IMGS[a.im]; }
+  if(a&&a.doc&&a.doc.id&&DB){ DB.collection('hub').doc(a.doc.id).delete().catch(function(){}); delete ANN_DOCS[a.doc.id]; }
   HUB.anns.items.splice(i,1); hubSave('anns'); renderAnns(); edListAnns();
 }
 function edListAnns(){
@@ -3370,7 +3548,7 @@ function edListAnns(){
       tl=(msLeft<0)?'Expired \u2014 hidden from the feed':('Until '+niceDate(a.until)+' \u00B7 '+Math.max(1,Math.ceil(msLeft/86400000))+'d left');
     }
     html+='<div class="ed-row"><div class="ed-row-main"><div class="ed-row-t">'+escH(a.t)+'</div>'
-      +'<div class="ed-row-s">'+(a.im?'\uD83D\uDCF7 ':'')+escH(a.d?niceDate(a.d)+' \u00B7 ':'')+tl+'</div></div>'
+      +'<div class="ed-row-s">'+(a.im?'\uD83D\uDCF7 ':'')+(a.doc?'\uD83D\uDCCE ':'')+escH(a.d?niceDate(a.d)+' \u00B7 ':'')+tl+'</div></div>'
       +'<button class="ed-del" onclick="edDelAnn('+i+')">Remove</button></div>';
   }
   box.innerHTML=html;
@@ -5049,7 +5227,7 @@ function lpHolidays(){
 
 HYPE.roster=rosterEnsureAll(HYPE.roster);
 if(typeof loDatalist==='function') loDatalist();
-if(typeof loRosterList==='function') loRosterList();
+if(typeof peopleRender==='function') peopleRender();
 
 /* ============ PM DATABASE (admin tag) ============ */
 var PMDB_SEED=[
