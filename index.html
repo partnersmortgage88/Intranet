@@ -426,6 +426,16 @@ body.rail-anim .stage{pointer-events:none;}
   border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:15px 17px;}
 .cc-tip-bulb{font-size:20px;filter:saturate(.9);}
 .cc-tip-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.cc-arch{margin-top:10px;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:0 16px;}
+.cc-arch summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);}
+.cc-arch summary::-webkit-details-marker{display:none;}
+.cc-arch summary em{font-style:normal;color:var(--gold);}
+.cc-arch[open] summary{border-bottom:1px solid var(--line);}
+.cc-arch-list{max-height:340px;overflow-y:auto;padding:4px 0 8px;}
+.cc-arch-row{padding:11px 0;border-bottom:1px solid var(--line);}
+.cc-arch-row:last-child{border-bottom:0;}
+.cc-arch-when{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px;}
+.cc-arch-txt{font-family:var(--serif);font-size:15px;line-height:1.45;color:var(--ink);}
 .cc-tip-txt{font-family:var(--serif);font-size:17px;line-height:1.45;color:var(--ink);}
 .cc-fund{min-width:238px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;flex-shrink:0;}
 .cc-fund-amt{font-family:var(--mono);font-size:21px;font-weight:600;color:var(--gold);line-height:1;}
@@ -1192,7 +1202,8 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 .uc-hint{font-size:10.5px;color:var(--gray);margin-top:5px;line-height:1.45;}
 .an-drop{min-height:96px;margin-top:6px;}
 .an-drop img#anPreview{display:block;width:100%;max-height:180px;object-fit:contain;background:#0a1214;}
-.an-docrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.an-docdrop{min-height:84px;margin-top:6px;}
+.an-docdrop .an-filechip{position:relative;z-index:1;}
 .an-filechip{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--bg2);border:1px solid var(--line2);border-radius:9px;padding:6px 11px;}
 .ann-doc{display:inline-flex;align-items:center;gap:9px;margin-top:9px;background:var(--bg2);border:1px solid var(--line2);border-radius:11px;padding:8px 12px;cursor:pointer;max-width:100%;transition:border-color .2s,background .2s;}
 .ann-doc:hover{border-color:rgba(37,186,196,.45);background:rgba(37,186,196,.06);}
@@ -1431,7 +1442,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
     <section id="section-closing" class="view">
   <div class="vhero">
     <div class="vhero-eyebrow">&#127881; Closing Corner</div>
-    <h1 class="vhero-title">The funding <em style="font-style:italic;color:var(--gold);">floor</em>.</h1>
+    <h1 class="vhero-title">Docs &amp; Funding <em style="font-style:italic;color:var(--gold);">Daily Board</em>.</h1>
     <p class="vhero-sub">Today's fundings, docs out, and the tip of the week &mdash; live from the Funding Hype Desk.</p>
     <span class="vhero-chip">Live &middot; Funding Hype Desk</span>
   </div>
@@ -1443,6 +1454,10 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         <div class="cc-tip-txt" id="ccTipText"></div>
       </div>
     </div>
+    <details class="cc-arch" id="ccTipArch" style="display:none;">
+      <summary><span>&#128218; Past tips</span><em id="ccTipArchN"></em></summary>
+      <div class="cc-arch-list" id="ccTipArchList"></div>
+    </details>
 
     <div class="ff-counts" id="ffCounts"></div>
     <div class="cc-cards" id="closingCards" style="margin-top:14px;">
@@ -1515,6 +1530,9 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         <div class="ed-menu">
           <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
             <div class="ed-ic">&#128240;</div><div class="ed-n">Announcements</div><div class="ed-d">Post news and the gold flash banner on Home</div>
+          </button>
+          <button class="ed-card" id="edm-tip" onclick="edOpen('tip')">
+            <div class="ed-ic">&#128161;</div><div class="ed-n">Tip of the Week</div><div class="ed-d">Post the closing tip and manage the archive</div>
           </button>
           <button class="ed-card" id="edm-board" onclick="edOpen('board')">
             <div class="ed-ic">&#128204;</div><div class="ed-n">Bulletin Board</div><div class="ed-d">Pin photos and notes to the Good Times board</div>
@@ -1613,11 +1631,11 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
               </div>
             </div>
             <div class="uc-f"><label>Document (optional)</label>
-              <div class="an-docrow">
+              <div class="bp-drop an-docdrop" id="anDocDrop" onclick="document.getElementById('anFile').click()" ondragover="anDocDrag(event,true)" ondragleave="anDocDrag(event,false)" ondrop="anDocDropped(event)">
                 <input type="file" id="anFile" style="display:none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt" onchange="anFilePicked(this)">
-                <button class="wgo" style="margin-left:0;" onclick="document.getElementById('anFile').click()">Attach a document</button>
+                <div class="bp-drop-empty" id="anDocEmpty"><div class="e">&#128206;</div><div class="t">Drop a document here, or click to browse</div></div>
                 <span class="an-filechip" id="anFileChip" style="display:none;"></span>
-                <button class="pm-rm" id="anFileClear" style="display:none;" onclick="anFileClear()">Remove</button>
+                <button class="bp-x" id="anFileClear" style="display:none;" onclick="event.stopPropagation();anFileClear()" title="Remove document">&times;</button>
               </div>
               <div class="uc-hint">PDF, Word, Excel, PowerPoint, CSV, or text &mdash; up to 700KB. Bigger files: host on SharePoint and use the Link field instead.</div>
             </div>
@@ -1625,7 +1643,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
             <div class="uc-f"><label>Color dot</label>
               <select id="anColor"><option value="t">Teal (general)</option><option value="y">Gold (events)</option><option value="g">Green (deadlines)</option></select>
             </div>
-            <button class="uc-save" onclick="edAddAnn()">Add announcement</button>
+            <button class="uc-save" id="anSubmit" onclick="edAddAnn()">Add announcement</button> <button class="pm-rm" id="anCancel" style="display:none;" onclick="anEditCancel()">Cancel edit</button>
             <div class="uc-status" id="st-ann"></div>
           </div>
           <div class="uc-card">
@@ -1727,6 +1745,20 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         </div>
 
         <!-- SPOTLIGHT -->
+        <div class="ed-panel" id="ed-tip">
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Closing Corner &rarr; Tip of the Week &middot; Hype Board</span><button class="wgo" onclick="showSection('closing')">See it live &rarr;</button></div>
+          <div class="uc-card">
+            <h3>&#128161; This week&rsquo;s tip</h3>
+            <div class="uc-sub">Publishing a new tip automatically moves the current one into the archive &mdash; nothing gets lost.</div>
+            <textarea class="bp-note-in" id="edTip" rows="4" placeholder="e.g. Order the payoff the day CTC lands &mdash; it saves a day on every refi."></textarea>
+            <div class="uc-actions"><button class="uc-save" onclick="edSaveTipFromBox()">Publish tip</button> <button class="pm-rm" onclick="edClearTip()">Clear current tip</button><span class="uc-status" id="st-tip"></span></div>
+          </div>
+          <div class="uc-card">
+            <h3>Tip archive</h3>
+            <div class="uc-sub">Everyone can browse these under &ldquo;Past tips&rdquo; on Closing Corner. Bring one back or remove it for good.</div>
+            <div id="edTipArch"></div>
+          </div>
+        </div>
         <div class="ed-panel" id="ed-board">
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; The Board</span><button class="wgo" onclick="showSection('celebrations');gtcTab('board')">See it live &rarr;</button></div>
           <div class="uc-card">
@@ -2949,7 +2981,8 @@ function edOpen(name){
   if(name==='train') edListTrainings();
   if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
   if(name==='board') edListBoard();
-  ['pulse','anns','gtc','pie','train','team','spot','board'].forEach(function(t){
+  if(name==='tip') edTipOpen();
+  ['pulse','anns','gtc','pie','train','team','spot','board','tip'].forEach(function(t){
     var p=document.getElementById('ed-'+t); if(p) p.classList.toggle('active', t===name);
     var m=document.getElementById('edm-'+t); if(m) m.classList.toggle('active', t===name);
   });
@@ -3104,6 +3137,7 @@ function hypeInit(){
     });
     HYPE.db.ref('meta/closingTipArchive').on('value',function(snap){
       HYPE.tipArchive=snap.val()||[];
+      renderTipArchive(); edTipArchList();
     });
   }catch(e){ console.warn('hype init failed',e); }
 }
@@ -3307,6 +3341,63 @@ function edSaveTip(){
   showSection('closing');
   hubToast(txt?'\u2705 Tip of the Week is live \u2014 here and on the Hype Board.':'\u2705 Tip cleared on both boards.');
 }
+function tipPlain(html){ var t=document.createElement('div'); t.innerHTML=html||''; return (t.textContent||'').trim(); }
+function tipWhen(ms){ return ms?new Date(ms).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''; }
+function edTipOpen(){
+  var ta=document.getElementById('edTip');
+  if(ta&&!ta.value) ta.value=tipPlain(HYPE.tip);
+  edTipArchList();
+}
+function edSaveTipFromBox(){
+  var ta=document.getElementById('edTip'); if(!ta) return;
+  var raw=ta.value.trim();
+  ta.value=raw?escH(raw).replace(/\n/g,'<br>'):'';
+  edSaveTip();
+  ta.value='';
+}
+function edClearTip(){
+  var ta=document.getElementById('edTip'); if(ta) ta.value='';
+  edSaveTip();
+}
+function edTipArchList(){
+  var box=document.getElementById('edTipArch'); if(!box) return;
+  var a=HYPE.tipArchive||[], h='', i;
+  if(!a.length){ box.innerHTML='<div class="ed-empty">No archived tips yet \u2014 they collect here as new ones are published.</div>'; return; }
+  for(i=0;i<a.length;i++){
+    h+='<div class="ed-row"><div class="ed-row-main"><div class="ed-row-t" style="white-space:normal;">'+escH(tipPlain(a[i].text))+'</div>'
+      +'<div class="ed-row-s">Archived '+tipWhen(a[i].archivedAt)+'</div></div>'
+      +'<button class="eu-mini" onclick="edTipRestore('+i+')">Make current</button>'
+      +'<button class="ed-del" onclick="edTipArchDel('+i+')">Remove</button></div>';
+  }
+  box.innerHTML=h;
+}
+function edTipRestore(i){
+  if(!HYPE.db) return;
+  var a=(HYPE.tipArchive||[]).slice(), pick=a[i]; if(!pick) return;
+  a.splice(i,1);
+  if(tipPlain(HYPE.tip)) a.unshift({text:HYPE.tip, archivedAt:Date.now()});
+  HYPE.db.ref('meta/closingTipArchive').set(a);
+  HYPE.db.ref('meta/closingTip').set(pick.text);
+  hubToast('\u2705 Tip restored as this week\u2019s tip.');
+}
+function edTipArchDel(i){
+  if(!HYPE.db) return;
+  var a=(HYPE.tipArchive||[]).slice(); a.splice(i,1);
+  HYPE.db.ref('meta/closingTipArchive').set(a);
+  hubToast('Archived tip removed.');
+}
+function renderTipArchive(){
+  var d=document.getElementById('ccTipArch'), l=document.getElementById('ccTipArchList'), n=document.getElementById('ccTipArchN');
+  if(!d||!l) return;
+  var a=HYPE.tipArchive||[], h='', i;
+  if(!a.length){ d.style.display='none'; return; }
+  d.style.display='';
+  if(n) n.textContent=a.length;
+  for(i=0;i<a.length;i++){
+    h+='<div class="cc-arch-row"><div class="cc-arch-when">'+tipWhen(a[i].archivedAt)+'</div><div class="cc-arch-txt">'+a[i].text+'</div></div>'; /* trusted internal rich text */
+  }
+  l.innerHTML=h;
+}
 
 var TR_URLS={};
 function trOpen(key, mime, name){
@@ -3407,7 +3498,7 @@ function anPhotoPicked(inp){ anHandleFile(inp.files&&inp.files[0]); }
 function anDrag(e,on){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDrop'); if(dz) dz.classList.toggle('over',!!on); }
 function anDropFile(e){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDrop'); if(dz) dz.classList.remove('over'); anHandleFile(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]); }
 function anClearPhoto(){
-  AN_PENDING=null;
+  AN_PENDING=null; AN_KEEP_IM=null;
   var pv=document.getElementById('anPreview'), em=document.getElementById('anDropEmpty'),
       cl=document.getElementById('anClear'), dz=document.getElementById('anDrop'), f=document.getElementById('anPhoto');
   if(pv){ pv.src=''; pv.style.display='none'; }
@@ -3418,24 +3509,33 @@ function anClearPhoto(){
 }
 var AN_DOC=null, ANN_DOCS={};
 function anFmtKB(n){ return n>=1048576?( (n/1048576).toFixed(1)+'MB' ):(Math.max(1,Math.round(n/1024))+'KB'); }
-function anFilePicked(inp){
-  var f=inp.files&&inp.files[0]; if(!f) return;
-  if(f.size>700*1024){ edStatus('st-ann','That file is '+anFmtKB(f.size)+' \u2014 keep documents under 700KB, or host it on SharePoint and use the Link field.'); inp.value=''; return; }
+function anDocDrag(e,on){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDocDrop'); if(dz) dz.classList.toggle('over',!!on); }
+function anDocDropped(e){ e.preventDefault(); e.stopPropagation(); var dz=document.getElementById('anDocDrop'); if(dz) dz.classList.remove('over'); anFileTake(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0]); }
+function anFilePicked(inp){ anFileTake(inp.files&&inp.files[0]); }
+function anFileTake(f){
+  if(!f) return;
+  if(f.size>700*1024){ edStatus('st-ann','That file is '+anFmtKB(f.size)+' \u2014 keep documents under 700KB, or host it on SharePoint and use the Link field.'); var fi=document.getElementById('anFile'); if(fi) fi.value=''; return; }
   var rd=new FileReader();
   rd.onload=function(){
     AN_DOC={data:rd.result, fn:f.name, mime:f.type||'application/octet-stream', size:f.size};
-    var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear');
+    var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear'),
+        em=document.getElementById('anDocEmpty'), dz=document.getElementById('anDocDrop');
     if(ch){ ch.textContent='\uD83D\uDCCE '+f.name+' \u00B7 '+anFmtKB(f.size); ch.style.display=''; }
     if(cl) cl.style.display='';
+    if(em) em.style.display='none';
+    if(dz) dz.classList.add('has');
   };
   rd.readAsDataURL(f);
 }
 function anFileClear(){
-  AN_DOC=null;
-  var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear'), f=document.getElementById('anFile');
+  AN_DOC=null; AN_KEEP_DOC=null;
+  var ch=document.getElementById('anFileChip'), cl=document.getElementById('anFileClear'), f=document.getElementById('anFile'),
+      em=document.getElementById('anDocEmpty'), dz=document.getElementById('anDocDrop');
   if(ch){ ch.textContent=''; ch.style.display='none'; }
   if(cl) cl.style.display='none';
   if(f) f.value='';
+  if(em) em.style.display='';
+  if(dz) dz.classList.remove('has');
 }
 function dataUrlBlob(du){
   var p=du.split(','), mime=(p[0].match(/data:([^;]+)/)||[])[1]||'application/octet-stream';
@@ -3494,6 +3594,54 @@ function annImgHydrate(scope){
     })(imgs[i]);
   }
 }
+var AN_EDIT=null, AN_KEEP_IM=null, AN_KEEP_DOC=null;
+function anEditStart(i){
+  var a=HUB.anns.items&&HUB.anns.items[i]; if(!a) return;
+  AN_EDIT=i; AN_KEEP_IM=a.im||null; AN_KEEP_DOC=a.doc||null;
+  AN_PENDING=null; AN_DOC=null;
+  var g=function(id){ return document.getElementById(id); };
+  if(g('anTitle')) g('anTitle').value=a.t||'';
+  if(g('anBody')) g('anBody').value=a.b||'';
+  if(g('anDate')) g('anDate').value=a.d||'';
+  if(g('anColor')) g('anColor').value=a.c||'t';
+  if(g('anLink')) g('anLink').value=a.u||'';
+  if(g('anUntil')) g('anUntil').value=a.until||'';
+  /* existing image: show it in the dropzone; the X there now means remove it */
+  var pv=g('anPreview'), em=g('anDropEmpty'), cl=g('anClear'), dz=g('anDrop');
+  if(AN_KEEP_IM){
+    if(pv){ pv.style.display='block'; pv.src=''; }
+    if(em) em.style.display='none';
+    if(cl) cl.style.display='';
+    if(dz) dz.classList.add('has');
+    if(ANN_IMGS[AN_KEEP_IM]&&ANN_IMGS[AN_KEEP_IM]!=='pending'){ if(pv) pv.src=ANN_IMGS[AN_KEEP_IM]; }
+    else if(DB){ (function(id){ DB.collection('hub').doc(id).get().then(function(sn){ var d=sn.exists?sn.data():null; if(d&&d.img){ ANN_IMGS[id]=d.img; var p2=g('anPreview'); if(p2&&AN_KEEP_IM===id) p2.src=d.img; } }); })(AN_KEEP_IM); }
+  } else { anClearPhoto(); }
+  /* existing document chip */
+  var ch=g('anFileChip'), fcl=g('anFileClear');
+  if(AN_KEEP_DOC){
+    if(ch){ ch.textContent='\uD83D\uDCCE '+(AN_KEEP_DOC.fn||'Document')+' \u00B7 '+anFmtKB(AN_KEEP_DOC.size||0); ch.style.display=''; }
+    if(fcl) fcl.style.display='';
+    var dem=g('anDocEmpty'), ddz=g('anDocDrop');
+    if(dem) dem.style.display='none';
+    if(ddz) ddz.classList.add('has');
+  } else { anFileClear(); }
+  var sb=g('anSubmit'), cb=g('anCancel');
+  if(sb) sb.textContent='Save changes';
+  if(cb) cb.style.display='';
+  edStatus('st-ann','Editing \u201C'+(a.t||'')+'\u201D \u2014 make your changes and hit Save.');
+  var panel=g('ed-anns'); if(panel) panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function anEditCancel(){
+  AN_EDIT=null; AN_KEEP_IM=null; AN_KEEP_DOC=null;
+  var g=function(id){ return document.getElementById(id); };
+  ['anTitle','anBody','anLink','anUntil'].forEach(function(id){ if(g(id)) g(id).value=''; });
+  if(g('anColor')) g('anColor').value='t';
+  anClearPhoto(); anFileClear();
+  var sb=g('anSubmit'), cb=g('anCancel');
+  if(sb) sb.textContent='Add announcement';
+  if(cb) cb.style.display='none';
+  edStatus('st-ann','');
+}
 function edAddAnn(){
   var t=document.getElementById('anTitle').value.trim();
   if(!t){ edStatus('st-ann','Add a title first.'); return; }
@@ -3521,7 +3669,19 @@ function edAddAnn(){
     } else edStatus('st-ann','Cloud offline \u2014 posted without the document.');
     anFileClear();
   }
-  HUB.anns.items.unshift(item);
+  if(AN_EDIT!==null&&HUB.anns.items&&HUB.anns.items[AN_EDIT]){
+    var prev=HUB.anns.items[AN_EDIT];
+    /* attachments: new upload wins; else whatever the editor kept; replaced or removed docs get cleaned up */
+    if(!item.im) item.im=AN_KEEP_IM||null;
+    if(!item.doc) item.doc=AN_KEEP_DOC||null;
+    if(prev.im&&prev.im!==item.im&&DB){ DB.collection('hub').doc(prev.im).delete().catch(function(){}); delete ANN_IMGS[prev.im]; }
+    if(prev.doc&&prev.doc.id&&(!item.doc||item.doc.id!==prev.doc.id)&&DB){ DB.collection('hub').doc(prev.doc.id).delete().catch(function(){}); delete ANN_DOCS[prev.doc.id]; }
+    HUB.anns.items[AN_EDIT]=item;
+    anEditCancel();
+    hubToast('\u2705 Announcement updated for everyone.');
+  } else {
+    HUB.anns.items.unshift(item);
+  }
   hubSave('anns'); renderAnns(); edListAnns();
   document.getElementById('anTitle').value=''; document.getElementById('anBody').value='';
   var lkEl=document.getElementById('anLink'); if(lkEl) lkEl.value='';
@@ -3530,6 +3690,8 @@ function edAddAnn(){
   hubToast('\u2705 Announcement posted \u2014 live in the feed.');
 }
 function edDelAnn(i){
+  if(AN_EDIT===i) anEditCancel();
+  else if(AN_EDIT!==null&&i<AN_EDIT) AN_EDIT--;
   var a=HUB.anns.items[i];
   if(a&&a.im&&DB){ DB.collection('hub').doc(a.im).delete().catch(function(){}); delete ANN_IMGS[a.im]; }
   if(a&&a.doc&&a.doc.id&&DB){ DB.collection('hub').doc(a.doc.id).delete().catch(function(){}); delete ANN_DOCS[a.doc.id]; }
@@ -3549,6 +3711,7 @@ function edListAnns(){
     }
     html+='<div class="ed-row"><div class="ed-row-main"><div class="ed-row-t">'+escH(a.t)+'</div>'
       +'<div class="ed-row-s">'+(a.im?'\uD83D\uDCF7 ':'')+(a.doc?'\uD83D\uDCCE ':'')+escH(a.d?niceDate(a.d)+' \u00B7 ':'')+tl+'</div></div>'
+      +'<button class="eu-mini" onclick="anEditStart('+i+')">Edit</button>'
       +'<button class="ed-del" onclick="edDelAnn('+i+')">Remove</button></div>';
   }
   box.innerHTML=html;
