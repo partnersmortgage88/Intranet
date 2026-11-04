@@ -1766,28 +1766,11 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Sign-in access &middot; gated tabs like Recruiting Resources</span></div>
           <div class="uc-card">
             <h3>People &amp; Access</h3>
-            <div class="uc-sub">One list for everyone. Being on it is what lets a person sign in; tags control what they see once they do &mdash; <b>business-development</b> unlocks Recruiting Resources, <b>admin</b> unlocks the PM Database. Every change lands instantly on every device.</div>
+            <div class="uc-sub">Everyone marked <b>active</b> in Partners Roster shows here live and can sign in right away. Add, edit, or deactivate people in Partners Roster; this list follows on its own. Tags control what each person sees once signed in &mdash; <b>business-development</b> unlocks Recruiting Resources, <b>admin</b> unlocks the PM Database.</div>
             <div class="pp-stats" id="pplStats"></div>
-            <div class="lr-addrow">
-              <input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="lrName" placeholder="Add a new hire by full name &mdash; they can sign in the moment you hit Add" onkeydown="if(event.key==='Enter')loAdd()">
-              <button class="uc-save" style="white-space:nowrap;" onclick="loAdd()">Add person</button>
-            </div>
             <div class="lp-filter" style="margin:12px 0 14px;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="pplFilter" type="text" placeholder="Find a person or a tag" oninput="peopleRender()" autocomplete="off"></div>
             <datalist id="tagSuggest"><option value="business-development"></option><option value="admin"></option></datalist>
             <div id="peopleList"></div>
-            <div class="uc-status" id="lrStatus"></div>
-            <div class="rs-box">
-              <div class="rs-head"><span class="rs-dot" id="rsDot"></span><span class="rs-stat" id="rsStat">Roster sync not connected</span>
-                <button class="eu-mini" onclick="rsSyncNow()">Sync now</button>
-                <button class="pm-rm" onclick="rsToggleSetup()">Connection</button></div>
-              <div class="rs-sub">The roster database is the source of truth. New people there are added here automatically; people removed there are taken off here, along with their access tags.</div>
-              <div id="rsReview"></div>
-              <div class="rs-setup" id="rsSetup" style="display:none;">
-                <div class="uc-f"><label>Roster database config</label><textarea class="bp-note-in" id="rsCfg" rows="5" placeholder="Paste the firebaseConfig block from the Partners Roster app (apiKey, projectId, and databaseURL if it uses Realtime Database)"></textarea></div>
-                <div class="uc-f"><label>Collection or path (optional)</label><input type="text" class="bp-note-in" id="rsPath" placeholder="Leave blank to auto-detect (employees, roster, staff, team)"></div>
-                <div class="uc-actions"><button class="uc-save" onclick="rsConnect()">Connect and sync</button> <button class="pm-rm" onclick="rsDisconnect()">Disconnect</button></div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -2208,6 +2191,86 @@ document.addEventListener('click',function(e){
    Tags still gate sections: business-development unlocks Recruiting. */
 var AUTH={on:true, who:null, tags:[], usersUnsub:null, meUnsub:null};
 var TAG_GATES={ 'recruiting':'business-development', 'pmdb':'admin' };
+/* ============ EMPLOYEES (single source of truth) ============
+   Everyone who can sign in comes live from the employees node in the Hype Desk
+   Realtime Database (project fundinghypeboard). Active people of every role are
+   included; employeeId (e.g. PM-0042) is each person's stable id. The roster node
+   is left to the Hype Board and Closing Corner. */
+var EMP={list:[], byId:{}, ready:false, err:false, ref:null, cb:null};
+function empKey(s){ return String(s||'').toLowerCase().replace(/^lo_/,'').replace(/[^a-z0-9]/g,''); }
+function empListen(){
+  if(!HYPE.db) return;
+  if(EMP.ref&&EMP.cb){ try{ EMP.ref.off('value',EMP.cb); }catch(e){} }
+  EMP.err=false;
+  EMP.ref=HYPE.db.ref('employees');
+  EMP.cb=function(snap){
+    var v=snap.val()||{}, list=[], byId={}, k, r, id;
+    for(k in v){ if(!v.hasOwnProperty(k)) continue; r=v[k];
+      if(!r||typeof r!=='object') continue;
+      if(String(r.status||'').toLowerCase()!=='active') continue;
+      id=String(r.employeeId||k);
+      var e={id:id, name:String(r.fullName||'').trim(), photo:r.photoUrl||null, email:String(r.email||'').toLowerCase(),
+             role:r.role||'', team:r.team||'', branch:r.branch||'', phone:r.phone||'', nmls:r.nmls||'',
+             birthday:(r.personal&&r.personal.birthday)||''};
+      if(!e.name) continue;
+      list.push(e); byId[id]=e;
+    }
+    list.sort(function(a,b){ return a.name.localeCompare(b.name); });
+    EMP.list=list; EMP.byId=byId; EMP.ready=true; EMP.err=false;
+    empChanged();
+  };
+  EMP.ref.on('value',EMP.cb,function(err){
+    console.warn('employees feed', err);
+    EMP.err=true; empChanged();
+  });
+}
+function empRetry(){ EMP.err=false; whoRender(); empListen(); }
+function empChanged(){
+  if(typeof whoRender==='function') whoRender();
+  if(typeof peopleRender==='function') peopleRender();
+  if(typeof renderBday==='function') renderBday();
+  if(typeof renderAnns==='function') renderAnns();
+  if(typeof pmaTry==='function') pmaTry();
+  if(typeof empLegacyResolve==='function') empLegacyResolve();
+}
+function empByName(name){
+  var k=empKey(name), i;
+  if(!k) return null;
+  for(i=0;i<EMP.list.length;i++){ if(empKey(EMP.list[i].name)===k) return EMP.list[i]; }
+  return null;
+}
+function empByEmail(email){
+  var e=String(email||'').toLowerCase(), i;
+  if(!e) return null;
+  for(i=0;i<EMP.list.length;i++){ if(EMP.list[i].email===e) return EMP.list[i]; }
+  return null;
+}
+/* move a person's hub record (tags, first seen) from the old login key (lo_first_last
+   or another legacy id) to their employeeId, matched by name: lowercase, letters and numbers only */
+function empMigrate(empId, name, done){
+  if(!DB){ done(); return; }
+  var ref=DB.collection('users').doc(empId);
+  ref.get().then(function(snap){
+    if(snap.exists){ done(); return; }
+    var k=empKey(name);
+    return DB.collection('users').get().then(function(qs){
+      var old=null;
+      qs.forEach(function(d){
+        if(old||d.id===empId) return;
+        var v=d.data()||{};
+        if(v.migratedTo) return;
+        if(empKey(d.id)===k||empKey(v.name)===k) old={id:d.id, v:v};
+      });
+      if(!old){ done(); return; }
+      var copy={}, f;
+      for(f in old.v){ if(old.v.hasOwnProperty(f)) copy[f]=old.v[f]; }
+      copy.legacyId=old.id;
+      return ref.set(copy,{merge:true}).then(function(){
+        return DB.collection('users').doc(old.id).set({migratedTo:empId},{merge:true});
+      }).then(function(){ done(); });
+    });
+  }).catch(function(e){ console.warn('migrate',e); done(); });
+}
 /* ============ SHARED PARTNERS LOGIN (pm-auth) ============
    Sign-in is a verified @partnersmortgage.com email + password through PMAuth.
    The signed-in person is matched to their Hype Desk roster entry so their hub
@@ -2216,50 +2279,45 @@ var TAG_GATES={ 'recruiting':'business-development', 'pmdb':'admin' };
 var PMA={user:null, hubReady:false, mappedUid:null, waits:0, prefT:null};
 function pmaOn(){ return typeof PMAuth!=='undefined'&&PMAuth&&typeof PMAuth.init==='function'&&PMA.started; }
 function pmaNorm(n){ return String(n||'').replace(/\u2019/g,"'").trim().toLowerCase().replace(/\s+/g,' '); }
-function pmaRosterByName(name){
-  var k=pmaNorm(name), ids=Object.keys(HYPE.roster||{}), i;
-  if(!k) return null;
-  for(i=0;i<ids.length;i++){ if(pmaNorm((HYPE.roster[ids[i]]||{}).name)===k) return ids[i]; }
-  return null;
-}
-function pmaRosterByEmail(email){
+function pmaEmpByEmailPattern(email){
   var local=String(email||'').split('@')[0].toLowerCase().replace(/[^a-z0-9.]/g,'');
   if(!local) return null;
-  var ids=Object.keys(HYPE.roster||{}), hits=[], i;
-  for(i=0;i<ids.length;i++){
-    var parts=pmaNorm((HYPE.roster[ids[i]]||{}).name).replace(/\([^)]*\)/g,' ').replace(/[^a-z ]/g,'').split(/\s+/).filter(Boolean);
+  var hits=[], i;
+  for(i=0;i<EMP.list.length;i++){
+    var parts=pmaNorm(EMP.list[i].name).replace(/\([^)]*\)/g,' ').replace(/[^a-z ]/g,'').split(/\s+/).filter(Boolean);
     if(parts.length<2) continue;
     var f=parts[0], l=parts[parts.length-1];
-    var cands=[f+l, f.charAt(0)+l, f+l.charAt(0), f+'.'+l, f];
-    if(cands.indexOf(local)>=0) hits.push(ids[i]);
+    if([f+l, f.charAt(0)+l, f+l.charAt(0), f+'.'+l, f].indexOf(local)>=0) hits.push(EMP.list[i]);
   }
   return hits.length===1?hits[0]:null;
 }
 function pmaTry(){
   var u=PMA.user;
   if(!u||!PMA.hubReady||PMA.mappedUid===u.uid) return;
-  if(!HYPE.ready&&PMA.waits<30){ PMA.waits++; setTimeout(pmaTry,300); return; }
+  if(!EMP.ready&&!EMP.err&&PMA.waits<40){ PMA.waits++; setTimeout(pmaTry,300); return; }
   PMA.mappedUid=u.uid;
   var gotId=PMAuth.load('identity').catch(function(){ return null; });
   var gotProf=PMAuth.getProfile().catch(function(){ return null; });
   Promise.all([gotId,gotProf]).then(function(r){
     var saved=r[0]||null, prof=r[1]||{};
     var profName=((prof.firstName||'')+' '+(prof.lastName||'')).trim();
-    var rid=null;
-    if(saved&&saved.rosterId&&HYPE.roster[saved.rosterId]) rid=saved.rosterId;
-    if(!rid) rid=pmaRosterByName(profName)||pmaRosterByName(u.name)||pmaRosterByEmail(u.email);
+    var e=null;
+    if(saved&&saved.employeeId&&EMP.byId[saved.employeeId]) e=EMP.byId[saved.employeeId];
+    if(!e) e=empByEmail(u.email)||empByName(profName)||empByName(u.name)||pmaEmpByEmailPattern(u.email);
     var who;
-    if(rid){
-      who={id:rid, name:HYPE.roster[rid].name, email:u.email};
-      if(!saved||saved.rosterId!==rid) PMAuth.save('identity',{rosterId:rid}).catch(function(){});
+    if(e){
+      who={id:e.id, name:e.name, email:u.email};
+      if(!saved||saved.employeeId!==e.id) PMAuth.save('identity',{employeeId:e.id}).catch(function(){});
     } else {
       who={id:'pm_'+u.uid, name:profName||u.name||u.email, email:u.email};
     }
-    /* fill empty shared-profile fields so other Partners tools know this person */
+    /* fill empty shared-profile fields from the roster so every Partners tool knows this person */
     var fill={};
-    if(!prof.firstName&&!prof.lastName&&rid){
-      var parts=who.name.split(/\s+/);
-      fill.firstName=parts[0]; fill.lastName=parts.slice(1).join(' ');
+    if(e){
+      if(!prof.firstName&&!prof.lastName){ var parts=e.name.split(/\s+/); fill.firstName=parts[0]; fill.lastName=parts.slice(1).join(' '); }
+      if(!prof.title&&e.role) fill.title=e.role;
+      if(!prof.nmls&&e.nmls) fill.nmls=String(e.nmls);
+      if(!prof.phone&&e.phone) fill.phone=String(e.phone);
     }
     if(!prof.email) fill.email=u.email;
     if(Object.keys(fill).length) PMAuth.saveProfile(fill).catch(function(){});
@@ -2315,31 +2373,39 @@ function showLogin(){
 }
 function whoRender(){
   var grid=document.getElementById('whoGrid'); if(!grid) return;
-  var ids=Object.keys(HYPE.roster||{});
-  if(!ids.length){
-    grid.innerHTML='<div class="who-loading">'+(HYPE.ready?'The roster is empty \u2014 add people on the Funding Hype Desk.':'Loading the team\u2026')+'</div>';
+  if(EMP.err){
+    grid.innerHTML='<div class="who-loading">Couldn\u2019t load the team list, try again<br><button class="eu-mini" style="margin-top:10px;" onclick="empRetry()">Try again</button></div>';
     return;
   }
+  if(!EMP.ready){ grid.innerHTML='<div class="who-loading">Loading the team\u2026</div>'; return; }
+  if(!EMP.list.length){ grid.innerHTML='<div class="who-loading">No active employees in the roster yet.</div>'; return; }
   var q=((document.getElementById('whoFilter')||{}).value||'').trim().toLowerCase();
-  ids.sort(function(a,b){ return ((HYPE.roster[a]||{}).name||'').localeCompare((HYPE.roster[b]||{}).name||''); });
-  var html='',i,lo,ini;
-  for(i=0;i<ids.length;i++){
-    lo=HYPE.roster[ids[i]]||{};
-    if(!lo.name) continue;
-    if(q && lo.name.toLowerCase().indexOf(q)<0) continue;
-    ini=lo.name.split(/\s+/).map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase();
-    html+='<button class="who-card" onclick="whoPick(\''+ids[i]+'\')">'
-      +(lo.photo?'<img class="who-av" src="'+escH(lo.photo)+'" alt="">':'<span class="who-av ini">'+escH(ini)+'</span>')
-      +'<span class="who-n">'+escH(lo.name)+'</span></button>';
+  var html='',i,e,ini;
+  for(i=0;i<EMP.list.length;i++){
+    e=EMP.list[i];
+    if(q && e.name.toLowerCase().indexOf(q)<0) continue;
+    ini=e.name.split(/\s+/).map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase();
+    html+='<button class="who-card" onclick="whoPick(\''+escH(e.id)+'\')">'
+      +(e.photo?'<img class="who-av" src="'+escH(e.photo)+'" alt="">':'<span class="who-av ini">'+escH(ini)+'</span>')
+      +'<span class="who-n">'+escH(e.name)+'</span></button>';
   }
   grid.innerHTML = html || '<div class="who-loading">No one matches "'+escH(q)+'"</div>';
 }
 function whoPick(id){
-  var lo=(HYPE.roster||{})[id]; if(!lo||!lo.name) return;
-  var who={id:id, name:lo.name};
-  try{ localStorage.setItem('ph_who', JSON.stringify(who)); }catch(e){}
+  var e=EMP.byId[id]; if(!e) return;
+  var who={id:e.id, name:e.name, email:e.email};
+  try{ localStorage.setItem('ph_who', JSON.stringify(who)); }catch(err){}
   whoStart(who);
-  hubToast('\uD83D\uDC4B Welcome, '+lo.name.split(/\s+/)[0]+'.');
+  hubToast('\uD83D\uDC4B Welcome, '+e.name.split(/\s+/)[0]+'.');
+}
+/* a device remembered from before the switch holds the old login key: re-point it by name */
+function empLegacyResolve(){
+  if(!EMP.ready||!AUTH.who||!AUTH.who.id||EMP.byId[AUTH.who.id]) return;
+  if(String(AUTH.who.id).indexOf('pm_')===0) return;
+  var e=empByName(AUTH.who.name); if(!e) return;
+  var who={id:e.id, name:e.name, email:e.email||AUTH.who.email||''};
+  try{ if(localStorage.getItem('ph_who')) localStorage.setItem('ph_who', JSON.stringify(who)); }catch(err){}
+  whoStart(who);
 }
 function whoGuest(){
   try{ localStorage.setItem('ph_who', JSON.stringify({id:'', name:''})); }catch(e){}
@@ -2352,12 +2418,13 @@ function whoStart(who){
   if(typeof renderMe==='function') renderMe();
   if(who.id && DB){
     var ref=DB.collection('users').doc(who.id);
-    ref.get().then(function(snap){
+    var go=function(){ ref.get().then(function(snap){
       var base={ name:who.name, lastSeen:Date.now() };
       if(who.email) base.email=who.email;
       if(!snap.exists){ base.firstSeen=Date.now(); base.tags=[]; }
       ref.set(base,{merge:true});
-    }).catch(function(e){ console.warn('who upsert',e); });
+    }).catch(function(e){ console.warn('who upsert',e); }); };
+    if(String(who.id).indexOf('pm_')===0) go(); else empMigrate(who.id, who.name, go);
     if(AUTH.meUnsub) AUTH.meUnsub();
     AUTH.meUnsub=ref.onSnapshot(function(snap){
       AUTH.tags=(snap.exists&&snap.data().tags)||[];
@@ -2452,56 +2519,57 @@ function teamUnified(){
 }
 function peopleRender(){
   var box=document.getElementById('peopleList'); if(!box) return;
+  var st=document.getElementById('pplStats');
+  if(EMP.err){ box.innerHTML='<div class="ed-empty">Couldn\u2019t load the team list, try again. <button class="eu-mini" onclick="empRetry()">Try again</button></div>'; if(st) st.innerHTML=''; return; }
+  if(!EMP.ready){ box.innerHTML='<div class="ed-empty">Loading the team\u2026</div>'; return; }
   var q=((document.getElementById('pplFilter')||{}).value||'').trim().toLowerCase();
-  var users=AUTH.usersCache||[], byName={}, i, u;
-  for(i=0;i<users.length;i++){ byName[nrmName(users[i].name)]=users[i]; }
-  var ids=Object.keys(HYPE.roster);
-  ids.sort(function(a,b){ return ((HYPE.roster[a]||{}).name||'').localeCompare((HYPE.roster[b]||{}).name||''); });
-  var html='', shown=0, admins=0, reg=0, used={};
-  function row(name, photo, rid, u){
+  var users=AUTH.usersCache||[], byId={}, byKey={}, i, u;
+  for(i=0;i<users.length;i++){ u=users[i];
+    if(u.migratedTo) continue;
+    byId[u._id]=u;
+    if(!byKey[empKey(u.name)]) byKey[empKey(u.name)]=u;
+  }
+  var html='', admins=0, reg=0, used={};
+  function row(name, sub, photo, u, ghost){
     var tags=(u&&u.tags)||[], chips='', j;
     for(j=0;j<tags.length;j++){
-      chips+='<span class="tag-chip">'+escH(tags[j])+(u?'<button class="tag-x" onclick="teamTagRemove(\''+u._id+'\',\''+escH(tags[j])+'\')" title="Remove tag">&times;</button>':'')+'</span>';
+      chips+='<span class="tag-chip">'+escH(tags[j])+'<button class="tag-x" onclick="teamTagRemove(\''+u._id+'\',\''+escH(tags[j])+'\')" title="Remove tag">&times;</button></span>';
     }
-    var st, stc='';
-    if(u&&rid){ st='Signed in \u00B7 last seen '+(u.lastSeen?new Date(u.lastSeen).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'\u2014'); }
-    else if(u&&!rid){ st='Signed in \u00B7 not on the roster'; stc=' bad'; }
-    else { st='Has not signed in yet'; stc=' wait'; }
-    var qkey=(name+' '+tags.join(' ')).toLowerCase();
-    if(q&&qkey.indexOf(q)<0) return '';
-    shown++;
+    var stt, stc='';
+    if(u&&!ghost){ stt='Signed in \u00B7 last seen '+(u.lastSeen?new Date(u.lastSeen).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'\u2014'); }
+    else if(ghost){ stt='Signed in \u00B7 not active in Partners Roster'; stc=' bad'; }
+    else { stt='Has not signed in yet'; stc=' wait'; }
+    if(q&&(name+' '+sub+' '+tags.join(' ')).toLowerCase().indexOf(q)<0) return '';
     var av=photo?'<img class="pp-av" src="'+escH(photo)+'" alt="">':'<span class="pp-av ini">'+escH(loInitials(name))+'</span>';
-    var tagsHtml;
-    if(u){
-      tagsHtml='<div class="tag-wrap">'+(chips||'<span class="tag-none">No tags</span>')+'</div>'
+    var tagsHtml=u
+      ?'<div class="tag-wrap">'+(chips||'<span class="tag-none">No tags</span>')+'</div>'
         +'<div class="tag-addrow"><input type="text" id="tagIn_'+u._id+'" list="tagSuggest" placeholder="Add tag" onkeydown="if(event.key===\'Enter\')teamTagAdd(\''+u._id+'\')">'
-        +'<button class="eu-mini" onclick="teamTagAdd(\''+u._id+'\')">Add</button></div>';
-    } else {
-      tagsHtml='<div class="tag-wrap"><span class="tag-none">Tags unlock after their first sign-in</span></div>';
-    }
+        +'<button class="eu-mini" onclick="teamTagAdd(\''+u._id+'\')">Add</button></div>'
+      :'<div class="tag-wrap"><span class="tag-none">Tags unlock after their first sign-in</span></div>';
     return '<div class="pp-row">'+av
-      +'<div class="pp-main"><div class="pp-n">'+escH(name)+'</div><div class="pp-s'+stc+'">'+st+'</div></div>'
+      +'<div class="pp-main"><div class="pp-n">'+escH(name)+'</div>'+(sub?'<div class="pp-s">'+escH(sub)+'</div>':'')+'<div class="pp-s'+stc+'">'+stt+'</div></div>'
       +'<div class="pp-tags">'+tagsHtml+'</div>'
-      +'<div class="pp-act">'+(!rid?'<button class="eu-mini" onclick="loAddNamed(\''+escH(name)+'\')">Add to roster</button>':'')
-      +'<button class="ed-del" onclick="personRemove(\''+(rid||'')+'\',\''+(u?u._id:'')+'\',\''+escH(name)+'\')">Remove</button></div></div>';
+      +'<div class="pp-act">'+(u?'<button class="ed-del" onclick="personClear(\''+u._id+'\',\''+escH(name)+'\')">Clear access</button>':'')+'</div></div>';
   }
-  for(i=0;i<ids.length;i++){
-    var lo=HYPE.roster[ids[i]]; if(!lo||!lo.name) continue;
-    var u2=byName[nrmName(lo.name)]||null;
+  for(i=0;i<EMP.list.length;i++){
+    var e=EMP.list[i];
+    var u2=byId[e.id]||byKey[empKey(e.name)]||null;
     if(u2){ used[u2._id]=1; reg++; if((u2.tags||[]).indexOf('admin')>=0) admins++; }
-    html+=row(lo.name, lo.photo, ids[i], u2);
+    var sub=[e.employeeId||e.id, e.role, e.team, e.branch].filter(Boolean).join(' \u00B7 ');
+    html+=row(e.name, sub, e.photo, u2, false);
   }
   var extra='';
   for(i=0;i<users.length;i++){ u=users[i];
-    if(used[u._id]) continue;
-    reg++; if((u.tags||[]).indexOf('admin')>=0) admins++;
-    extra+=row(u.name, u.photo||null, null, u);
+    if(u.migratedTo||used[u._id]) continue;
+    extra+=row(u.name, u.email||'', u.photo||null, u, true);
   }
-  if(extra) html+='<div class="mm-lbl" style="margin:16px 2px 8px;">Signed in but not on the roster</div>'+extra;
-  if(!html) html='<div class="ed-empty">'+(q?'No one matches that.':'Roster is empty \u2014 add the first person above.')+'</div>';
+  if(extra) html+='<div class="mm-lbl" style="margin:16px 2px 8px;">Signed in but not active in Partners Roster</div>'+extra;
+  if(!html) html='<div class="ed-empty">'+(q?'No one matches that.':'No active employees in Partners Roster yet.')+'</div>';
   box.innerHTML=html;
-  var st=document.getElementById('pplStats');
-  if(st) st.innerHTML='<span>'+ids.length+' on the roster</span><em>&middot;</em><span>'+reg+' signed in</span><em>&middot;</em><span>'+admins+' admin'+(admins===1?'':'s')+'</span>';
+  if(st) st.innerHTML='<span>'+EMP.list.length+' active</span><em>&middot;</em><span>'+reg+' signed in</span><em>&middot;</em><span>'+admins+' admin'+(admins===1?'':'s')+'</span>';
+}
+function personClear(uid, name){
+  if(DB) DB.collection('users').doc(uid).delete().then(function(){ hubToast('Cleared hub access for '+name+'.'); }).catch(function(){});
 }
 function loAddNamed(name){
   if(!HYPE.db||!name) return;
@@ -2636,7 +2704,6 @@ var HUB={pulse:null, closing:{tip:'', fundings:[]}, anns:{flash:null, items:null
 var DB=null, HUB_READY=false, HUB_SUPPRESS=false, HUB_SAVE_T=null, HUB_DIRTY={};
 
 function hubDefaults(){
-  if(!HUB.rostersrc) HUB.rostersrc={};
   if(!HUB.pmdb) HUB.pmdb=[];
   if(!HUB.closing) HUB.closing={tip:'',fundings:[]};
   if(!HUB.closing.fundings) HUB.closing.fundings=[];
@@ -2659,7 +2726,6 @@ var HUB_SHARDS={
   trainings: function(){ return {items:HUB.trainings||[]}; },
   pie:      function(){ return {items:HUB.pie||[]}; },
   pmdb:     function(){ return {items:HUB.pmdb||[], seeded:1}; },
-  rostersrc:function(){ return {src:HUB.rostersrc||{}}; },
   eios_prod:  function(){ return {rows:(HUB.eios&&HUB.eios.prod)||[]}; },
   eios_leads: function(){ return {rows:(HUB.eios&&HUB.eios.leads)||[]}; },
   eios_pipe:  function(){ return {rows:(HUB.eios&&HUB.eios.pipe)||[], up:(HUB.eios&&HUB.eios.up)||{}, pendingStatuses:(HUB.eios&&HUB.eios.pendingStatuses)||null}; }
@@ -2673,7 +2739,6 @@ function hubApplyShard(id, d){
   else if(id==='gtc'){ if(d.gtc) HUB.gtc=d.gtc; }
   else if(id==='trainings'){ HUB.trainings=d.items||[]; }
   else if(id==='pie'){ HUB.pie=d.items||[]; }
-  else if(id==='rostersrc'){ HUB.rostersrc=d.src||{}; if(typeof rsBoot==='function') rsBoot(); }
   else if(id==='pmdb'){ HUB.pmdb=d.items||[]; HUB.pmdbSeeded=!!d.seeded||!!(d.items&&d.items.length); }
   else if(id==='eios_prod'){ if(!HUB.eios)HUB.eios={}; HUB.eios.prod=d.rows||[]; }
   else if(id==='eios_leads'){ if(!HUB.eios)HUB.eios={}; HUB.eios.leads=d.rows||[]; }
@@ -3246,19 +3311,6 @@ var LOCAL_ROSTER={
 };
 /* every employee on the Sept 2026 roster can always find their name at login,
    even when the live roster node is stale; DB entries win so photos are kept. */
-function rosterEnsureAll(r){
-  r=r||{};
-  var have={}, k, i, nm, key;
-  for(k in r){ if(r.hasOwnProperty(k)&&r[k]&&r[k].name) have[String(r[k].name).trim().toLowerCase()]=1; }
-  var names=[];
-  if(typeof BDAYS!=='undefined'){ for(i=0;i<BDAYS.length;i++) names.push(BDAYS[i].n); }
-  names.push('Al Crisanty','Deena Sisson','Frank Brown');
-  for(i=0;i<names.length;i++){
-    nm=names[i]; key=nm.trim().toLowerCase();
-    if(!have[key]){ r['x_r'+i]={name:nm, photo:null}; have[key]=1; }
-  }
-  return r;
-}
 var HYPE={db:null, roster:Object.assign({},LOCAL_ROSTER), entries:{}, tip:'', tipArchive:[], ready:false, seedChecked:false};
 var HYPE_CATS={ funded:{label:'Fundings'}, docs:{label:'Docs Out'}, wet:{label:'Wet Fundings'} };
 function hypeTodayKey(){
@@ -3270,10 +3322,10 @@ function hypeInit(){
   try{
     var app=firebase.initializeApp(HYPE_FB,'hype');
     HYPE.db=app.database();
+    empListen();
     HYPE.db.ref('roster').on('value',function(snap){
-      HYPE.roster=(typeof rsActive==='function'&&rsActive())?Object.assign({}, snap.val()||{}):Object.assign({}, snap.val()||{}, LOCAL_ROSTER);
+      HYPE.roster=Object.assign({}, snap.val()||{}, LOCAL_ROSTER);
       HYPE.ready=true;
-      if(typeof rsSchedule==='function') rsSchedule();
       if(typeof whoRender==='function') whoRender();
       loDatalist(); if(typeof peopleRender==='function') peopleRender(); loCheck(); renderFundings(); renderSpot();
       if(typeof authTryRosterName==='function'){ authTryRosterName(); if(AUTH.on&&AUTH.user&&!AUTH.name&&!AUTH.nameAsked){ AUTH.nameAsked=true; nameAsk(); } }
@@ -3407,212 +3459,6 @@ function loRosterList(){
   }
   box.innerHTML=html;
 }
-/* ============ ROSTER SYNC ============
-   One-way mirror: Partners Roster database -> login roster (Hype Desk roster node).
-   Adds people who are new there, removes people who are gone there (plus their hub
-   access record), leaves everyone else untouched. Matching: previous sync link, then
-   email, then name. Guards: an empty or unreachable source never removes anyone, and a
-   pass that would remove a lot at once waits for an admin to review it. */
-var RS={app:null, key:'', unsub:null, recs:null, t:null, busy:false, last:null, err:'', pending:null, n:0};
-function rsActive(){ var c=(HUB.rostersrc||{}).cfg; return !!(c&&c.projectId); }
-function rsParseCfg(txt){
-  var out={}, re=/(apiKey|authDomain|databaseURL|projectId|storageBucket|messagingSenderId|appId)["']?\s*[:=]\s*["']([^"']+)["']/g, m;
-  while((m=re.exec(String(txt||'')))){ out[m[1]]=m[2]; }
-  return out;
-}
-function rsToggleSetup(){
-  var b=document.getElementById('rsSetup'); if(!b) return;
-  var on=b.style.display==='none';
-  b.style.display=on?'':'none';
-  if(on){
-    var src=HUB.rostersrc||{}, c=src.cfg||{}, t=document.getElementById('rsCfg'), pa=document.getElementById('rsPath');
-    if(t&&!t.value&&c.projectId) t.value=Object.keys(c).map(function(k){ return k+': "'+c[k]+'"'; }).join(',\n');
-    if(pa&&!pa.value) pa.value=src.path||'';
-  }
-}
-function rsConnect(){
-  var cfg=rsParseCfg((document.getElementById('rsCfg')||{}).value);
-  if(!cfg.apiKey||!cfg.projectId){ rsSetStat('err','That config is missing apiKey or projectId. Paste the whole firebaseConfig block.'); return; }
-  var path=((document.getElementById('rsPath')||{}).value||'').trim().replace(/^\/+|\/+$/g,'');
-  HUB.rostersrc={cfg:cfg, path:path, kind:'', at:Date.now()};
-  hubSave('rostersrc');
-  RS.key='';
-  rsBoot();
-  var b=document.getElementById('rsSetup'); if(b) b.style.display='none';
-}
-function rsDisconnect(){
-  HUB.rostersrc={}; hubSave('rostersrc');
-  rsTeardown(); RS.key=''; RS.recs=null; RS.last=null; RS.pending=null;
-  rsSetStat('off','Roster sync not connected');
-  rsRenderReview();
-}
-function rsTeardown(){
-  if(RS.unsub){ try{ RS.unsub(); }catch(e){} RS.unsub=null; }
-  if(RS.app){ try{ RS.app.delete(); }catch(e){} RS.app=null; }
-}
-function rsSetStat(kind,msg){
-  RS.err=(kind==='err')?msg:'';
-  var d=document.getElementById('rsDot'), t=document.getElementById('rsStat');
-  if(d) d.className='rs-dot '+kind;
-  if(t) t.textContent=msg;
-}
-function rsBoot(){
-  if(!rsActive()){ rsTeardown(); rsSetStat('off','Roster sync not connected'); return; }
-  var src=HUB.rostersrc, key=JSON.stringify([src.cfg,src.path,src.kind]);
-  if(RS.key===key&&RS.app) return;
-  RS.key=key; rsTeardown();
-  try{
-    RS.n++;
-    RS.app=firebase.initializeApp(src.cfg,'rostersrc'+RS.n);
-  }catch(e){ rsSetStat('err','Could not start the roster connection: '+e.message); return; }
-  rsSetStat('wait','Connecting to the roster database\u2026');
-  if(src.path&&src.kind){ rsListen(src.kind,src.path); return; }
-  rsDetect(src);
-}
-function rsDetect(src){
-  var kinds=[], paths=src.path?[src.path]:['employees','roster','staff','team','users','people'];
-  if(src.cfg.databaseURL) kinds.push('rtdb');
-  kinds.push('firestore');
-  var tries=[], i, j;
-  for(i=0;i<kinds.length;i++) for(j=0;j<paths.length;j++) tries.push([kinds[i],paths[j]]);
-  var k=0;
-  (function next(){
-    if(k>=tries.length){ rsSetStat('err','Connected, but found no employee list. Open Connection and enter the collection or path name.'); return; }
-    var t=tries[k++];
-    rsReadOnce(t[0],t[1]).then(function(list){
-      if(list&&list.length){
-        HUB.rostersrc.kind=t[0]; HUB.rostersrc.path=t[1]; hubSave('rostersrc');
-        RS.key=JSON.stringify([HUB.rostersrc.cfg,HUB.rostersrc.path,HUB.rostersrc.kind]);
-        rsListen(t[0],t[1]);
-      } else next();
-    }).catch(function(){ next(); });
-  })();
-}
-function rsReadOnce(kind,path){
-  if(kind==='rtdb') return RS.app.database().ref(path).once('value').then(function(sn){ return rsFromMap(sn.val()); });
-  return RS.app.firestore().collection(path).get().then(function(qs){ var a=[]; qs.forEach(function(d){ a.push({id:d.id, d:d.data()||{}}); }); return rsFromList(a); });
-}
-function rsListen(kind,path){
-  var onErr=function(e){ rsSetStat('err','The roster database refused the read ('+(e&&e.code||'error')+'). Its rules may require sign-in.'); };
-  if(kind==='rtdb'){
-    var ref=RS.app.database().ref(path);
-    var cb=function(sn){ RS.recs=rsFromMap(sn.val()); rsSchedule(); };
-    ref.on('value',cb,onErr);
-    RS.unsub=function(){ ref.off('value',cb); };
-  } else {
-    RS.unsub=RS.app.firestore().collection(path).onSnapshot(function(qs){
-      var a=[]; qs.forEach(function(d){ a.push({id:d.id, d:d.data()||{}}); });
-      RS.recs=rsFromList(a); rsSchedule();
-    },onErr);
-  }
-}
-function rsFromMap(v){
-  var a=[], k;
-  if(Array.isArray(v)){ for(k=0;k<v.length;k++) if(v[k]&&typeof v[k]==='object') a.push({id:String(k), d:v[k]}); }
-  else if(v&&typeof v==='object'){ for(k in v) if(v.hasOwnProperty(k)&&v[k]&&typeof v[k]==='object') a.push({id:k, d:v[k]}); }
-  return rsFromList(a);
-}
-function rsPick(o,keys){ var i; for(i=0;i<keys.length;i++){ if(o[keys[i]]!==undefined&&o[keys[i]]!==null&&String(o[keys[i]]).trim()!=='') return String(o[keys[i]]).trim(); } return ''; }
-function rsFromList(a){
-  var out=[], seen={}, i, d, nm, em, st;
-  for(i=0;i<a.length;i++){ d=a[i].d;
-    nm=rsPick(d,['name','fullName','full_name','employee','EMPLOYEE','Employee','displayName']);
-    if(!nm){ var f=rsPick(d,['firstName','first','first_name','First','FirstName']), l=rsPick(d,['lastName','last','last_name','Last','LastName']); nm=(f+' '+l).trim(); }
-    if(!nm) continue;
-    st=rsPick(d,['status','Status','employmentStatus']).toLowerCase();
-    if(d.active===false||d.archived===true||d.deleted===true||/inactive|terminated|former|separated|left|archived/.test(st)) continue;
-    em=rsPick(d,['email','Email','EMAIL','workEmail']).toLowerCase();
-    var k=pmaNorm(nm);
-    if(seen[k]) continue;
-    seen[k]=1;
-    out.push({key:String(a[i].id), name:nm, email:em});
-  }
-  return out;
-}
-function rsSchedule(){
-  if(RS.t) clearTimeout(RS.t);
-  RS.t=setTimeout(rsDiff,1500);
-}
-function rsSyncNow(){
-  if(!rsActive()){ rsToggleSetup(); rsSetStat('off','Paste the roster database config to connect.'); return; }
-  if(!RS.recs){ RS.key=''; rsBoot(); return; }
-  rsDiff(true);
-}
-function rsLoose(n){
-  var p=pmaNorm(n).replace(/\([^)]*\)/g,' ').replace(/[^a-z ]/g,' ').split(/\s+/).filter(Boolean);
-  return p.length?{f:p[0], l:p[p.length-1]}:null;
-}
-function rsDiff(manual){
-  if(!RS.recs||!HYPE.db||!HYPE.ready||!DB){ if(RS.recs) setTimeout(rsDiff,800); return; }
-  if(RS.busy) return;
-  var src=RS.recs;
-  if(!src.length){ rsSetStat('warn','The roster database returned no one. Nothing was removed.'); return; }
-  RS.busy=true;
-  DB.collection('users').get().then(function(qs){
-    var emailOf={}; qs.forEach(function(d){ var v=d.data()||{}; if(v.email) emailOf[d.id]=String(v.email).toLowerCase(); });
-    var ros=HYPE.roster||{}, ids=Object.keys(ros).filter(function(id){ return ros[id]&&ros[id].name&&id.indexOf('x_')!==0; });
-    var taken={}, adds=[], links=[], i, j, p;
-    function claim(id,p){ taken[id]=1; if(ros[id].srcId!==p.key||(p.email&&ros[id].email!==p.email)) links.push([id,p]); }
-    var left=[];
-    for(i=0;i<src.length;i++){ p=src[i]; var hit=null;
-      for(j=0;j<ids.length&&!hit;j++){ if(!taken[ids[j]]&&ros[ids[j]].srcId===p.key) hit=ids[j]; }
-      if(!hit&&p.email) for(j=0;j<ids.length&&!hit;j++){ var e2=ros[ids[j]].email||emailOf[ids[j]]; if(!taken[ids[j]]&&e2&&e2===p.email) hit=ids[j]; }
-      if(!hit) for(j=0;j<ids.length&&!hit;j++){ if(!taken[ids[j]]&&pmaNorm(ros[ids[j]].name)===pmaNorm(p.name)) hit=ids[j]; }
-      if(hit) claim(hit,p); else left.push(p);
-    }
-    /* loose pass: same last name and first initial, only when unique on both sides */
-    for(i=0;i<left.length;i++){ p=left[i]; var a=rsLoose(p.name), cand=[];
-      if(a) for(j=0;j<ids.length;j++){ if(taken[ids[j]]) continue; var b=rsLoose(ros[ids[j]].name); if(b&&b.l===a.l&&b.f.charAt(0)===a.f.charAt(0)) cand.push(ids[j]); }
-      if(cand.length===1) claim(cand[0],p); else adds.push(p);
-    }
-    var removes=ids.filter(function(id){ return !taken[id]; });
-    for(i=0;i<adds.length;i++){
-      var k2='src_'+String(adds[i].key).replace(/[.#$\[\]\/]/g,'_');
-      HYPE.db.ref('roster/'+k2).set({name:adds[i].name, photo:null, srcId:adds[i].key, email:adds[i].email||null});
-    }
-    for(i=0;i<links.length;i++){
-      HYPE.db.ref('roster/'+links[i][0]).update({srcId:links[i][1].key, email:links[i][1].email||null});
-    }
-    var limit=Math.max(3, Math.ceil(ids.length*0.25)), removed=0;
-    if(removes.length&&removes.length>limit){
-      RS.pending=removes.slice();
-    } else {
-      for(i=0;i<removes.length;i++) rsRemove(removes[i]);
-      removed=removes.length; RS.pending=null;
-    }
-    RS.last={at:Date.now(), added:adds.length, removed:removed, total:src.length};
-    rsStatusLine();
-    rsRenderReview();
-    if(manual||adds.length||removed) hubToast('Roster sync: '+adds.length+' added, '+removed+' removed'+(RS.pending?(', '+RS.pending.length+' waiting for review'):'')+'.');
-    RS.busy=false;
-  }).catch(function(e){ RS.busy=false; rsSetStat('err','Sync could not read hub access records: '+(e&&e.message||e)); });
-}
-function rsRemove(id){
-  if(HYPE.db) HYPE.db.ref('roster/'+id).remove();
-  if(DB) DB.collection('users').doc(id).delete().catch(function(){});
-}
-function rsStatusLine(){
-  if(!RS.last) return;
-  var mins=Math.round((Date.now()-RS.last.at)/60000);
-  rsSetStat(RS.pending?'warn':'ok','Synced with the roster database \u00B7 '+RS.last.total+' people \u00B7 '
-    +(mins<1?'just now':(mins+' min ago'))+' \u00B7 last pass '+RS.last.added+' added, '+RS.last.removed+' removed');
-}
-function rsRenderReview(){
-  var box=document.getElementById('rsReview'); if(!box) return;
-  if(!RS.pending||!RS.pending.length){ box.innerHTML=''; return; }
-  var ros=HYPE.roster||{}, names=RS.pending.map(function(id){ return escH((ros[id]||{}).name||id); });
-  box.innerHTML='<div class="rs-review"><b>'+RS.pending.length+' people are no longer in the roster database.</b> That is a lot for one pass, so they were not removed automatically. Review and confirm:'
-    +'<div class="rs-names">'+names.join(', ')+'</div>'
-    +'<div class="uc-actions"><button class="ed-del" onclick="rsApplyPending()">Remove these '+RS.pending.length+'</button> <button class="pm-rm" onclick="rsKeepPending()">Keep them for now</button></div></div>';
-}
-function rsApplyPending(){
-  var p=RS.pending||[], i;
-  for(i=0;i<p.length;i++) rsRemove(p[i]);
-  if(RS.last) RS.last.removed+=p.length;
-  hubToast('Removed '+p.length+' people who left the roster.');
-  RS.pending=null; rsRenderReview(); rsStatusLine();
-}
-function rsKeepPending(){ RS.pending=null; rsRenderReview(); rsStatusLine(); hubToast('Kept them. They will come up again on the next sync.'); }
 function loAdd(){
   var inp=document.getElementById('lrName'); if(!inp) return;
   var name=inp.value.trim();
@@ -3624,24 +3470,6 @@ function loAdd(){
     hubToast('\u2705 '+name+' can now sign in.');
   });
   inp.value='';
-}
-function loSeedMissing(){
-  if(!HYPE.db) return 0;
-  var names=[], i, added=0;
-  if(typeof BDAYS!=='undefined'){ for(i=0;i<BDAYS.length;i++) names.push(BDAYS[i].n); }
-  names.push('Al Crisanty','Deena Sisson','Frank Brown');
-  for(i=0;i<names.length;i++){
-    if(!hypeLoByName(names[i])){
-      HYPE.db.ref('roster/sept26_'+i).set({name:names[i], photo:null});
-      added++;
-    }
-  }
-  return added;
-}
-function loSyncSept(){
-  if(!HYPE.db){ edStatus('lrStatus','Hype Desk connection is down \u2014 try again in a minute.'); return; }
-  var added=loSeedMissing();
-  hubToast(added?('\u2705 Added '+added+' people to the Firebase roster.'):'Everyone from the sheet is already on the roster.');
 }
 function loRemove(id){ if(HYPE.db) HYPE.db.ref('roster/'+id).remove(); }
 function edAddFunding(){
@@ -5656,6 +5484,24 @@ var HOL_LIST=[
  {d:'Thu, Nov 26',n:'Thanksgiving Day'},{d:'Fri, Nov 27',n:'Day After Thanksgiving'},
  {d:'Fri, Dec 25',n:'Christmas Day'}
 ];
+function bdParse(v){
+  var M={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  var x=String(v||'').trim(), m;
+  if(!x) return null;
+  if((m=/^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(x))) return {m:+m[2], d:+m[3]};
+  if((m=/^(\d{1,2})[\/-](\d{1,2})(?:[\/-]\d{2,4})?$/.exec(x))) return {m:+m[1], d:+m[2]};
+  if((m=/^([a-z]{3})[a-z]*\.?\s+(\d{1,2})/i.exec(x))&&M[m[1].toLowerCase()]) return {m:M[m[1].toLowerCase()], d:+m[2]};
+  if((m=/^(\d{1,2})[\s-]([a-z]{3})/i.exec(x))&&M[m[2].toLowerCase()]) return {m:M[m[2].toLowerCase()], d:+m[1]};
+  return null;
+}
+function bdList(){
+  if(EMP.ready){
+    var out=[], i, b;
+    for(i=0;i<EMP.list.length;i++){ b=bdParse(EMP.list[i].birthday); if(b&&b.m>=1&&b.m<=12&&b.d>=1&&b.d<=31) out.push({n:EMP.list[i].name, m:b.m, d:b.d}); }
+    return out;
+  }
+  return (typeof BDAYS!=='undefined'&&BDAYS)?BDAYS:[];
+}
 var BD_VIEW=null;
 var BD_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 function bdInit(){ if(!BD_VIEW){ var n=new Date(); BD_VIEW={y:n.getFullYear(), m:n.getMonth()+1}; } }
@@ -5669,12 +5515,11 @@ function bdShift(dir){
 function bdToday(){ BD_VIEW=null; renderBday(); }
 function bdOn(m,d){
   var out=[],i;
-  if(typeof BDAYS==='undefined'||!BDAYS) return out;
-  for(i=0;i<BDAYS.length;i++){ if(BDAYS[i].m===m&&BDAYS[i].d===d) out.push(BDAYS[i].n); }
+  var L=bdList();
+  for(i=0;i<L.length;i++){ if(L[i].m===m&&L[i].d===d) out.push(L[i].n); }
   return out;
 }
 function renderBday(){
-  if(typeof BDAYS==='undefined'||!BDAYS) return;
   var grid=document.getElementById('bdGrid'), title=document.getElementById('bdTitle'), below=document.getElementById('bdBelow');
   if(!grid) return;
   bdInit();
@@ -5708,7 +5553,8 @@ function renderBday(){
     }
   }
   var list=[],e;
-  for(i=0;i<BDAYS.length;i++){ if(BDAYS[i].m===m) list.push(BDAYS[i]); }
+  var L=bdList();
+  for(i=0;i<L.length;i++){ if(L[i].m===m) list.push(L[i]); }
   list.sort(function(a,b){ return a.d-b.d; });
   bh+='<div class="bd-month-list"><div class="rgroup-h" style="margin:20px 0 12px;">Birthdays in '+BD_MONTHS[m-1]+'</div>';
   if(!list.length){
@@ -5747,7 +5593,6 @@ function lpHolidays(){
   ov.classList.toggle('on',on);
 }
 
-HYPE.roster=rosterEnsureAll(HYPE.roster);
 if(typeof loDatalist==='function') loDatalist();
 if(typeof peopleRender==='function') peopleRender();
 
