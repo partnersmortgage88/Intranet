@@ -955,6 +955,19 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
 .pm-in{margin-top:0;}
 .pm-wide{grid-column:1 / -1;}
 .pm-addbtn{grid-column:1 / -1;justify-self:start;}
+.rs-box{margin-top:16px;background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:13px 15px;}
+.rs-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.rs-dot{width:9px;height:9px;border-radius:50%;background:var(--gray);flex:none;}
+.rs-dot.ok{background:#5BE49B;box-shadow:0 0 8px rgba(91,228,155,.6);}
+.rs-dot.wait{background:var(--teal);}
+.rs-dot.warn{background:var(--gold);}
+.rs-dot.err{background:#FF8A90;}
+.rs-stat{flex:1;font-size:12px;font-weight:600;color:var(--ink);min-width:180px;}
+.rs-sub{font-size:11px;color:var(--ink-soft);margin-top:7px;line-height:1.5;}
+.rs-setup{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;}
+.rs-review{margin-top:12px;background:rgba(255,172,39,.07);border:1px solid rgba(255,172,39,.35);border-radius:11px;padding:11px 13px;font-size:12px;color:var(--ink-soft);line-height:1.5;}
+.rs-review b{color:var(--ink);}
+.rs-names{margin:7px 0 4px;font-size:11.5px;color:var(--ink);}
 .pp-stats{display:flex;gap:9px;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-top:8px;}
 .pp-stats em{font-style:normal;color:var(--line2);}
 .pp-row{display:grid;grid-template-columns:44px 1.1fr 1.5fr auto;gap:14px;align-items:center;padding:12px 4px;border-bottom:1px solid var(--line);}
@@ -1275,8 +1288,30 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
 }
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+/* Shared Partners login. This page already loads the Firebase SDK for its own data,
+   so pm-auth.js reuses it instead of loading a second copy. pm-auth expects the DEFAULT
+   app to be partners-platform; the hub's own projects run as named apps (intranet,
+   proddash, hype). Public web config, safe to ship (rules enforce access). */
+(function(){
+  try{
+    if(window.firebase && !firebase.apps.some(function(a){ return a.name==='[DEFAULT]'; })){
+      firebase.initializeApp({
+        apiKey:'AIzaSyCgKNa6AGlw0DiftPf4oK8v-J2Qst_dEwE',
+        authDomain:'partners-platform-348b7.firebaseapp.com',
+        projectId:'partners-platform-348b7',
+        storageBucket:'partners-platform-348b7.firebasestorage.app',
+        messagingSenderId:'290374501015',
+        appId:'1:290374501015:web:25b81eea5392124ae7dfd2'
+      });
+    }
+  }catch(e){ console.warn('platform app init', e); }
+})();
+</script>
+<script src="https://partnersmortgage88.github.io/pm-auth/pm-auth.js"></script>
 </head>
 <body>
 
@@ -1740,7 +1775,19 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
             <div class="lp-filter" style="margin:12px 0 14px;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><input id="pplFilter" type="text" placeholder="Find a person or a tag" oninput="peopleRender()" autocomplete="off"></div>
             <datalist id="tagSuggest"><option value="business-development"></option><option value="admin"></option></datalist>
             <div id="peopleList"></div>
-            <div class="uc-actions" style="margin-top:12px;"><button class="wgo" style="margin-left:0;" onclick="loSyncSept()">Re-check the Sept 2026 sheet</button><span class="uc-status" id="lrStatus"></span></div>
+            <div class="uc-status" id="lrStatus"></div>
+            <div class="rs-box">
+              <div class="rs-head"><span class="rs-dot" id="rsDot"></span><span class="rs-stat" id="rsStat">Roster sync not connected</span>
+                <button class="eu-mini" onclick="rsSyncNow()">Sync now</button>
+                <button class="pm-rm" onclick="rsToggleSetup()">Connection</button></div>
+              <div class="rs-sub">The roster database is the source of truth. New people there are added here automatically; people removed there are taken off here, along with their access tags.</div>
+              <div id="rsReview"></div>
+              <div class="rs-setup" id="rsSetup" style="display:none;">
+                <div class="uc-f"><label>Roster database config</label><textarea class="bp-note-in" id="rsCfg" rows="5" placeholder="Paste the firebaseConfig block from the Partners Roster app (apiKey, projectId, and databaseURL if it uses Realtime Database)"></textarea></div>
+                <div class="uc-f"><label>Collection or path (optional)</label><input type="text" class="bp-note-in" id="rsPath" placeholder="Leave blank to auto-detect (employees, roster, staff, team)"></div>
+                <div class="uc-actions"><button class="uc-save" onclick="rsConnect()">Connect and sync</button> <button class="pm-rm" onclick="rsDisconnect()">Disconnect</button></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2161,6 +2208,102 @@ document.addEventListener('click',function(e){
    Tags still gate sections: business-development unlocks Recruiting. */
 var AUTH={on:true, who:null, tags:[], usersUnsub:null, meUnsub:null};
 var TAG_GATES={ 'recruiting':'business-development', 'pmdb':'admin' };
+/* ============ SHARED PARTNERS LOGIN (pm-auth) ============
+   Sign-in is a verified @partnersmortgage.com email + password through PMAuth.
+   The signed-in person is matched to their Hype Desk roster entry so their hub
+   record and access tags (users/{rosterId}) carry over unchanged. If the module
+   cannot load, the old roster name picker still works as a fallback. */
+var PMA={user:null, hubReady:false, mappedUid:null, waits:0, prefT:null};
+function pmaOn(){ return typeof PMAuth!=='undefined'&&PMAuth&&typeof PMAuth.init==='function'&&PMA.started; }
+function pmaNorm(n){ return String(n||'').replace(/\u2019/g,"'").trim().toLowerCase().replace(/\s+/g,' '); }
+function pmaRosterByName(name){
+  var k=pmaNorm(name), ids=Object.keys(HYPE.roster||{}), i;
+  if(!k) return null;
+  for(i=0;i<ids.length;i++){ if(pmaNorm((HYPE.roster[ids[i]]||{}).name)===k) return ids[i]; }
+  return null;
+}
+function pmaRosterByEmail(email){
+  var local=String(email||'').split('@')[0].toLowerCase().replace(/[^a-z0-9.]/g,'');
+  if(!local) return null;
+  var ids=Object.keys(HYPE.roster||{}), hits=[], i;
+  for(i=0;i<ids.length;i++){
+    var parts=pmaNorm((HYPE.roster[ids[i]]||{}).name).replace(/\([^)]*\)/g,' ').replace(/[^a-z ]/g,'').split(/\s+/).filter(Boolean);
+    if(parts.length<2) continue;
+    var f=parts[0], l=parts[parts.length-1];
+    var cands=[f+l, f.charAt(0)+l, f+l.charAt(0), f+'.'+l, f];
+    if(cands.indexOf(local)>=0) hits.push(ids[i]);
+  }
+  return hits.length===1?hits[0]:null;
+}
+function pmaTry(){
+  var u=PMA.user;
+  if(!u||!PMA.hubReady||PMA.mappedUid===u.uid) return;
+  if(!HYPE.ready&&PMA.waits<30){ PMA.waits++; setTimeout(pmaTry,300); return; }
+  PMA.mappedUid=u.uid;
+  var gotId=PMAuth.load('identity').catch(function(){ return null; });
+  var gotProf=PMAuth.getProfile().catch(function(){ return null; });
+  Promise.all([gotId,gotProf]).then(function(r){
+    var saved=r[0]||null, prof=r[1]||{};
+    var profName=((prof.firstName||'')+' '+(prof.lastName||'')).trim();
+    var rid=null;
+    if(saved&&saved.rosterId&&HYPE.roster[saved.rosterId]) rid=saved.rosterId;
+    if(!rid) rid=pmaRosterByName(profName)||pmaRosterByName(u.name)||pmaRosterByEmail(u.email);
+    var who;
+    if(rid){
+      who={id:rid, name:HYPE.roster[rid].name, email:u.email};
+      if(!saved||saved.rosterId!==rid) PMAuth.save('identity',{rosterId:rid}).catch(function(){});
+    } else {
+      who={id:'pm_'+u.uid, name:profName||u.name||u.email, email:u.email};
+    }
+    /* fill empty shared-profile fields so other Partners tools know this person */
+    var fill={};
+    if(!prof.firstName&&!prof.lastName&&rid){
+      var parts=who.name.split(/\s+/);
+      fill.firstName=parts[0]; fill.lastName=parts.slice(1).join(' ');
+    }
+    if(!prof.email) fill.email=u.email;
+    if(Object.keys(fill).length) PMAuth.saveProfile(fill).catch(function(){});
+    whoStart(who);
+    hubToast('\uD83D\uDC4B Welcome, '+(prof.firstName||who.name.split(/\s+/)[0])+'.');
+    pmaPrefs();
+  });
+}
+function pmaLocalReset(){
+  if(AUTH.meUnsub){ AUTH.meUnsub(); AUTH.meUnsub=null; }
+  AUTH.who=null; AUTH.tags=[]; PMA.user=null; PMA.mappedUid=null; PMA.waits=0;
+  applyAccess();
+}
+/* per-person settings: cloud copy is the source of truth, localStorage stays as the offline backup */
+function pmaApplyRail(mini){
+  if(window.innerWidth<=768) return;
+  document.body.classList.toggle('rail-mini',!!mini);
+  var b=document.getElementById('railCollapse'); if(b) b.title=mini?'Expand menu':'Collapse menu';
+}
+function pmaPrefs(){
+  PMAuth.load('prefs').then(function(p){
+    var local=''; try{ local=localStorage.getItem('ph_rail_mini')||''; }catch(e){}
+    if(!p){ p={railMini:local==='1'}; PMAuth.save('prefs',p).catch(function(){}); } /* one-time upload of this browser's setting */
+    try{ localStorage.setItem('ph_rail_mini', p.railMini?'1':''); }catch(e){}
+    pmaApplyRail(p.railMini);
+  }).catch(function(){});
+}
+function pmaSavePrefs(mini){
+  if(!pmaOn()||!PMA.user) return;
+  if(PMA.prefT) clearTimeout(PMA.prefT);
+  PMA.prefT=setTimeout(function(){ PMAuth.save('prefs',{railMini:!!mini}).catch(function(){}); },1000);
+}
+function pmaStart(){
+  if(typeof PMAuth==='undefined'||!PMAuth||typeof PMAuth.init!=='function') return;
+  PMA.started=true;
+  PMAuth.init({
+    app:'partners-360',
+    toolName:'Partners 360',
+    requireLogin:true,
+    chip:false,   /* the hub has its own Sign out (rail footer + mobile menu) */
+    onReady:function(user){ PMA.user=user; PMA.waits=0; pmaTry(); }
+  });
+  PMAuth.onChange(function(u){ if(!u&&AUTH.who) pmaLocalReset(); });
+}
 function whoSaved(){
   try{ var v=localStorage.getItem('ph_who'); return v?JSON.parse(v):null; }catch(e){ return null; }
 }
@@ -2211,6 +2354,7 @@ function whoStart(who){
     var ref=DB.collection('users').doc(who.id);
     ref.get().then(function(snap){
       var base={ name:who.name, lastSeen:Date.now() };
+      if(who.email) base.email=who.email;
       if(!snap.exists){ base.firstSeen=Date.now(); base.tags=[]; }
       ref.set(base,{merge:true});
     }).catch(function(e){ console.warn('who upsert',e); });
@@ -2244,6 +2388,11 @@ function authGreet(){
   g.textContent=nm.charAt(0).toUpperCase()+nm.slice(1);
 }
 function authSignOut(){
+  if(pmaOn()){
+    pmaLocalReset();
+    PMAuth.signOut();   /* PMAuth puts its sign-in card back up */
+    return;
+  }
   try{ localStorage.removeItem('ph_who'); }catch(e){}
   if(AUTH.meUnsub){ AUTH.meUnsub(); AUTH.meUnsub=null; }
   AUTH.who=null; AUTH.tags=[];
@@ -2252,6 +2401,8 @@ function authSignOut(){
   showLogin();
 }
 function authInit(){
+  PMA.hubReady=true;
+  if(pmaOn()){ pmaTry(); return; }
   var who=whoSaved();
   if(who){ whoStart(who); }
   else { showLogin(); }
@@ -2485,6 +2636,7 @@ var HUB={pulse:null, closing:{tip:'', fundings:[]}, anns:{flash:null, items:null
 var DB=null, HUB_READY=false, HUB_SUPPRESS=false, HUB_SAVE_T=null, HUB_DIRTY={};
 
 function hubDefaults(){
+  if(!HUB.rostersrc) HUB.rostersrc={};
   if(!HUB.pmdb) HUB.pmdb=[];
   if(!HUB.closing) HUB.closing={tip:'',fundings:[]};
   if(!HUB.closing.fundings) HUB.closing.fundings=[];
@@ -2507,6 +2659,7 @@ var HUB_SHARDS={
   trainings: function(){ return {items:HUB.trainings||[]}; },
   pie:      function(){ return {items:HUB.pie||[]}; },
   pmdb:     function(){ return {items:HUB.pmdb||[], seeded:1}; },
+  rostersrc:function(){ return {src:HUB.rostersrc||{}}; },
   eios_prod:  function(){ return {rows:(HUB.eios&&HUB.eios.prod)||[]}; },
   eios_leads: function(){ return {rows:(HUB.eios&&HUB.eios.leads)||[]}; },
   eios_pipe:  function(){ return {rows:(HUB.eios&&HUB.eios.pipe)||[], up:(HUB.eios&&HUB.eios.up)||{}, pendingStatuses:(HUB.eios&&HUB.eios.pendingStatuses)||null}; }
@@ -2520,6 +2673,7 @@ function hubApplyShard(id, d){
   else if(id==='gtc'){ if(d.gtc) HUB.gtc=d.gtc; }
   else if(id==='trainings'){ HUB.trainings=d.items||[]; }
   else if(id==='pie'){ HUB.pie=d.items||[]; }
+  else if(id==='rostersrc'){ HUB.rostersrc=d.src||{}; if(typeof rsBoot==='function') rsBoot(); }
   else if(id==='pmdb'){ HUB.pmdb=d.items||[]; HUB.pmdbSeeded=!!d.seeded||!!(d.items&&d.items.length); }
   else if(id==='eios_prod'){ if(!HUB.eios)HUB.eios={}; HUB.eios.prod=d.rows||[]; }
   else if(id==='eios_leads'){ if(!HUB.eios)HUB.eios={}; HUB.eios.leads=d.rows||[]; }
@@ -2554,8 +2708,8 @@ function hubInitFirebase(cb){
     hubLocalLoad(); HUB_READY=true; cb&&cb(false); return;
   }
   try{
-    firebase.initializeApp(FIREBASE_CONFIG);
-    DB=firebase.firestore();
+    var hubApp=firebase.initializeApp(FIREBASE_CONFIG,'intranet');
+    DB=hubApp.firestore();
     try{ DB.enablePersistence({synchronizeTabs:true}).catch(function(){}); }catch(e){}
     hubLocalLoad(); /* show something instantly from the local mirror */
     var loaded=0, shardIds=Object.keys(HUB_SHARDS), first=true;
@@ -3117,13 +3271,9 @@ function hypeInit(){
     var app=firebase.initializeApp(HYPE_FB,'hype');
     HYPE.db=app.database();
     HYPE.db.ref('roster').on('value',function(snap){
-      HYPE.roster=Object.assign({}, snap.val()||{}, LOCAL_ROSTER); HYPE.ready=true;
-      if(!HYPE.seedChecked){
-        HYPE.seedChecked=true;
-        HYPE.db.ref('meta/rosterSeeded').once('value',function(sv){
-          if(!sv.val()){ loSeedMissing(); HYPE.db.ref('meta/rosterSeeded').set(Date.now()); }
-        });
-      }
+      HYPE.roster=(typeof rsActive==='function'&&rsActive())?Object.assign({}, snap.val()||{}):Object.assign({}, snap.val()||{}, LOCAL_ROSTER);
+      HYPE.ready=true;
+      if(typeof rsSchedule==='function') rsSchedule();
       if(typeof whoRender==='function') whoRender();
       loDatalist(); if(typeof peopleRender==='function') peopleRender(); loCheck(); renderFundings(); renderSpot();
       if(typeof authTryRosterName==='function'){ authTryRosterName(); if(AUTH.on&&AUTH.user&&!AUTH.name&&!AUTH.nameAsked){ AUTH.nameAsked=true; nameAsk(); } }
@@ -3257,6 +3407,212 @@ function loRosterList(){
   }
   box.innerHTML=html;
 }
+/* ============ ROSTER SYNC ============
+   One-way mirror: Partners Roster database -> login roster (Hype Desk roster node).
+   Adds people who are new there, removes people who are gone there (plus their hub
+   access record), leaves everyone else untouched. Matching: previous sync link, then
+   email, then name. Guards: an empty or unreachable source never removes anyone, and a
+   pass that would remove a lot at once waits for an admin to review it. */
+var RS={app:null, key:'', unsub:null, recs:null, t:null, busy:false, last:null, err:'', pending:null, n:0};
+function rsActive(){ var c=(HUB.rostersrc||{}).cfg; return !!(c&&c.projectId); }
+function rsParseCfg(txt){
+  var out={}, re=/(apiKey|authDomain|databaseURL|projectId|storageBucket|messagingSenderId|appId)["']?\s*[:=]\s*["']([^"']+)["']/g, m;
+  while((m=re.exec(String(txt||'')))){ out[m[1]]=m[2]; }
+  return out;
+}
+function rsToggleSetup(){
+  var b=document.getElementById('rsSetup'); if(!b) return;
+  var on=b.style.display==='none';
+  b.style.display=on?'':'none';
+  if(on){
+    var src=HUB.rostersrc||{}, c=src.cfg||{}, t=document.getElementById('rsCfg'), pa=document.getElementById('rsPath');
+    if(t&&!t.value&&c.projectId) t.value=Object.keys(c).map(function(k){ return k+': "'+c[k]+'"'; }).join(',\n');
+    if(pa&&!pa.value) pa.value=src.path||'';
+  }
+}
+function rsConnect(){
+  var cfg=rsParseCfg((document.getElementById('rsCfg')||{}).value);
+  if(!cfg.apiKey||!cfg.projectId){ rsSetStat('err','That config is missing apiKey or projectId. Paste the whole firebaseConfig block.'); return; }
+  var path=((document.getElementById('rsPath')||{}).value||'').trim().replace(/^\/+|\/+$/g,'');
+  HUB.rostersrc={cfg:cfg, path:path, kind:'', at:Date.now()};
+  hubSave('rostersrc');
+  RS.key='';
+  rsBoot();
+  var b=document.getElementById('rsSetup'); if(b) b.style.display='none';
+}
+function rsDisconnect(){
+  HUB.rostersrc={}; hubSave('rostersrc');
+  rsTeardown(); RS.key=''; RS.recs=null; RS.last=null; RS.pending=null;
+  rsSetStat('off','Roster sync not connected');
+  rsRenderReview();
+}
+function rsTeardown(){
+  if(RS.unsub){ try{ RS.unsub(); }catch(e){} RS.unsub=null; }
+  if(RS.app){ try{ RS.app.delete(); }catch(e){} RS.app=null; }
+}
+function rsSetStat(kind,msg){
+  RS.err=(kind==='err')?msg:'';
+  var d=document.getElementById('rsDot'), t=document.getElementById('rsStat');
+  if(d) d.className='rs-dot '+kind;
+  if(t) t.textContent=msg;
+}
+function rsBoot(){
+  if(!rsActive()){ rsTeardown(); rsSetStat('off','Roster sync not connected'); return; }
+  var src=HUB.rostersrc, key=JSON.stringify([src.cfg,src.path,src.kind]);
+  if(RS.key===key&&RS.app) return;
+  RS.key=key; rsTeardown();
+  try{
+    RS.n++;
+    RS.app=firebase.initializeApp(src.cfg,'rostersrc'+RS.n);
+  }catch(e){ rsSetStat('err','Could not start the roster connection: '+e.message); return; }
+  rsSetStat('wait','Connecting to the roster database\u2026');
+  if(src.path&&src.kind){ rsListen(src.kind,src.path); return; }
+  rsDetect(src);
+}
+function rsDetect(src){
+  var kinds=[], paths=src.path?[src.path]:['employees','roster','staff','team','users','people'];
+  if(src.cfg.databaseURL) kinds.push('rtdb');
+  kinds.push('firestore');
+  var tries=[], i, j;
+  for(i=0;i<kinds.length;i++) for(j=0;j<paths.length;j++) tries.push([kinds[i],paths[j]]);
+  var k=0;
+  (function next(){
+    if(k>=tries.length){ rsSetStat('err','Connected, but found no employee list. Open Connection and enter the collection or path name.'); return; }
+    var t=tries[k++];
+    rsReadOnce(t[0],t[1]).then(function(list){
+      if(list&&list.length){
+        HUB.rostersrc.kind=t[0]; HUB.rostersrc.path=t[1]; hubSave('rostersrc');
+        RS.key=JSON.stringify([HUB.rostersrc.cfg,HUB.rostersrc.path,HUB.rostersrc.kind]);
+        rsListen(t[0],t[1]);
+      } else next();
+    }).catch(function(){ next(); });
+  })();
+}
+function rsReadOnce(kind,path){
+  if(kind==='rtdb') return RS.app.database().ref(path).once('value').then(function(sn){ return rsFromMap(sn.val()); });
+  return RS.app.firestore().collection(path).get().then(function(qs){ var a=[]; qs.forEach(function(d){ a.push({id:d.id, d:d.data()||{}}); }); return rsFromList(a); });
+}
+function rsListen(kind,path){
+  var onErr=function(e){ rsSetStat('err','The roster database refused the read ('+(e&&e.code||'error')+'). Its rules may require sign-in.'); };
+  if(kind==='rtdb'){
+    var ref=RS.app.database().ref(path);
+    var cb=function(sn){ RS.recs=rsFromMap(sn.val()); rsSchedule(); };
+    ref.on('value',cb,onErr);
+    RS.unsub=function(){ ref.off('value',cb); };
+  } else {
+    RS.unsub=RS.app.firestore().collection(path).onSnapshot(function(qs){
+      var a=[]; qs.forEach(function(d){ a.push({id:d.id, d:d.data()||{}}); });
+      RS.recs=rsFromList(a); rsSchedule();
+    },onErr);
+  }
+}
+function rsFromMap(v){
+  var a=[], k;
+  if(Array.isArray(v)){ for(k=0;k<v.length;k++) if(v[k]&&typeof v[k]==='object') a.push({id:String(k), d:v[k]}); }
+  else if(v&&typeof v==='object'){ for(k in v) if(v.hasOwnProperty(k)&&v[k]&&typeof v[k]==='object') a.push({id:k, d:v[k]}); }
+  return rsFromList(a);
+}
+function rsPick(o,keys){ var i; for(i=0;i<keys.length;i++){ if(o[keys[i]]!==undefined&&o[keys[i]]!==null&&String(o[keys[i]]).trim()!=='') return String(o[keys[i]]).trim(); } return ''; }
+function rsFromList(a){
+  var out=[], seen={}, i, d, nm, em, st;
+  for(i=0;i<a.length;i++){ d=a[i].d;
+    nm=rsPick(d,['name','fullName','full_name','employee','EMPLOYEE','Employee','displayName']);
+    if(!nm){ var f=rsPick(d,['firstName','first','first_name','First','FirstName']), l=rsPick(d,['lastName','last','last_name','Last','LastName']); nm=(f+' '+l).trim(); }
+    if(!nm) continue;
+    st=rsPick(d,['status','Status','employmentStatus']).toLowerCase();
+    if(d.active===false||d.archived===true||d.deleted===true||/inactive|terminated|former|separated|left|archived/.test(st)) continue;
+    em=rsPick(d,['email','Email','EMAIL','workEmail']).toLowerCase();
+    var k=pmaNorm(nm);
+    if(seen[k]) continue;
+    seen[k]=1;
+    out.push({key:String(a[i].id), name:nm, email:em});
+  }
+  return out;
+}
+function rsSchedule(){
+  if(RS.t) clearTimeout(RS.t);
+  RS.t=setTimeout(rsDiff,1500);
+}
+function rsSyncNow(){
+  if(!rsActive()){ rsToggleSetup(); rsSetStat('off','Paste the roster database config to connect.'); return; }
+  if(!RS.recs){ RS.key=''; rsBoot(); return; }
+  rsDiff(true);
+}
+function rsLoose(n){
+  var p=pmaNorm(n).replace(/\([^)]*\)/g,' ').replace(/[^a-z ]/g,' ').split(/\s+/).filter(Boolean);
+  return p.length?{f:p[0], l:p[p.length-1]}:null;
+}
+function rsDiff(manual){
+  if(!RS.recs||!HYPE.db||!HYPE.ready||!DB){ if(RS.recs) setTimeout(rsDiff,800); return; }
+  if(RS.busy) return;
+  var src=RS.recs;
+  if(!src.length){ rsSetStat('warn','The roster database returned no one. Nothing was removed.'); return; }
+  RS.busy=true;
+  DB.collection('users').get().then(function(qs){
+    var emailOf={}; qs.forEach(function(d){ var v=d.data()||{}; if(v.email) emailOf[d.id]=String(v.email).toLowerCase(); });
+    var ros=HYPE.roster||{}, ids=Object.keys(ros).filter(function(id){ return ros[id]&&ros[id].name&&id.indexOf('x_')!==0; });
+    var taken={}, adds=[], links=[], i, j, p;
+    function claim(id,p){ taken[id]=1; if(ros[id].srcId!==p.key||(p.email&&ros[id].email!==p.email)) links.push([id,p]); }
+    var left=[];
+    for(i=0;i<src.length;i++){ p=src[i]; var hit=null;
+      for(j=0;j<ids.length&&!hit;j++){ if(!taken[ids[j]]&&ros[ids[j]].srcId===p.key) hit=ids[j]; }
+      if(!hit&&p.email) for(j=0;j<ids.length&&!hit;j++){ var e2=ros[ids[j]].email||emailOf[ids[j]]; if(!taken[ids[j]]&&e2&&e2===p.email) hit=ids[j]; }
+      if(!hit) for(j=0;j<ids.length&&!hit;j++){ if(!taken[ids[j]]&&pmaNorm(ros[ids[j]].name)===pmaNorm(p.name)) hit=ids[j]; }
+      if(hit) claim(hit,p); else left.push(p);
+    }
+    /* loose pass: same last name and first initial, only when unique on both sides */
+    for(i=0;i<left.length;i++){ p=left[i]; var a=rsLoose(p.name), cand=[];
+      if(a) for(j=0;j<ids.length;j++){ if(taken[ids[j]]) continue; var b=rsLoose(ros[ids[j]].name); if(b&&b.l===a.l&&b.f.charAt(0)===a.f.charAt(0)) cand.push(ids[j]); }
+      if(cand.length===1) claim(cand[0],p); else adds.push(p);
+    }
+    var removes=ids.filter(function(id){ return !taken[id]; });
+    for(i=0;i<adds.length;i++){
+      var k2='src_'+String(adds[i].key).replace(/[.#$\[\]\/]/g,'_');
+      HYPE.db.ref('roster/'+k2).set({name:adds[i].name, photo:null, srcId:adds[i].key, email:adds[i].email||null});
+    }
+    for(i=0;i<links.length;i++){
+      HYPE.db.ref('roster/'+links[i][0]).update({srcId:links[i][1].key, email:links[i][1].email||null});
+    }
+    var limit=Math.max(3, Math.ceil(ids.length*0.25)), removed=0;
+    if(removes.length&&removes.length>limit){
+      RS.pending=removes.slice();
+    } else {
+      for(i=0;i<removes.length;i++) rsRemove(removes[i]);
+      removed=removes.length; RS.pending=null;
+    }
+    RS.last={at:Date.now(), added:adds.length, removed:removed, total:src.length};
+    rsStatusLine();
+    rsRenderReview();
+    if(manual||adds.length||removed) hubToast('Roster sync: '+adds.length+' added, '+removed+' removed'+(RS.pending?(', '+RS.pending.length+' waiting for review'):'')+'.');
+    RS.busy=false;
+  }).catch(function(e){ RS.busy=false; rsSetStat('err','Sync could not read hub access records: '+(e&&e.message||e)); });
+}
+function rsRemove(id){
+  if(HYPE.db) HYPE.db.ref('roster/'+id).remove();
+  if(DB) DB.collection('users').doc(id).delete().catch(function(){});
+}
+function rsStatusLine(){
+  if(!RS.last) return;
+  var mins=Math.round((Date.now()-RS.last.at)/60000);
+  rsSetStat(RS.pending?'warn':'ok','Synced with the roster database \u00B7 '+RS.last.total+' people \u00B7 '
+    +(mins<1?'just now':(mins+' min ago'))+' \u00B7 last pass '+RS.last.added+' added, '+RS.last.removed+' removed');
+}
+function rsRenderReview(){
+  var box=document.getElementById('rsReview'); if(!box) return;
+  if(!RS.pending||!RS.pending.length){ box.innerHTML=''; return; }
+  var ros=HYPE.roster||{}, names=RS.pending.map(function(id){ return escH((ros[id]||{}).name||id); });
+  box.innerHTML='<div class="rs-review"><b>'+RS.pending.length+' people are no longer in the roster database.</b> That is a lot for one pass, so they were not removed automatically. Review and confirm:'
+    +'<div class="rs-names">'+names.join(', ')+'</div>'
+    +'<div class="uc-actions"><button class="ed-del" onclick="rsApplyPending()">Remove these '+RS.pending.length+'</button> <button class="pm-rm" onclick="rsKeepPending()">Keep them for now</button></div></div>';
+}
+function rsApplyPending(){
+  var p=RS.pending||[], i;
+  for(i=0;i<p.length;i++) rsRemove(p[i]);
+  if(RS.last) RS.last.removed+=p.length;
+  hubToast('Removed '+p.length+' people who left the roster.');
+  RS.pending=null; rsRenderReview(); rsStatusLine();
+}
+function rsKeepPending(){ RS.pending=null; rsRenderReview(); rsStatusLine(); hubToast('Kept them. They will come up again on the next sync.'); }
 function loAdd(){
   var inp=document.getElementById('lrName'); if(!inp) return;
   var name=inp.value.trim();
@@ -3908,6 +4264,7 @@ function greetTick(){
 }
 greetTick();
 setInterval(greetTick,1000);
+pmaStart();
 hubInitFirebase(function(){ renderAll(); authInit(); boardInit(); predInit(); pmdbSeed(); });
 function __railwire(){}
 var RAIL_ANIM_T=null;
@@ -3919,6 +4276,7 @@ function railToggle(){
   document.body.classList.add('rail-anim');
   var mini=document.body.classList.toggle('rail-mini');
   try{ localStorage.setItem('ph_rail_mini', mini?'1':''); }catch(e){}
+  pmaSavePrefs(mini);
   var b=document.getElementById('railCollapse'); if(b) b.title=mini?'Expand menu':'Collapse menu';
   if(RAIL_ANIM_T) clearTimeout(RAIL_ANIM_T);
   RAIL_ANIM_T=setTimeout(function(){
@@ -3950,7 +4308,8 @@ function mBuild(){
   h+='<div class="mm-lbl">Admin</div>'
     +'<button class="mm-row gear" onclick="mClose();openAdmin();">'
     +'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
-    +'<span>Settings</span></button>';
+    +'<span>Settings</span></button>'
+    +'<button class="mm-row" onclick="mClose();authSignOut();"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>';
   box.innerHTML=h;
 }
 function mGo(sec){ mClose(); showSection(sec); }
