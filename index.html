@@ -1048,6 +1048,52 @@ span.cc-lo-av.ini{display:inline-flex;align-items:center;justify-content:center;
   .pp-row>.pp-tags{grid-area:tags;}
   .pp-row>.pp-act{grid-area:act;justify-content:flex-start;}
 }
+/* ══ BEHIND THE WOW ══ */
+.wow-cta{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 24px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,172,39,.12),rgba(37,186,196,.08));border:1px solid rgba(255,172,39,.4);box-shadow:var(--card-sh);}
+.wow-cta-h{font-family:var(--serif);font-style:italic;font-size:24px;}
+.wow-cta-s{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+.wow-btn{border:0;cursor:pointer;font-family:var(--sans);font-size:15px;font-weight:700;color:#0b0f14;padding:14px 26px;border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),#ffcf73);box-shadow:0 10px 28px rgba(255,172,39,.3);transition:transform .2s var(--ease),box-shadow .2s;}
+.wow-btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,172,39,.42);}
+.wow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.wow-spot{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--card-sh);position:relative;overflow:hidden;}
+.wow-spot::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--keyline);}
+.wow-spot-top{display:flex;align-items:center;gap:12px;}
+.wow-av{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,172,39,.5);}
+.wow-av.ini{display:inline-flex;align-items:center;justify-content:center;background:var(--bg2);font-family:var(--mono);font-size:14px;color:var(--ink-soft);}
+.wow-n{font-family:var(--serif);font-size:21px;line-height:1.1;}
+.wow-m{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-top:3px;}
+.wow-chips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 10px;}
+.wow-chips span{font-size:10.5px;padding:3px 10px;border-radius:20px;border:1px solid var(--line2);color:var(--ink-soft);}
+.wow-chips span.v{border-color:rgba(37,186,196,.45);color:var(--teal);}
+.wow-t{font-size:13px;line-height:1.6;color:var(--ink);}
+.wow-empty{padding:26px;border:1px dashed var(--line2);border-radius:16px;text-align:center;font-size:13px;color:var(--ink-soft);}
+.wow-empty a{color:var(--teal);}
+.wow-card{max-width:560px;}
+.wow-card .uc-f{margin-top:12px;}
+.wow-card .uc-f label{display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--ink);}
+.wow-card select.bp-note-in,.wow-card input.bp-note-in{margin-top:0;}
+.wow-done{text-align:center;padding:20px 6px 6px;}
+.wow-done .e{font-size:40px;}
+.wow-done .t{font-family:var(--serif);font-style:italic;font-size:30px;margin:6px 0;}
+.wow-done .s{font-size:13px;color:var(--ink-soft);max-width:360px;margin:0 auto 16px;line-height:1.55;}
+.wow-count{font-family:var(--mono);font-size:10px;color:var(--gold);margin-left:6px;}
+.wow-tabs{display:flex;gap:6px;margin:12px 0;flex-wrap:wrap;}
+.wow-tabs button{background:var(--bg2);border:1px solid var(--line2);color:var(--ink-soft);border-radius:10px;padding:7px 13px;font-family:var(--sans);font-size:12px;cursor:pointer;}
+.wow-tabs button.on{color:var(--teal);border-color:var(--teal);background:rgba(37,186,196,.08);}
+.wow-tabs em{font-style:normal;font-family:var(--mono);font-size:10px;opacity:.75;}
+.wow-nom{border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:10px;background:var(--bg2);}
+.wow-nom-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.wow-nom-h b{font-size:14px;}
+.wow-nom-h span{font-size:10.5px;padding:2px 9px;border-radius:20px;border:1px solid var(--line2);color:var(--ink-soft);}
+.wow-nom-h span.v{border-color:rgba(37,186,196,.45);color:var(--teal);}
+.wow-nom-h span.ok{border-color:rgba(91,228,155,.45);color:#5BE49B;}
+.wow-nom-h span.bad{border-color:rgba(255,138,144,.5);color:#FF8A90;}
+.wow-nom-t{font-size:13px;line-height:1.55;margin:8px 0;white-space:pre-wrap;}
+.wow-nom-f{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--gray);text-transform:uppercase;}
+.wow-nom-a{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+@media(max-width:640px){ #ed-wow .uc-row{grid-template-columns:1fr!important;} .wow-cta{padding:18px;} .wow-btn{width:100%;} }
 .pm-open{font-size:11.5px;font-weight:600;color:var(--teal);text-decoration:none;border:1px solid rgba(37,186,196,.35);border-radius:9px;padding:5px 11px;white-space:nowrap;transition:background .2s;}
 .pm-open:hover{background:rgba(37,186,196,.1);}
 .pm-rm{background:transparent;border:1px solid var(--line2);color:var(--ink-soft);border-radius:9px;padding:5px 11px;font-size:11px;font-family:var(--sans);cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s;}
@@ -1242,6 +1288,52 @@ a.lp-row:hover .ra{transform:translateX(3px);color:var(--teal);}
 .merch-fallback a:hover{text-decoration:underline;}
 @media(max-width:768px){.merch-frame{height:calc(100vh - 160px);min-height:480px;}}
 
+/* ══ HUB EDITOR: LIST MENU + WINDOW ══ */
+#section-upload .ed-menu{display:flex;flex-direction:column;gap:0;margin-bottom:8px;background:var(--bg1);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--card-sh);}
+#section-upload .ed-card{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;min-height:0;width:100%;padding:14px 18px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;transform:none;color:var(--ink);font-family:var(--sans);text-align:left;}
+#section-upload .ed-card:last-child{border-bottom:0;}
+#section-upload .ed-card:hover{background:var(--bg2);transform:none;}
+#section-upload .ed-card.active{background:rgba(37,186,196,.07);box-shadow:inset 3px 0 0 var(--teal);}
+#section-upload .ed-card::after{content:'\203A';margin-left:auto;font-size:22px;line-height:1;color:var(--gray);transition:transform .2s,color .2s;}
+#section-upload .ed-card:hover::after{color:var(--teal);transform:translateX(3px);}
+#section-upload .ed-card .ed-ic{width:38px;height:38px;flex:none;margin:0;font-size:17px;}
+#section-upload .ed-card .ed-n{font-size:14.5px;font-weight:700;min-width:190px;}
+#section-upload .ed-card .ed-d{font-size:12px;color:var(--ink-soft);text-align:left;margin:0;}
+#section-upload .ed-card .ed-n{text-align:left;margin:0;}
+.edm-ov{position:fixed;inset:0;z-index:1500;display:none;align-items:flex-start;justify-content:center;padding:4vh 20px;background:rgba(6,12,14,.72);overflow-y:auto;}
+.edm-ov.on{display:flex;animation:viewin .25s var(--ease) both;}
+.edm-win{width:100%;max-width:880px;background:var(--bg0);border:1px solid var(--line2);border-radius:20px;box-shadow:0 30px 90px rgba(0,0,0,.6);display:flex;flex-direction:column;max-height:92vh;overflow:hidden;position:relative;}
+.edm-win::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--keyline);z-index:2;}
+.edm-head{display:flex;align-items:center;gap:14px;padding:18px 20px 16px;border-bottom:1px solid var(--line);background:var(--bg1);flex:none;}
+.edm-ic{width:42px;height:42px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:19px;flex:none;}
+.edm-hd{flex:1;min-width:0;}
+.edm-t{font-family:var(--serif);font-size:24px;line-height:1.1;}
+.edm-s{font-size:12px;color:var(--ink-soft);margin-top:3px;}
+.edm-x{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;flex:none;transition:color .2s,border-color .2s;}
+.edm-x:hover{color:var(--teal);border-color:var(--teal);}
+.edm-body{padding:18px 20px 22px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.edm-body .ed-where .wgo.bk{display:none;}
+.edm-body .ed-where{margin-bottom:16px;}
+body.edm-lock{overflow:hidden;}
+.lr-addrow{display:flex;gap:10px;align-items:stretch;}
+.lr-addrow>input,.lr-addrow>.bp-note-in{flex:1;min-width:0;width:auto;}
+.lr-addrow>.uc-save,.lr-addrow>.pm-rm,.lr-addrow>.eu-mini{flex:none;width:auto;white-space:nowrap;}
+.edm-body .uc-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.edm-body .uc-actions .uc-save{width:auto;}
+.edm-body .wgo{font-size:12px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid var(--line2);border-radius:20px;padding:7px 14px;cursor:pointer;font-family:var(--sans);transition:color .2s,border-color .2s;}
+.edm-body .wgo:hover{color:var(--teal);border-color:var(--teal);}
+@media(max-width:760px){
+  #section-upload .ed-card{padding:13px 14px;gap:12px;}
+  #section-upload .ed-card .ed-n{min-width:0;}
+  #section-upload .ed-card{flex-wrap:wrap;}
+  #section-upload .ed-card .ed-d{flex-basis:100%;padding-left:50px;margin-top:-6px;}
+  #section-upload .ed-card::after{position:absolute;right:14px;}
+  #section-upload .ed-card{position:relative;padding-right:34px;}
+  .edm-ov{padding:0;}
+  .edm-win{max-width:none;max-height:none;height:100%;border-radius:0;border:0;}
+  .edm-head{padding-top:calc(14px + env(safe-area-inset-top));}
+  .edm-body{padding-bottom:calc(30px + env(safe-area-inset-bottom));}
+}
 .hub-toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(24px);z-index:1700;
   background:var(--bg3);border:1px solid rgba(37,186,196,.5);color:var(--ink);padding:13px 22px;border-radius:30px;
   font-size:13.5px;font-weight:600;box-shadow:0 16px 44px rgba(0,0,0,.55),0 0 28px rgba(37,186,196,.15);
@@ -1419,6 +1511,16 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
 </div>
 
 
+<div class="edm-ov" id="edModal" onclick="if(event.target===this)edClose()" aria-hidden="true">
+  <div class="edm-win" role="dialog" aria-modal="true" aria-labelledby="edMTitle">
+    <div class="edm-head">
+      <span class="edm-ic" id="edMIc"></span>
+      <div class="edm-hd"><div class="edm-t" id="edMTitle"></div><div class="edm-s" id="edMSub"></div></div>
+      <button class="edm-x" onclick="edClose()" aria-label="Close">&times;</button>
+    </div>
+    <div class="edm-body" id="edMBody"></div>
+  </div>
+</div>
 <div class="hub-toast" id="hubToast"></div>
 
 <!-- RECRUITING STUDIO OVERLAY -->
@@ -1465,6 +1567,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
     <a class="nav" data-sec="recruiting" onclick="showSection('recruiting')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Recruiting Resources</a>
     <div class="rail-lbl">Culture</div>
     <a class="nav" data-sec="celebrations" onclick="showSection('celebrations')"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg>Good Times Crew</a>
+    <a class="nav" data-sec="wow" onclick="showSection('wow')"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>Behind the WOW</a>
     <a class="nav" data-sec="merch" onclick="showSection('merch')"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>Merch Store</a>
     <div class="rail-foot">
       <div class="rail-tag">You matter.</div>
@@ -1533,6 +1636,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
 
       <div class="lead">&#129517; Jump into a department</div>
       <div class="deps">
+        <a class="dep" onclick="showSection('wow')"><div class="dep-ic">&#11088;</div><div class="dep-n">Behind the WOW</div><div class="dep-d">Recognize a teammate who went the extra mile.</div></a>
         <a class="dep" onclick="showSection('launchpad')"><div class="dep-ic">&#128640;</div><div class="dep-n">LO Launchpad</div><div class="dep-d">Your everyday tools. One place. One click.</div></a>
         <a class="dep" onclick="openOpTraining('resources')"><div class="dep-ic">&#9881;</div><div class="dep-n">Operations &amp; Training</div><div class="dep-d">Lenders, HR &amp; operations resources</div></a>
         <a class="dep" onclick="showSection('onboarding')"><div class="dep-ic">&#128218;</div><div class="dep-n">Onboarding</div><div class="dep-d">Checklists, 30/60/90 &amp; training</div></a>
@@ -1633,9 +1737,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         <span class="vhero-chip">Admin &middot; PIN protected</span>
       </div>
       <div class="vbody">
-        <div class="ed-guide"><span class="gi">&#128161;</span><div><b>Three steps, every time:</b>
-          <span class="ed-step"><i>1</i> Pick a card</span><span class="ed-step"><i>2</i> Fill in the fields</span><span class="ed-step"><i>3</i> Hit publish</span>
-          &mdash; it goes live for everyone instantly. Every panel's <b>Shows on</b> line names the exact spot in the hub it edits, and <b>See it live</b> jumps you there.</div></div>
+        <div class="ed-guide"><span class="gi">&#128161;</span><div><b>How it works:</b> pick a setting from the list below. It opens in its own window &mdash; make your change, hit the save or publish button inside, then close the window. Changes go live for everyone instantly.</div></div>
         <div class="ed-grp">Post something</div>
         <div class="ed-menu">
           <button class="ed-card" id="edm-anns" onclick="edOpen('anns')">
@@ -1655,6 +1757,9 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
           </button>
           <button class="ed-card" id="edm-pie" onclick="edOpen('pie')">
             <div class="ed-ic">&#127942;</div><div class="ed-n">Partner in Excellence</div><div class="ed-d">Crown the monthly winner or backfill a past month</div>
+          </button>
+          <button class="ed-card" id="edm-wow" onclick="edOpen('wow')">
+            <div class="ed-ic">&#11088;</div><div class="ed-n">Behind the WOW</div><div class="ed-d">Where nominations are emailed, the nomination log, and the WOW Spotlight</div>
           </button>
         </div>
         <div class="ed-grp">Numbers</div>
@@ -1677,7 +1782,7 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         </div>
 
         <!-- SALES PULSE -->
-        <div class="ed-panel active" id="ed-pulse">
+        <div class="ed-panel" id="ed-pulse">
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Home &rarr; Sales Pulse tile &middot; Sales tab</span><button class="wgo" onclick="showSection('home')">See it live &rarr;</button></div>
                     <div class="uc-card">
             <h3>Import Pipeline Statuses <span class="ss-ai">AI</span></h3>
@@ -1763,6 +1868,55 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
         </div>
 
         <!-- GOOD TIMES CREW -->
+        <div class="ed-panel" id="ed-wow">
+          <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Culture &rarr; Behind the WOW</span><button class="wgo" onclick="showSection('wow')">See it live &rarr;</button></div>
+          <div class="uc-card">
+            <h3>&#128231; Direct link for emails</h3>
+            <div class="uc-sub">Anyone who clicks this lands on Behind the WOW with the nomination form already open.</div>
+            <div class="lr-addrow"><input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="wowLink" readonly onclick="this.select()"><button class="uc-save" onclick="wowCopyLink()">Copy link</button></div>
+          </div>
+          <div class="uc-card">
+            <h3>&#128236; Where nominations go</h3>
+            <div class="uc-sub">Every nomination is emailed to these addresses the moment it’s sent. A backup copy also lands in the Nomination log below.</div>
+            <div class="uc-f"><label>To</label><input type="email" class="bp-note-in" style="margin-top:0;" id="wowTo" placeholder="gtc@partnersmortgage.com"></div>
+            <div class="uc-f"><label>CC <span style="font-weight:400;color:var(--gray);">(optional, separate with commas &mdash; everyone sees these)</span></label><input type="text" class="bp-note-in" style="margin-top:0;" id="wowCc" placeholder="name@partnersmortgage.com, name2@partnersmortgage.com"></div>
+            <div class="uc-f"><label>BCC <span style="font-weight:400;color:var(--gray);">(optional &mdash; gets a private copy nobody else sees)</span></label><input type="text" class="bp-note-in" style="margin-top:0;" id="wowBcc" placeholder="you@partnersmortgage.com"></div>
+            <div class="uc-actions"><button class="uc-save" onclick="wowSaveTo()">Save recipients</button></div>
+            <div class="uc-actions" style="margin-top:10px;"><button class="wgo" style="margin-left:0;" onclick="wowTest()">Send a test nomination</button><span class="uc-status" id="wowToStatus"></span></div>
+            <div class="uc-hint">First time only: the test triggers a one-time &ldquo;Activate form&rdquo; email from FormSubmit to the To address and to each BCC address. Click Activate in each one, send another test, and every nomination after that delivers automatically. CC addresses don&rsquo;t need activating.</div>
+          </div>
+          <div class="uc-card">
+            <h3>&#128203; Nomination log <span class="wow-count" id="wowLogN"></span></h3>
+            <div class="uc-sub">A backup record of every nomination, for admins only. Email is still how the team gets them; this just lets you look back, check delivery, and pull spotlights.</div>
+            <div class="lr-addrow" style="margin-top:10px;">
+              <input type="text" class="bp-note-in" style="margin-top:0;flex:1;" id="wowLogQ" placeholder="Search by name, team, value, or who sent it" oninput="wowLogRender()">
+              <button class="pm-rm" onclick="wowLogCsv()">Download CSV</button>
+            </div>
+            <div id="wowLog" style="margin-top:12px;"></div>
+          </div>
+          <div class="uc-card" id="wowComposer">
+            <h3>&#127775; Post a WOW Spotlight</h3>
+            <div class="uc-sub">Hit Spotlight on a nomination in the log to fill this in, or write one from scratch. Polish it and publish.</div>
+            <div class="uc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="uc-f"><label>Name</label><input type="text" class="bp-note-in" id="wsName" list="wowNames"></div>
+              <div class="uc-f"><label>Month</label><input type="month" class="bp-note-in" id="wsMonth"></div>
+              <div class="uc-f"><label>Department or team</label><input type="text" class="bp-note-in" id="wsDept"></div>
+              <div class="uc-f"><label>Core value</label><input type="text" class="bp-note-in" id="wsVal"></div>
+            </div>
+            <div class="uc-f"><label>Spotlight write-up</label><textarea class="bp-note-in" id="wsText" rows="4" placeholder="What they did and why it mattered."></textarea></div>
+            <div class="uc-actions"><button class="uc-save" onclick="wowPublish()">Publish spotlight</button><span class="uc-status" id="wsStatus"></span></div>
+            <div id="wowSpotList" style="margin-top:14px;"></div>
+          </div>
+          <div class="uc-card">
+            <h3>Form options</h3>
+            <div class="uc-sub">One per line. These fill the two dropdowns on the nomination form.</div>
+            <div class="uc-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="uc-f"><label>Core values</label><textarea class="bp-note-in" id="wowValsIn" rows="7" placeholder="Add your core values, one per line"></textarea></div>
+              <div class="uc-f"><label>Departments and teams</label><textarea class="bp-note-in" id="wowDeptsIn" rows="7"></textarea></div>
+            </div>
+            <div class="uc-actions"><button class="uc-save" onclick="wowSaveOpts()">Save options</button><span class="uc-status" id="wowOptStatus"></span></div>
+          </div>
+        </div>
         <div class="ed-panel" id="ed-gtc">
           <div class="ed-where"><button class="wgo bk" onclick="edMenuTop()">&larr; All cards</button><span class="wl">Shows on</span><span class="wp">Good Times Crew &rarr; This Month's Challenge</span><button class="wgo" onclick="showSection('celebrations');gtcTab('challenge')">See it live &rarr;</button></div>
           <div class="uc-card">
@@ -2035,6 +2189,51 @@ a.ann-link:hover{background:var(--bg2);transform:translateX(3px);}
     <div class="hol-h"><span>&#127961;&#65039; 2026 Paid Holidays</span><button class="hol-x" onclick="lpHolidays()">&times;</button></div>
     <div class="hol-sub">Partners Mortgage observes 11 paid holidays each year.</div>
     <div id="holList"></div>
+  </div>
+</div>
+
+<section id="section-wow" class="view">
+  <div class="vhero">
+    <div class="vhero-eyebrow">&#11088; Behind the WOW</div>
+    <h1 class="vhero-title">WOW the People Behind the <em style="font-style:italic;color:var(--gold);">WOW Experience</em>.</h1>
+    <p class="vhero-sub">So much great work at Partners happens behind the scenes. Saw a teammate in any department go the extra mile? Tell us, and they could be featured in the monthly WOW Spotlight.</p>
+    <span class="vhero-chip">Company-wide recognition</span>
+  </div>
+  <div class="vbody">
+    <div class="wow-cta">
+      <div class="wow-cta-txt">
+        <div class="wow-cta-h">Know someone who made it happen?</div>
+        <div class="wow-cta-s">It takes a minute. Nominations go privately to the Good Times Crew by email.</div>
+      </div>
+      <button class="wow-btn" onclick="wowOpen()">&#11088; Submit a WOW</button>
+    </div>
+    <div class="rgroup-h" style="margin:26px 0 14px;" id="wowSpotH">WOW Spotlight</div>
+    <div class="wow-grid" id="wowSpot"></div>
+    <details class="cc-arch" id="wowPast" style="display:none;margin-top:18px;">
+      <summary><span>Past spotlights</span><em id="wowPastN"></em></summary>
+      <div class="wow-grid" id="wowPastList" style="padding:12px 0;"></div>
+    </details>
+  </div>
+</section>
+
+<div class="hol-ov" id="wowOv" onclick="if(event.target===this)wowClose()">
+  <div class="hol-card wow-card">
+    <div class="hol-h"><span>&#11088; Submit a WOW</span><button class="hol-x" onclick="wowClose()">&times;</button></div>
+    <div id="wowFormWrap">
+      <div class="hol-sub">Recognize a teammate in any department who went the extra mile.</div>
+      <div class="uc-f"><label>Who are you recognizing?</label><input type="text" class="bp-note-in" id="wowWho" list="wowNames" placeholder="Start typing a name" autocomplete="off" oninput="wowWhoPicked()"><datalist id="wowNames"></datalist></div>
+      <div class="uc-f"><label>What department or team are they on?</label><select class="bp-note-in" id="wowDept"></select></div>
+      <div class="uc-f"><label>What did they do?</label><textarea class="bp-note-in" id="wowDid" rows="4" maxlength="1200" placeholder="Be specific: what happened, and why it made a difference."></textarea></div>
+      <div class="uc-f"><label>Which core value did it show? <span style="font-weight:400;color:var(--gray);">(our WIRDS)</span></label><select class="bp-note-in" id="wowVal"></select></div>
+      <div class="uc-f"><label>Your name</label><input type="text" class="bp-note-in" id="wowFrom" placeholder="Your name"></div>
+      <div class="uc-actions"><button class="uc-save" onclick="wowSubmit()">Send my WOW</button><span class="uc-status" id="wowStatus"></span></div>
+    </div>
+    <div id="wowDone" style="display:none;" class="wow-done">
+      <div class="e">&#127881;</div>
+      <div class="t">Thank you!</div>
+      <div class="s">Your WOW is on its way to the Good Times Crew. Recognition like this is what makes Partners, Partners.</div>
+      <div class="uc-actions" style="justify-content:center;"><button class="uc-save" onclick="wowReset()">Send another</button> <button class="pm-rm" onclick="wowClose()">Close</button></div>
+    </div>
   </div>
 </div>
 
@@ -2699,11 +2898,12 @@ function teamTagRemove(uid, tag){
   DB.collection('users').doc(uid).set({tags:firebase.firestore.FieldValue.arrayRemove(tag)},{merge:true});
 }
 
-function hideLogin(){var l=document.getElementById('login');l.classList.add('hide');setTimeout(function(){l.style.display='none';},420);}
+function hideLogin(){var l=document.getElementById('login');l.classList.add('hide');setTimeout(function(){l.style.display='none'; if(typeof wowFire==='function') wowFire();},420);}
 
 
 // routing
 function showSection(name){
+  if(typeof edClose==='function') edClose();
   if(typeof sectionAllowed==='function' && !sectionAllowed(name)) return;
   var views=document.querySelectorAll('.view');
   views.forEach(function(v){v.classList.remove('active');});
@@ -2759,7 +2959,6 @@ function subPin(){
   if(PIN_STATE==='030303'){
     closeAdmin();
     showSection('upload');
-    edOpen('pulse');
   } else {
     PIN_STATE='';
     pinDots();
@@ -2803,6 +3002,7 @@ var HUB={pulse:null, closing:{tip:'', fundings:[]}, anns:{flash:null, items:null
 var DB=null, HUB_READY=false, HUB_SUPPRESS=false, HUB_SAVE_T=null, HUB_DIRTY={};
 
 function hubDefaults(){
+  if(!HUB.wow) HUB.wow={values:[], depts:[], spot:[]};
   if(!HUB.pmdb) HUB.pmdb=[];
   if(!HUB.closing) HUB.closing={tip:'',fundings:[]};
   if(!HUB.closing.fundings) HUB.closing.fundings=[];
@@ -2825,6 +3025,7 @@ var HUB_SHARDS={
   trainings: function(){ return {items:HUB.trainings||[]}; },
   pie:      function(){ return {items:HUB.pie||[]}; },
   pmdb:     function(){ return {items:HUB.pmdb||[], seeded:1}; },
+  wow:      function(){ return {values:HUB.wow.values||[], depts:HUB.wow.depts||[], spot:HUB.wow.spot||[], to:HUB.wow.to||'', cc:HUB.wow.cc||'', bcc:HUB.wow.bcc||''}; },
   eios_prod:  function(){ return {rows:(HUB.eios&&HUB.eios.prod)||[]}; },
   eios_leads: function(){ return {rows:(HUB.eios&&HUB.eios.leads)||[]}; },
   eios_pipe:  function(){ return {rows:(HUB.eios&&HUB.eios.pipe)||[], up:(HUB.eios&&HUB.eios.up)||{}, pendingStatuses:(HUB.eios&&HUB.eios.pendingStatuses)||null}; }
@@ -2838,6 +3039,7 @@ function hubApplyShard(id, d){
   else if(id==='gtc'){ if(d.gtc) HUB.gtc=d.gtc; }
   else if(id==='trainings'){ HUB.trainings=d.items||[]; }
   else if(id==='pie'){ HUB.pie=d.items||[]; }
+  else if(id==='wow'){ HUB.wow={values:d.values||[], depts:d.depts||[], spot:d.spot||[], to:d.to||'', cc:d.cc||'', bcc:d.bcc||''}; if(typeof wowRender==='function') wowRender(); }
   else if(id==='pmdb'){ HUB.pmdb=d.items||[]; HUB.pmdbSeeded=!!d.seeded||!!(d.items&&d.items.length); }
   else if(id==='eios_prod'){ if(!HUB.eios)HUB.eios={}; HUB.eios.prod=d.rows||[]; }
   else if(id==='eios_leads'){ if(!HUB.eios)HUB.eios={}; HUB.eios.leads=d.rows||[]; }
@@ -3235,7 +3437,7 @@ function renderHomeStats(){
     if(m.length){ put('bpAvgN', fmtM(sumAmt(m)/m.length)); put('bpAvgS', m.length+' loans MTD'); }
   }
 }
-function renderAll(){ pmdbRender(); renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderPie(); renderHomeStats(); renderMe(); renderTrainings(); salesRender(); ccRender(); }
+function renderAll(){ wowRender(); pmdbRender(); renderPulse(); renderSpot(); renderFlash(); renderAnns(); renderTip(); renderFundings(); renderGtc(); renderPie(); renderHomeStats(); renderMe(); renderTrainings(); salesRender(); ccRender(); }
 
 /* ============ TRID CLOSING CALENDAR (self-computing) ============
    Specific business day = every calendar day except Sundays and federal
@@ -3292,7 +3494,31 @@ function edMenuTop(){
   var g=document.querySelector('.ed-guide');
   if(g) g.scrollIntoView({behavior:'smooth',block:'start'});
 }
+function edModalInit(){
+  var body=document.getElementById('edMBody'); if(!body||body.getAttribute('data-ready')) return;
+  document.querySelectorAll('.ed-panel').forEach(function(p){ body.appendChild(p); });
+  body.setAttribute('data-ready','1');
+}
+function edClose(){
+  var m=document.getElementById('edModal'); if(!m||!m.classList.contains('on')) return;
+  m.classList.remove('on'); m.setAttribute('aria-hidden','true');
+  document.body.classList.remove('edm-lock');
+  document.querySelectorAll('.ed-card.active').forEach(function(c){ c.classList.remove('active'); });
+}
+function edMenuTop(){ edClose(); }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') edClose(); });
 function edOpen(name){
+  edModalInit();
+  var card=document.getElementById('edm-'+name), m=document.getElementById('edModal');
+  if(card&&m){
+    var q=function(sel){ var el=card.querySelector(sel); return el?el.innerHTML:''; };
+    document.getElementById('edMIc').innerHTML=q('.ed-ic');
+    document.getElementById('edMTitle').innerHTML=q('.ed-n');
+    document.getElementById('edMSub').innerHTML=q('.ed-d');
+    m.classList.add('on'); m.setAttribute('aria-hidden','false');
+    document.body.classList.add('edm-lock');
+    var b=document.getElementById('edMBody'); if(b) b.scrollTop=0;
+  }
   if(name==='pulse'){ eiosStatusList(); ssWire(); eiosPulseNote(); }
   if(name==='spot') spotRotList();
   if(name==='team'){ teamUnified(); }
@@ -3300,7 +3526,8 @@ function edOpen(name){
   if(name==='pie'){ var pm=document.getElementById('pieMonth'); if(pm&&!pm.value) pm.value=new Date().getFullYear()+'-'+('0'+(new Date().getMonth()+1)).slice(-2); loDatalist(); edListPie(); }
   if(name==='board') edListBoard();
   if(name==='tip') edTipOpen();
-  ['pulse','anns','gtc','pie','train','team','spot','board','tip'].forEach(function(t){
+  if(name==='wow') wowEdOpen();
+  ['pulse','anns','gtc','pie','train','team','spot','board','tip','wow'].forEach(function(t){
     var p=document.getElementById('ed-'+t); if(p) p.classList.toggle('active', t===name);
     var m=document.getElementById('edm-'+t); if(m) m.classList.toggle('active', t===name);
   });
@@ -4192,7 +4419,8 @@ function greetTick(){
 greetTick();
 setInterval(greetTick,1000);
 pmaStart();
-hubInitFirebase(function(){ renderAll(); authInit(); boardInit(); predInit(); pmdbSeed(); });
+window.addEventListener('hashchange',function(){ if(String(location.hash).toLowerCase()==='#wow'){ WOW.pending=true; wowFire(); } });
+hubInitFirebase(function(){ renderAll(); authInit(); wowDeepLink(); boardInit(); predInit(); pmdbSeed(); });
 function __railwire(){}
 var RAIL_ANIM_T=null;
 function railToggle(){
@@ -5694,6 +5922,301 @@ function lpHolidays(){
 
 if(typeof loDatalist==='function') loDatalist();
 if(typeof peopleRender==='function') peopleRender();
+
+/* ============ BEHIND THE WOW ============
+   Nominations are emailed to the address set in Settings (via FormSubmit). A backup
+   copy is logged to Firestore 'wow' for admins, shown only inside Settings. Options, recipient, and published spotlights: hub/wow shard.
+   Direct link: <hub address>#wow */
+var WOW_DEPTS_DEFAULT=['Loan Officers / Sales','Loan Officer Assistants','Processing','Operations &amp; Funding','Closing','Marketing','HR &amp; Admin','Business Development','Leadership','Other'];
+var WOW={pending:false, log:[], unsub:null, fromLog:null};
+function wowDepts(){ var d=(HUB.wow&&HUB.wow.depts)||[]; return d.length?d:WOW_DEPTS_DEFAULT.map(function(x){ return x.replace(/&amp;/g,'&'); }); }
+var WOW_VALS_DEFAULT=['Wellbeing','Integrity','Relationships','Diligence','Solutions']; /* WIRDS */
+function wowVals(){ var v=(HUB.wow&&HUB.wow.values)||[]; return v.length?v:WOW_VALS_DEFAULT.slice(); }
+function wowMonthLbl(ym){ var p=String(ym||'').split('-'); if(p.length<2) return ''; return new Date(+p[0],+p[1]-1,1).toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+function wowLink(){ return location.origin+location.pathname+'#wow'; }
+/* ---- form ---- */
+function wowFill(){
+  var dl=document.getElementById('wowNames'), ds=document.getElementById('wowDept'), vs=document.getElementById('wowVal'), i, h;
+  if(dl){ h=''; var L=(typeof EMP!=='undefined'&&EMP.list)?EMP.list:[]; for(i=0;i<L.length;i++) h+='<option value="'+escH(L[i].name)+'">'; dl.innerHTML=h; }
+  if(ds){ var D=wowDepts(); h='<option value="">Choose a department or team</option>'; for(i=0;i<D.length;i++) h+='<option>'+escH(D[i])+'</option>'; ds.innerHTML=h; }
+  if(vs){ var V=wowVals();
+    if(!V.length){ vs.innerHTML='<option value="">Core values are being added</option>'; vs.disabled=true; }
+    else { h='<option value="">Choose a core value</option>'; for(i=0;i<V.length;i++) h+='<option>'+escH(V[i])+'</option>'; vs.innerHTML=h; vs.disabled=false; }
+  }
+}
+function wowWhoPicked(){
+  var v=(document.getElementById('wowWho')||{}).value||'', ds=document.getElementById('wowDept');
+  if(!ds||ds.value||typeof empByName!=='function') return;
+  var e=empByName(v); if(!e) return;
+  var guess=String(e.team||e.role||'').toLowerCase(), D=wowDepts(), i;
+  if(!guess) return;
+  for(i=0;i<D.length;i++){ var dl=D[i].toLowerCase(); if(dl.indexOf(guess)>=0||guess.indexOf(dl.split(' ')[0])>=0){ ds.value=D[i]; break; } }
+}
+function wowOpen(){
+  wowFill(); wowReset();
+  var f=document.getElementById('wowFrom');
+  if(f&&!f.value&&typeof AUTH!=='undefined'&&AUTH.who&&AUTH.who.name) f.value=AUTH.who.name;
+  var o=document.getElementById('wowOv'); if(o) o.classList.add('on');
+  setTimeout(function(){ var w=document.getElementById('wowWho'); if(w&&window.innerWidth>768) try{ w.focus(); }catch(e){} },120);
+}
+function wowClose(){ var o=document.getElementById('wowOv'); if(o) o.classList.remove('on'); }
+function wowReset(){
+  var fw=document.getElementById('wowFormWrap'), dn=document.getElementById('wowDone');
+  if(fw) fw.style.display=''; if(dn) dn.style.display='none';
+  ['wowWho','wowDid'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  var ds=document.getElementById('wowDept'); if(ds) ds.value='';
+  var vs=document.getElementById('wowVal'); if(vs) vs.value='';
+  edStatus('wowStatus','');
+}
+function wowSubmit(){
+  var g=function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
+  var who=g('wowWho'), dept=g('wowDept'), did=g('wowDid'), val=g('wowVal'), from=g('wowFrom');
+  var needVal=wowVals().length>0;
+  if(!who){ edStatus('wowStatus','Who are you recognizing?'); return; }
+  if(!dept){ edStatus('wowStatus','Pick their department or team.'); return; }
+  if(did.length<15){ edStatus('wowStatus','Tell us a little more about what they did.'); return; }
+  if(needVal&&!val){ edStatus('wowStatus','Pick the core value it showed.'); return; }
+  if(!from){ edStatus('wowStatus','Add your name so the Good Times Crew can follow up.'); return; }
+  if(!(HUB.wow&&HUB.wow.to)&&!DB){ edStatus('wowStatus','Nominations aren\u2019t switched on yet. Please check back soon.'); return; }
+  edStatus('wowStatus','Sending\u2026');
+  var rec={nominee:who, dept:dept, did:did, value:val||'', from:from, fromId:(AUTH.who&&AUTH.who.id)||null, at:Date.now()};
+  var done=function(){ var fw=document.getElementById('wowFormWrap'), dn=document.getElementById('wowDone'); if(fw) fw.style.display='none'; if(dn) dn.style.display=''; };
+  var logIt=function(emailed, why){
+    if(!DB) return Promise.reject();
+    rec.emailed=emailed; if(why) rec.emailError=String(why);
+    return DB.collection('wow').add(rec);
+  };
+  wowSend({
+    'Who is being recognized':who,
+    'Department or team':dept,
+    'What they did':did,
+    'Core value':val||'(not selected)',
+    'Submitted by':from,
+    'Submitted on':new Date(rec.at).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})
+  },'New WOW nomination: '+who).then(function(){
+    done();
+    logIt(true).catch(function(){});
+  }).catch(function(e){
+    /* email failed: keep it in the log so it is not lost, and still thank the sender */
+    logIt(false, (e&&(e.code||e.message))||'send failed').then(done).catch(function(){
+      edStatus('wowStatus','That didn\u2019t send. Please try again in a minute.');
+    });
+  });
+}
+/* ---- page: spotlights ---- */
+function wowCardHtml(sp){
+  var e=(typeof empByName==='function')?empByName(sp.name):null;
+  var ini=String(sp.name||'').split(/\s+/).map(function(w){ return w.charAt(0); }).join('').slice(0,2).toUpperCase();
+  return '<div class="wow-spot">'
+    +'<div class="wow-spot-top">'+(e&&e.photo?'<img class="wow-av" src="'+escH(e.photo)+'" alt="">':'<span class="wow-av ini">'+escH(ini)+'</span>')
+    +'<div><div class="wow-n">'+escH(sp.name)+'</div><div class="wow-m">'+escH(wowMonthLbl(sp.month))+'</div></div></div>'
+    +'<div class="wow-chips">'+(sp.dept?'<span>'+escH(sp.dept)+'</span>':'')+(sp.value?'<span class="v">'+escH(sp.value)+'</span>':'')+'</div>'
+    +'<div class="wow-t">'+escH(sp.text||'')+'</div></div>';
+}
+function wowRender(){
+  var box=document.getElementById('wowSpot'); if(!box) return;
+  var all=((HUB.wow&&HUB.wow.spot)||[]).slice().sort(function(a,b){ return String(b.month).localeCompare(String(a.month))||(b.at||0)-(a.at||0); });
+  var h=document.getElementById('wowSpotH');
+  if(!all.length){
+    box.innerHTML='<div class="wow-empty">The first WOW Spotlight is coming soon. Know someone who deserves it? <a href="#" onclick="event.preventDefault();wowOpen()">Nominate them now.</a></div>';
+    if(h) h.textContent='WOW Spotlight';
+    var pd0=document.getElementById('wowPast'); if(pd0) pd0.style.display='none';
+    return;
+  }
+  var latest=all[0].month, cur='', past='', n=0, i;
+  for(i=0;i<all.length;i++){ if(all[i].month===latest) cur+=wowCardHtml(all[i]); else { past+=wowCardHtml(all[i]); n++; } }
+  box.innerHTML=cur;
+  if(h) h.textContent='WOW Spotlight \u00B7 '+wowMonthLbl(latest);
+  var pd=document.getElementById('wowPast'), pl=document.getElementById('wowPastList'), pn=document.getElementById('wowPastN');
+  if(pd) pd.style.display=n?'':'none';
+  if(pl) pl.innerHTML=past;
+  if(pn) pn.textContent=n;
+}
+/* ---- Settings: review ---- */
+function wowEdOpen(){
+  var l=document.getElementById('wowLink'); if(l) l.value=wowLink();
+  var t=document.getElementById('wowTo'); if(t) t.value=(HUB.wow&&HUB.wow.to)||'';
+  var c=document.getElementById('wowCc'); if(c) c.value=(HUB.wow&&HUB.wow.cc)||'';
+  var b=document.getElementById('wowBcc'); if(b) b.value=(HUB.wow&&HUB.wow.bcc)||'';
+  var vi=document.getElementById('wowValsIn'), di=document.getElementById('wowDeptsIn');
+  if(vi) vi.value=wowVals().join('\n');
+  if(di) di.value=wowDepts().join('\n');
+  var m=document.getElementById('wsMonth'); if(m&&!m.value){ var n=new Date(); m.value=n.getFullYear()+'-'+('0'+(n.getMonth()+1)).slice(-2); }
+  wowFill(); wowSpotList(); wowLogListen(); wowLogRender();
+}
+function wowEmails(v){ return String(v||'').split(/[,;\s]+/).map(function(x){ return x.trim(); }).filter(Boolean); }
+function wowIsEmail(x){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x); }
+function wowSaveTo(){
+  var g=function(id){ return ((document.getElementById(id)||{}).value||'').trim(); };
+  var to=g('wowTo'), cc=wowEmails(g('wowCc')), bcc=wowEmails(g('wowBcc')), bad=[];
+  if(to&&!wowIsEmail(to)) bad.push(to);
+  cc.concat(bcc).forEach(function(x){ if(!wowIsEmail(x)) bad.push(x); });
+  if(bad.length){ edStatus('wowToStatus','Check these addresses: '+bad.join(', ')); return false; }
+  if(!to&&(cc.length||bcc.length)){ edStatus('wowToStatus','Add a To address first. CC and BCC ride along with it.'); return false; }
+  if(!HUB.wow) HUB.wow={values:[],depts:[],spot:[],to:'',cc:'',bcc:''};
+  HUB.wow.to=to; HUB.wow.cc=cc.join(', '); HUB.wow.bcc=bcc.join(', ');
+  hubSave('wow');
+  edStatus('wowToStatus',to?'\u2705 Saved. Send a test to activate.':'Cleared. The form won\u2019t send until a To address is set.');
+  return true;
+}
+/* one FormSubmit request; CC rides on the main email (visible), BCC addresses each get their own
+   separate copy because FormSubmit has no true BCC, so nobody else ever sees them */
+function wowPost(to, body){
+  return fetch('https://formsubmit.co/ajax/'+encodeURIComponent(to),{
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(body)
+  }).then(function(r){ return r.json().catch(function(){ return {}; }); }).then(function(j){
+    if(String(j.success)==='true') return j;
+    var msg=String(j.message||'');
+    throw {code:/activat/i.test(msg)?'needs-activation':'send-failed', message:msg, to:to};
+  });
+}
+function wowSend(fields, subject){
+  var W=HUB.wow||{}, to=W.to||'';
+  if(!to) return Promise.reject({code:'no-recipient'});
+  var body={_subject:subject, _template:'table', _captcha:'false'}, k;
+  for(k in fields){ if(fields.hasOwnProperty(k)) body[k]=fields[k]; }
+  var cc=wowEmails(W.cc); if(cc.length) body._cc=cc.join(',');
+  return wowPost(to, body).then(function(main){
+    var bcc=wowEmails(W.bcc), jobs=bcc.map(function(addr){
+      var b2={}, x; for(x in body){ if(body.hasOwnProperty(x)&&x!=='_cc') b2[x]=body[x]; }
+      return wowPost(addr, b2).then(function(){ return {to:addr, ok:true}; }, function(e){ return {to:addr, ok:false, code:e&&e.code}; });
+    });
+    return Promise.all(jobs).then(function(r){ main.bcc=r; return main; });
+  });
+}
+function wowTest(){
+  if(!wowSaveTo()) return;
+  if(!(HUB.wow&&HUB.wow.to)) return;
+  if(location.protocol==='file:'){ edStatus('wowToStatus','Emails can\u2019t send from a file opened on your computer. Upload Partners 360 to the site, then send the test from there.'); return; }
+  edStatus('wowToStatus','Sending a test\u2026');
+  wowSend({'Who is being recognized':'Test Teammate','Department or team':'Test','What they did':'This is a test nomination from Partners 360 Settings.','Core value':'Test','Submitted by':(AUTH.who&&AUTH.who.name)||'Settings'},'Test WOW nomination from Partners 360')
+    .then(function(res){
+      var pend=(res.bcc||[]).filter(function(x){ return !x.ok; }).map(function(x){ return x.to; });
+      edStatus('wowToStatus', pend.length
+        ? 'Sent to the To and CC inboxes. Still waiting on activation for BCC: '+pend.join(', ')+'. Click Activate in that inbox, then test again.'
+        : '\u2705 Test sent to everyone. Check the inboxes.');
+    })
+    .catch(function(e){
+      if(e&&e.code==='needs-activation') edStatus('wowToStatus','Almost there: open '+(e.to||'the To inbox')+', click Activate in the FormSubmit email, then send another test.');
+      else edStatus('wowToStatus','The test didn\u2019t go through'+(e&&e.message?' ('+e.message+')':'')+'. Check the address and try again.');
+    });
+}
+function wowLogListen(){
+  if(!DB||WOW.unsub) return;
+  WOW.unsub=DB.collection('wow').onSnapshot(function(qs){
+    var a=[]; qs.forEach(function(d){ var v=d.data()||{}; v._id=d.id; if(v.nominee) a.push(v); });
+    a.sort(function(x,y){ return (y.at||0)-(x.at||0); });
+    WOW.log=a; wowLogRender();
+  }, function(err){
+    var b=document.getElementById('wowLog');
+    if(b) b.innerHTML='<div class="ed-empty">Couldn\u2019t load the log ('+escH(err&&err.code||'error')+'). Add the Firestore rule for the wow collection.</div>';
+  });
+}
+function wowLogRender(){
+  var box=document.getElementById('wowLog'); if(!box) return;
+  var q=((document.getElementById('wowLogQ')||{}).value||'').trim().toLowerCase();
+  var n=document.getElementById('wowLogN');
+  var fails=WOW.log.filter(function(r){ return r.emailed===false; }).length;
+  if(n) n.textContent=WOW.log.length?(WOW.log.length+' total'+(fails?' \u00B7 '+fails+' not emailed':'')):'';
+  var list=WOW.log.filter(function(r){ return !q||[r.nominee,r.dept,r.value,r.from,r.did].join(' ').toLowerCase().indexOf(q)>=0; });
+  if(!list.length){ box.innerHTML='<div class="ed-empty">'+(q?'No nominations match that.':'No nominations yet. Share the link to get them flowing.')+'</div>'; return; }
+  var h='', i, r;
+  for(i=0;i<list.length;i++){ r=list[i];
+    h+='<div class="wow-nom">'
+      +'<div class="wow-nom-h"><b>'+escH(r.nominee)+'</b>'+(r.dept?'<span>'+escH(r.dept)+'</span>':'')+(r.value?'<span class="v">'+escH(r.value)+'</span>':'')
+      +(r.emailed===false?'<span class="bad">Not emailed</span>':'<span class="ok">Emailed</span>')+(r.spotlit?'<span class="v">&#127775; Spotlighted</span>':'')+'</div>'
+      +'<div class="wow-nom-t">'+escH(r.did||'')+'</div>'
+      +'<div class="wow-nom-f">From '+escH(r.from||'someone')+' \u00B7 '+new Date(r.at||0).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})+'</div>'
+      +'<div class="wow-nom-a">'
+        +'<button class="eu-mini" onclick="wowLogSpot(\''+r._id+'\')">&#127775; Spotlight</button>'
+        +(r.emailed===false?'<button class="pm-rm" onclick="wowLogResend(\''+r._id+'\')">Email it now</button>':'')
+        +'<button class="ed-del" onclick="wowLogDel(\''+r._id+'\')">Delete</button>'
+      +'</div></div>';
+  }
+  box.innerHTML=h;
+}
+function wowLogFind(id){ var i; for(i=0;i<WOW.log.length;i++) if(WOW.log[i]._id===id) return WOW.log[i]; return null; }
+function wowLogSpot(id){
+  var r=wowLogFind(id); if(!r) return;
+  var g=function(k){ return document.getElementById(k); };
+  g('wsName').value=r.nominee||''; g('wsDept').value=r.dept||''; g('wsVal').value=r.value||''; g('wsText').value=r.did||'';
+  WOW.fromLog=id;
+  var c=g('wowComposer'); if(c) c.scrollIntoView({behavior:'smooth',block:'start'});
+  edStatus('wsStatus','Polish the write-up, then publish.');
+}
+function wowLogResend(id){
+  var r=wowLogFind(id); if(!r) return;
+  wowSend({'Who is being recognized':r.nominee,'Department or team':r.dept||'','What they did':r.did||'','Core value':r.value||'(not selected)','Submitted by':r.from||'','Submitted on':new Date(r.at||0).toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'})},'New WOW nomination: '+r.nominee)
+    .then(function(){ DB.collection('wow').doc(id).set({emailed:true, emailError:null},{merge:true}); hubToast('\u2705 Emailed.'); })
+    .catch(function(){ hubToast('Still couldn\u2019t email it. Check the recipients and activation.'); });
+}
+function wowLogDel(id){ if(DB) DB.collection('wow').doc(id).delete().then(function(){ hubToast('Removed from the log.'); }).catch(function(){}); }
+function wowLogCsv(){
+  if(!WOW.log.length){ hubToast('The log is empty.'); return; }
+  var esc=function(v){ v=String(v==null?'':v); return '"'+v.replace(/"/g,'""')+'"'; };
+  var rows=[['Date','Recognized','Department or team','Core value','What they did','Submitted by','Emailed']];
+  WOW.log.forEach(function(r){ rows.push([new Date(r.at||0).toLocaleString('en-US'),r.nominee,r.dept,r.value,r.did,r.from,r.emailed===false?'No':'Yes']); });
+  var csv=rows.map(function(r){ return r.map(esc).join(','); }).join('\r\n');
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='wow-nominations-'+todayISO()+'.csv';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
+function wowCopyLink(){
+  var l=document.getElementById('wowLink'); if(!l) return;
+  var done=function(){ hubToast('\u2705 Link copied. Paste it into your email.'); };
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(l.value).then(done,function(){ l.select(); });
+  else { l.select(); try{ document.execCommand('copy'); done(); }catch(e){} }
+}
+function wowPublish(){
+  var g=function(k){ return ((document.getElementById(k)||{}).value||'').trim(); };
+  var sp={name:g('wsName'), month:g('wsMonth'), dept:g('wsDept'), value:g('wsVal'), text:g('wsText'), at:Date.now()};
+  if(!sp.name||!sp.month||!sp.text){ edStatus('wsStatus','Name, month, and a write-up are needed.'); return; }
+  if(!HUB.wow) HUB.wow={values:[],depts:[],spot:[]};
+  HUB.wow.spot=(HUB.wow.spot||[]).concat([sp]);
+  hubSave('wow'); wowRender(); wowSpotList();
+  if(WOW.fromLog&&DB){ DB.collection('wow').doc(WOW.fromLog).set({spotlit:true},{merge:true}).catch(function(){}); WOW.fromLog=null; }
+  ['wsName','wsDept','wsVal','wsText'].forEach(function(k){ var el=document.getElementById(k); if(el) el.value=''; });
+  edStatus('wsStatus','');
+  hubToast('\u2B50 Spotlight is live on Behind the WOW.');
+}
+function wowSpotList(){
+  var box=document.getElementById('wowSpotList'); if(!box) return;
+  var a=(HUB.wow&&HUB.wow.spot)||[], h='', i;
+  if(!a.length){ box.innerHTML=''; return; }
+  h='<div class="mm-lbl" style="margin:4px 2px 8px;">Published</div>';
+  for(i=a.length-1;i>=0;i--){
+    h+='<div class="ed-row"><div class="ed-row-main"><div class="ed-row-t">'+escH(a[i].name)+'</div><div class="ed-row-s">'+escH(wowMonthLbl(a[i].month))+(a[i].value?' \u00B7 '+escH(a[i].value):'')+'</div></div>'
+      +'<button class="ed-del" onclick="wowUnpublish('+i+')">Remove</button></div>';
+  }
+  box.innerHTML=h;
+}
+function wowUnpublish(i){
+  if(!HUB.wow||!HUB.wow.spot||!HUB.wow.spot[i]) return;
+  HUB.wow.spot.splice(i,1); hubSave('wow'); wowRender(); wowSpotList();
+  hubToast('Spotlight removed from the page.');
+}
+function wowSaveOpts(){
+  var lines=function(id){ return ((document.getElementById(id)||{}).value||'').split('\n').map(function(x){ return x.trim(); }).filter(Boolean); };
+  if(!HUB.wow) HUB.wow={values:[],depts:[],spot:[]};
+  HUB.wow.values=lines('wowValsIn'); HUB.wow.depts=lines('wowDeptsIn');
+  hubSave('wow'); wowFill();
+  edStatus('wowOptStatus','\u2705 Saved. The form uses these now.');
+}
+/* deep link: <hub address>#wow lands on the section with the form open */
+function wowDeepLink(){
+  if(String(location.hash).toLowerCase()!=='#wow') return;
+  WOW.pending=true;
+  var l=document.getElementById('login');
+  if(!l||l.style.display==='none'||l.classList.contains('hide')) wowFire();
+}
+function wowFire(){
+  if(!WOW.pending) return;
+  WOW.pending=false;
+  showSection('wow');
+  setTimeout(wowOpen,250);
+}
 
 /* ============ PM DATABASE (admin tag) ============ */
 var PMDB_SEED=[
